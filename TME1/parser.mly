@@ -2,20 +2,16 @@
 %token PRINT, EOL
 %token <int> INTEGER
 %start prog
-%type <Ast.print> prog
-%type <Ast.print> print
+%type <Ast.prog> prog
 %type <Ast.expr> expr
+
 
 %%
 
 prog : 
-    print {$1}
+    PRINT expr {ASTPrint($2)}
 ;  
 
-print : 
-    PRINT expr {ASTPrint($2)}
-;
-
 expr : 
-INTEGER {ASTNum($1)} 
+    INTEGER {ASTNum($1)} 
 ;

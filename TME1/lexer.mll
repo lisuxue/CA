@@ -1,5 +1,4 @@
 {open Parser}
-
 rule token = parse 
 	(* separateurs *)
 	[' ' '\t'] {token lexbuf}

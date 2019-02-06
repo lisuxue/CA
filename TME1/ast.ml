@@ -1,4 +1,5 @@
 type expr = 
-	ASTNum of int
-type print = 
-	ASTPrint of expr
+	ASTNum of int 
+	|ASTPrint of expr
+type prog = expr
+
