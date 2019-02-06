@@ -1,4 +1,4 @@
-type value = Int of int
-	 | Bool of bool
-	 | Unit
-type print = Print of value
+type expr = 
+	ASTNum of int
+type print = 
+	ASTPrint of expr
