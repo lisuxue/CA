@@ -1,10 +1,8 @@
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Machine {
 
@@ -103,29 +101,42 @@ public class Machine {
 
 
 	public void enter(int a,int b,int c) {
-		// TODO Auto-generated method stub
-		
+		Scanner sc = new Scanner(System.in);
+		if(sc.hasNext()) {
+			registres[c] = sc.nextInt();
+		}else {
+			registres[c] = Integer.parseInt(Integer.toBinaryString(Integer.MAX_VALUE));
+		}
+		sc.close();
 	}
 
 
 
 	public void exit(int a,int b,int c) {
-		// TODO Auto-generated method stub
-		
+		if(registres[c]<=255) {
+			if(registres[C]>= 0 ) {
+				System.out.println(registres[c]);
+			}
+		}
 	}
 
 
 
 	public void aband(int a,int b,int c) {
 		// TODO Auto-generated method stub
-		
+		coll_tab_plateaux.remove((int)registres[c]);
 	}
 
 
 
 	public void alloc(int a,int b,int c) {
 		// TODO Auto-generated method stub
-		ArrayList<Integer> l = new ArrayList() 
+		ArrayList<Integer> l = new ArrayList<>(registres[c]);
+		for (int i = 0 ;i<l.size();i++) {
+			l.set(i,0);
+		}
+		coll_tab_plateaux.add(l);
+		registres[b] = coll_tab_plateaux.indexOf(l);
 	}
 
 
@@ -206,6 +217,7 @@ public class Machine {
 		/*La machine lit le contenu du parchemin de programme et le stocke dans coll_tab_plateaux[0][0]
 		 * 
 		 * */
+		System.out.println(Integer.toBinaryString(Integer.MAX_VALUE));
 		System.out.println("avant le read");
 		ArrayList<String> l = m1.read("src/benchsum/fact.um");
 		for(int i=0;i<l.size();i++) {
