@@ -1,18 +1,18 @@
 open Parser
 
-type mlvalue = Entier of int | Fermeture of int * mlvalue list 
+type mlvalue = Entier of int | Fermeture of int * mlvalue list
 
 (*registres de la Mini-ZAM*)
-let prog = (parse Sys.argv.(1));;(*liste des triplet d'instructions*)
-let stack = ref []; (*pile Last In First Out*) 
-let env = ref []; (*envirronement courant*)
-let pc = ref 0; (*pointeur sur la ligne courante*)
-let accu = ref (Entier 0); (*registre temporaire de type mlvalue*) 
+let prog = (parse Sys.argv.(1))(*liste des triplet d'instructions*)
+let stack = ref [] (*pile Last In First Out*)
+let env = ref [] (*environnement courant*)
+let pc = ref 0 (*pointeur sur la ligne courante*)
+let accu = ref (Entier 0) (*registre temporaire de type mlvalue*)
 
 (*
-on choisit d'implémenter la pile avec List et pas Stack car dans l'instruction ACC i, 
+on choisit d'implémenter la pile avec List et pas Stack car dans l'instruction ACC i,
 il faut accéder à la i eme valeur de la pile, et avec Stack on peut pas le faire de manière simple.
-Même si le pop de Stack est très facile d'utilisation, on peut cependant simuler un pop avec une liste, 
+Même si le pop de Stack est très facile d'utilisation, on peut cependant simuler un pop avec une liste,
 en tout cas l'inconvénient de la liste est plus facile à contourner.
 *)
 
@@ -20,17 +20,12 @@ en tout cas l'inconvénient de la liste est plus facile à contourner.
 (* voir si vaut mieux implementer stack de la facon du fichier teststack ou pas *)
 
 
-let const n = 
+let const n =
 	accu := n
 
-let prim op = 
-	match op with 
-	|("+"|"-"|"/"|"*"|"or"|"and"|"<>"|"="|"<"|"<="|">"|">=") -> op_binaire op
-	|("not"|"print" -> op_unaire op
-	
 let op_binaire op =
-	let val_stack = List.hd stack in 
-		match op with 
+	let val_stack = List.hd !stack in
+		match op with
 		|"+" -> accu := !accu + val_stack
 		|"-" -> accu := !accu - val_stack
 		|"/" -> accu := !accu / val_stack
@@ -43,32 +38,22 @@ let op_binaire op =
 		|"<=" -> accu := !accu <= val_stack
 		|">" -> accu := !accu > val_stack
 		|">=" -> accu := !accu >= val_stack;
-	stack := List.tl !stack 
+	stack := List.tl !stack
 
-let op_unaire op = 
-	match op with 
+let op_unaire op =
+	match op with
 		|"not" -> accu := not !accu
 		|"print" -> print_int !accu ; accu := 0
 
-let branch lab = 
-	let pos_label = 
+let prim op =
+	match op with
+		|("+"|"-"|"/"|"*"|"or"|"and"|"<>"|"="|"<"|"<="|">"|">=") -> op_binaire op
+		|("not"|"print") -> op_unaire op
+
+(* let branch lab =
+	let pos_label =
 		let rec find x l =
     		match l with
    			| [] -> raise (Failure "Not Found")
     		| {label=y;_} as h::t -> if x = y then 0 else 1 + find x t
-    	in find lab prog
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    	in find lab prog *)

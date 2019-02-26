@@ -1,8 +1,0 @@
-	CONST 3
-	PUSH
-	CONST 2
-	PRIM *
-	CONST 4
-	PUSH
-	PRIM +
-	STOP
