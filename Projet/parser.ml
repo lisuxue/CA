@@ -4,6 +4,18 @@ type triplet = {
 	args:string list
 }
 
+(*
+permet de matcher directement sur les noms des champs par exemple :
+ let t = { label="L1";instr="CONST";args=[]};;
+
+ match t with 
+| {label="L2";_} -> print_string "Bonjour"
+| {label="L3";_} -> print_string "C'est ca"
+| {instr="CONST";_} -> print_string "c'est celui la mtn";; 
+
+resultat : c'est celui la mtn- : unit = ()
+*)
+
 let list_triplet = []
 
 (* val print_triplet : string list -> unit*)

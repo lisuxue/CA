@@ -1,7 +1,7 @@
 open Main
 open Parser
 
-type mlvalue = E of int | F of ( int * mlvalue list )
+type mlvalue = Entier of int | Fermeture of ( int * mlvalue list )
 
 print_prog prog;;
 
