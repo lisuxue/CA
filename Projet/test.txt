@@ -1,2 +1,0 @@
-L1: CONST 42
-    CONST 3,3
