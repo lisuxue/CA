@@ -1,5 +1,5 @@
 type triplet = {
-	label:string;
+	label:string option;
 	instr:string;
 	args:string list
 }
@@ -26,17 +26,20 @@ let rec print_list_string =
 
 (* val print_triplet : triplet -> unit*)
 let print_triplet {label;instr;args} =
-	Printf.printf "{label:\"%s\" , instr:\"%s\" , args : %s}" label instr (print_list_string args);print_newline ()
+	match label with
+		|Some l -> Printf.printf "{label:\"%s\" , instr:\"%s\" , args : %s}" l instr (print_list_string args);print_newline ()
+		|_ -> failwith "Ne devrait pas arriver"
 
 
-(* val make_record : string list -> triplet affiche le triplet correspondant à la ligne donnée*)
+(* val make_record : string list -> triplet retourne le triplet correspondant à la ligne donnée*)
 let make_record l =
 		let fst = List.hd l in
-		let label_length = (String.length fst) - 1 in
 			if String.contains fst ':' then
-				{label= String.sub (List.hd l) 0 label_length; instr=List.hd (List.tl l) ; args=List.tl (List.tl l)}
+				let length = (String.length fst) - 1 in
+					let label_name = Some(String.sub (List.hd l) 0 length) in
+						{label=label_name; instr=List.hd (List.tl l) ; args=List.tl (List.tl l)}
 			else
-  	    		{label= ""; instr=List.hd l; args=List.tl l}
+  	    		{label=None; instr=List.hd l; args=List.tl l}
 
 (* val scan : in_channel -> triplet : enlève les séparateurs de la ligne  *)
 let scan line =
