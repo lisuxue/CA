@@ -64,7 +64,7 @@ let prim op =
 	match op with
 		|("+"|"-"|"/"|"*"|"or"|"and"|"<>"|"="|"<"|"<="|">"|">=") -> op_binaire op
 		|("not"|"print") -> op_unaire op
-		| _ -> ()
+		| _ -> ();;
 
 (*
 let branch lab =
@@ -74,3 +74,4 @@ let branch lab =
    			| [] -> raise (Failure "Not Found")
     		| {label=y;_} as h::t -> if x = y then 0 else 1 + find x t
     	in find lab prog*)
+print_prog prog;

@@ -1,6 +1,5 @@
-open Main
 open Parser
 
 type mlvalue = Entier of int | Fermeture of ( int * mlvalue list )
-
-print_prog prog;;
+let prog = parse Sys.argv.(0) in
+  print_prog prog
