@@ -9,7 +9,7 @@ struct
 
 end*)
 
-type 'a pile = {mutable liste : 'a list} ;;
+type pile = {mutable liste : mlvalue list} ;;
 exception Empty ;;
 let newpile () = {liste = []} ;;
 let push x p = p.liste = x::p.liste ;;

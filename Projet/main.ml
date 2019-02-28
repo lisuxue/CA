@@ -25,35 +25,45 @@ let const n =
 
 let op_binaire op =
 	let val_stack = List.hd !stack in
+		let acc = match !accu with 
+			|Entier i -> i 
+			|_ -> 0 in
 		match op with
-		|"+" -> accu := !accu + val_stack
-		|"-" -> accu := !accu - val_stack
-		|"/" -> accu := !accu / val_stack
-		|"*" -> accu := !accu * val_stack
-		|"or" -> accu := !accu || val_stack
-		|"and" -> accu := !accu && val_stack
-		|"<>" -> accu := !accu <> val_stack
-		|"=" -> accu := !accu = val_stack  (* a verifier si = de ZAM est = ou == en ocaml (egalite structurelle ou physique) *)
-		|"<" -> accu := !accu < val_stack
-		|"<=" -> accu := !accu <= val_stack
-		|">" -> accu := !accu > val_stack
-		|">=" -> accu := !accu >= val_stack;
+		|"+" -> accu := acc  + val_stack
+		|"-" -> accu := acc - val_stack
+		|"/" -> accu := acc / val_stack
+		|"*" -> accu := acc * val_stack
+		|"or" -> accu := acc || val_stack
+		|"and" -> accu := acc && val_stack
+		|"<>" -> accu := acc <> val_stack
+		|"=" -> accu := acc = val_stack 
+		|"<" -> accu := acc < val_stack
+		|"<=" -> accu := acc <= val_stack
+		|">" -> accu := acc > val_stack
+		|">=" -> accu := acc >= val_stack;
 	stack := List.tl !stack
 
 let op_unaire op =
+	let acc = match !accu with 
+		|Entier i -> i 
+		|_ -> 0 in
 	match op with
-		|"not" -> accu := not !accu
-		|"print" -> print_int !accu ; accu := 0
+		|"not" -> 
+			match acc with
+				| 0 -> accu := 1
+				| 1 -> accu := 0	
+		|"print" -> print_int acc ; accu := 0
 
 let prim op =
 	match op with
 		|("+"|"-"|"/"|"*"|"or"|"and"|"<>"|"="|"<"|"<="|">"|">=") -> op_binaire op
 		|("not"|"print") -> op_unaire op
 
-(* let branch lab =
+(*
+let branch lab =
 	let pos_label =
 		let rec find x l =
     		match l with
    			| [] -> raise (Failure "Not Found")
     		| {label=y;_} as h::t -> if x = y then 0 else 1 + find x t
-    	in find lab prog *)
+    	in find lab prog*)
