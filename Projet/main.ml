@@ -4,8 +4,8 @@ type mlvalue = Entier of int | Fermeture of int * mlvalue list
 
 (*registres de la Mini-ZAM*)
 let prog = (parse Sys.argv.(1))(*liste des triplet d'instructions*)
-let stack = ref [] (*pile Last In First Out*)
-let env = ref [] (*environnement courant*)
+let stack : mlvalue list ref = ref []  (*pile Last In First Out*)
+let env : mlvalue list ref = ref [] (*environnement courant*)
 let pc = ref 0 (*pointeur sur la ligne courante*)
 let accu = ref (Entier 0) (*registre temporaire de type mlvalue*)
 
@@ -23,41 +23,48 @@ en tout cas l'inconvénient de la liste est plus facile à contourner.
 let const n =
 	accu := n
 
+let get_int i =
+	match i with
+	| Entier i -> i
+  | _ -> 0
+
+let int_of_bool b = if b then 1 else 0
+
 let op_binaire op =
-	let val_stack = List.hd !stack in
-		let acc = match !accu with 
-			|Entier i -> i 
-			|_ -> 0 in
+	let stack_val = (get_int (List.hd !stack)) in
+		let accu_val = (get_int !accu) in
 		match op with
-		|"+" -> accu := acc  + val_stack
-		|"-" -> accu := acc - val_stack
-		|"/" -> accu := acc / val_stack
-		|"*" -> accu := acc * val_stack
-		|"or" -> accu := acc || val_stack
-		|"and" -> accu := acc && val_stack
-		|"<>" -> accu := acc <> val_stack
-		|"=" -> accu := acc = val_stack 
-		|"<" -> accu := acc < val_stack
-		|"<=" -> accu := acc <= val_stack
-		|">" -> accu := acc > val_stack
-		|">=" -> accu := acc >= val_stack;
+			|"+" -> accu := Entier (accu_val  + stack_val)
+			|"-" -> accu := Entier (accu_val - stack_val)
+			|"/" -> accu := Entier (accu_val / stack_val)
+			|"*" -> accu := Entier (accu_val * stack_val)
+			|"or" -> accu := Entier (if (accu_val==1 || stack_val==1) then 1 else 0)
+			|"and" -> accu := Entier (if (accu_val==1 && stack_val==1) then 1 else 0)
+			|"<>" -> accu := Entier (int_of_bool (accu_val <> stack_val))
+			|"=" -> accu := Entier (int_of_bool (accu_val = stack_val))
+			|"<" -> accu := Entier (int_of_bool (accu_val < stack_val))
+			|"<=" -> accu := Entier (int_of_bool (accu_val <= stack_val))
+			|">" -> accu := Entier (int_of_bool (accu_val >= stack_val))
+			|">=" -> accu := Entier (int_of_bool (accu_val >= stack_val))
+			| _ -> ();
 	stack := List.tl !stack
 
 let op_unaire op =
-	let acc = match !accu with 
-		|Entier i -> i 
-		|_ -> 0 in
-	match op with
-		|"not" -> 
-			match acc with
-				| 0 -> accu := 1
-				| 1 -> accu := 0	
-		|"print" -> print_int acc ; accu := 0
+	let accu_val = (get_int !accu) in
+		match op with
+			|"not" ->
+				(match accu_val with
+					| 0 -> accu := Entier 1
+					| 1 -> accu := Entier 0
+					| _ -> ())
+			|"print" -> print_int accu_val ; accu := Entier 0
+			| _ -> ()
 
 let prim op =
 	match op with
 		|("+"|"-"|"/"|"*"|"or"|"and"|"<>"|"="|"<"|"<="|">"|">=") -> op_binaire op
 		|("not"|"print") -> op_unaire op
+		| _ -> ()
 
 (*
 let branch lab =

@@ -8,10 +8,10 @@ type triplet = {
 permet de matcher directement sur les noms des champs par exemple :
  let t = { label="L1";instr="CONST";args=[]};;
 
- match t with 
+ match t with
 | {label="L2";_} -> print_string "Bonjour"
 | {label="L3";_} -> print_string "C'est ca"
-| {instr="CONST";_} -> print_string "c'est celui la mtn";; 
+| {instr="CONST";_} -> print_string "c'est celui la mtn";;
 
 resultat : c'est celui la mtn- : unit = ()
 *)
@@ -52,14 +52,13 @@ let parse fichier =
 			try
 				let line = input_line f in
 				  List.cons (scan line) (parse_rec ())
-				 
+
 			with End_of_file -> close_in f;[]
 		in parse_rec ()
 
 (* val print_prog : in_channel -> triplet list *)
-let rec print_prog list_triplet = 
-	match list_triplet with 
+let rec print_prog list_triplet =
+	match list_triplet with
 		| [] -> ()
 		| h::t -> print_triplet h;
-				  print_prog t
-
+				  		print_prog t
