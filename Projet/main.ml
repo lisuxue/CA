@@ -1,9 +1,10 @@
-open Parser
+open Parser;;
 
-type mlvalue = Entier of int | Fermeture of int * mlvalue list
+type mlvalue = Entier of int
+						 | Fermeture of int * mlvalue list
 
 (*registres de la Mini-ZAM*)
-let prog = (parse Sys.argv.(1))(*liste des triplet d'instructions*)
+let prog = (parse Sys.argv.(1))(*liste des triplet d'instructions type = triplet list*)
 let stack : mlvalue list ref = ref []  (*pile Last In First Out*)
 let env : mlvalue list ref = ref [] (*environnement courant*)
 let pc = ref 0 (*pointeur sur la ligne courante*)
@@ -17,13 +18,7 @@ Même si le pop de Stack est très facile d'utilisation, on peut cependant
 simuler un pop avec une liste, en tout cas l'inconvénient de la liste
 est plus facile à contourner.
 *)
-
 (* record prend moins de place qu'un tuple de tuple, de plus plus facile d'utilisation*)
-
-
-let const n =
-	accu := n
-
 let get_int value =
 	match value with
 	| Entier i -> i
@@ -32,43 +27,56 @@ let get_int value =
 let int_of_bool b =
 	if b then 1 else 0
 
+let rec print_list_aux l =
+	match l with
+	| [] -> ()
+	| hd::tl -> print_mlvalue hd;print_string ";";print_list_aux tl
+
+and print_mlvalue m =
+	match m with
+	| Entier v -> print_string "";print_int v;print_string""
+	| Fermeture(v,l)-> print_string "{";print_int v;print_string ",";print_list_aux l;print_string"}"
+
+let const n =
+	accu := n;
+	pc := !pc+1
+
 let op_binaire op =
 	let stack_val = (get_int (List.hd !stack)) in
 		let accu_val = (get_int !accu) in
-		match op with
-			|"+" -> accu := Entier (accu_val  + stack_val)
-			|"-" -> accu := Entier (accu_val - stack_val)
-			|"/" -> accu := Entier (accu_val / stack_val)
-			|"*" -> accu := Entier (accu_val * stack_val)
-			|"or" -> accu := Entier (if (accu_val==1 || stack_val==1) then 1 else 0)
-			|"and" -> accu := Entier (if (accu_val==1 && stack_val==1) then 1 else 0)
-			|"<>" -> accu := Entier (int_of_bool (accu_val <> stack_val))
-			|"=" -> accu := Entier (int_of_bool (accu_val = stack_val))
-			|"<" -> accu := Entier (int_of_bool (accu_val < stack_val))
-			|"<=" -> accu := Entier (int_of_bool (accu_val <= stack_val))
-			|">" -> accu := Entier (int_of_bool (accu_val >= stack_val))
-			|">=" -> accu := Entier (int_of_bool (accu_val >= stack_val))
-			| _ -> ();
-	stack := List.tl !stack;
-	pc := !pc+1
+			 (match op with
+				|"+" -> accu := Entier (accu_val  + stack_val)
+				|"-" -> accu := Entier (accu_val - stack_val)
+				|"/" -> accu := Entier (accu_val / stack_val)
+				|"*" -> accu := Entier (accu_val * stack_val)
+				|"or" -> accu := Entier (if (accu_val==1 || stack_val==1) then 1 else 0)
+				|"and" -> accu := Entier (if (accu_val==1 && stack_val==1) then 1 else 0)
+				|"<>" -> accu := Entier (int_of_bool (accu_val <> stack_val))
+				|"=" -> accu := Entier (int_of_bool (accu_val = stack_val))
+				|"<" -> accu := Entier (int_of_bool (accu_val < stack_val))
+				|"<=" -> accu := Entier (int_of_bool (accu_val <= stack_val))
+				|">" -> accu := Entier (int_of_bool (accu_val >= stack_val))
+				|">=" -> accu := Entier (int_of_bool (accu_val >= stack_val))
+				| _ -> ());
+			 stack := List.tl !stack;
+			 pc:=!pc+1
 
 let op_unaire op =
 	let accu_val = (get_int !accu) in
-		match op with
+		(match op with
 			|"not" -> (match accu_val with
 					         | 0 -> accu := Entier 1
 					         | 1 -> accu := Entier 0
 					         | _ -> ())
 			|"print" -> print_int accu_val ; accu := Entier 0
-			| _ -> ();
-	pc := !pc+1
+			| _ -> ());
+			pc:=!pc+1
 
-let prim op =
-	match op with
-		|("+"|"-"|"/"|"*"|"or"|"and"|"<>"|"="|"<"|"<="|">"|">=") -> op_binaire op
-		|("not"|"print") -> op_unaire op
-		| _ -> ();
-	pc := !pc+1
+ let prim op =
+		match op with
+			|("+"|"-"|"/"|"*"|"or"|"and"|"<>"|"="|"<"|"<="|">"|">=") -> op_binaire op
+			|("not"|"print") -> op_unaire op
+			| _ -> ()
 
 let rec get_pos_label label list_record =
 	match list_record with
@@ -76,16 +84,16 @@ let rec get_pos_label label list_record =
 		| [] -> failwith "Le label demandé n'existe pas"
 		| hd::tl -> 1 + get_pos_label label tl
 
-let branch lab =
-	let pos_label = get_pos_label lab !stack in
+let branch lab = (*bug sur !prog*)
+	let pos_label = get_pos_label lab prog in
 		pc := pos_label
 
 let branchifnot lab =
 	let accu_val = (get_int !accu) in
 		if accu_val=0
-		then let pos_label = get_pos_label lab !stack in
-						pc := pos_label
-		else pc := !pc+1
+			then let pos_label = get_pos_label lab prog in
+					pc := pos_label
+			else pc := !pc+1
 
 let push () =
 	stack := !accu::!stack;
@@ -97,40 +105,113 @@ let pop () =
 
 let acc i =
 	accu := List.nth !stack i;
-	pc := pc+1
+	pc := !pc+1
 
 let envacc i =
 	accu := List.nth !env i;
-	pc := pc+1
+	pc := !pc+1
 
-let depile n =
+let rec depile n =
 	match n with
 		|0 -> []
 		|_ -> let e = (List.hd !stack) in
-						(stack:=(List.tl !stack);
-						e::(depile (n-1)))
+			(stack:=(List.tl !stack);
+			e::(depile (n-1)))
 
 let closure lab n =
 	if n > 0 then	stack := !accu::!stack;
-	let pos_label = get_pos_label lab !stack in
+	let pos_label = get_pos_label lab prog in
 		let val_depile = depile n in
 			accu := Fermeture(pos_label,val_depile);
-			pc := pc+1
+			pc := !pc+1
 
 let apply n =
-	let args_depile = depile n in
-		stack := args_depile@Entier(!p+1)::!env::!stack; (*a verifier*)
+	pc := !pc+1
+	(*let args_depile = depile n in
+		let pile = Fermeture(0,args_depile@Entier(!pc+1)::!env::!stack) in
+		stack := pile; (*a verifier*)
 		match !accu with
-		 	|Fermeture(p,e) -> pc := p; env := e
+		 	|Fermeture (p,e) -> pc := p; env := e
 			|_ -> failwith "Pas de fermeture dans accu";
-		pc := pc+1
-
+		pc := !pc+1*)
 
 let return n =
-	let _ = depile n;
-	pc := List.hd !stack;
-	stack := List.tl !stack;
-	env := List.hd !stack;
-	stack := List.tl !stack
+	let _ = depile n in
+	let rec return_aux =
+		match !stack with
+		| Entier i::tl -> pc := i;
+									stack := List.tl !stack
+		| Fermeture(e,en)::tl-> env := Entier(e)::en;
+														stack := List.tl !stack
+		| _ -> ()
+	in return_aux
 
-let stop () = exit O (*a verifier*)
+let stop () = exit 0
+
+	(*pc := get_int (List.hd !stack);
+	env := Fermeture(0,List.hd (List.tl !stack));
+	stack := List.tl (List.tl !stack)*)
+
+ (*a verifier*)
+
+
+let main = (* parcourt de la liste avec pc sans réelle recursion  *)
+	print_string "au début : pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+	let rec run prog=
+		let courant = List.nth prog !pc in
+			match courant with
+			|{label;instr="CONST";args} -> print_triplet courant;
+																		 const (Entier(int_of_string(List.hd args)));
+																		 print_string "-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																		 run prog
+			|{label;instr="PRIM";args} -> print_triplet courant;
+																		prim (List.hd args);
+																		print_string "-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																		run prog
+			|{label;instr="BRANCH";args} -> print_triplet courant;
+																			branch (List.hd args);
+																			print_string "-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																			run prog
+			|{label;instr="BRANCHIFNOT";args} -> print_triplet courant;
+																					 branchifnot (List.hd args);
+																					 print_string "-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																					 run prog
+			|{label;instr="PUSH";_} -> print_triplet courant;
+																 push ();
+																 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																 run prog
+			|{label;instr="POP";_} -> print_triplet courant;
+																pop ();
+																print_string "-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																run prog
+			|{label;instr="ACC";args} -> print_triplet courant;
+																	 acc (int_of_string(List.hd args));
+																	 print_string "-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																	 run prog
+			|{label;instr="ENVACC";args} -> print_triplet courant;
+																			envacc (int_of_string(List.hd args));
+																			print_string "-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																			run prog
+			|{label;instr="CLOSURE";args} -> print_triplet courant;
+																			 closure (List.hd args) (int_of_string (List.nth args 1));
+																			 print_string "-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																			 run prog
+			|{label;instr="APPLY";args} -> print_triplet courant;
+																		 apply (List.hd args);
+																		 print_string "-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																		 run prog
+			|{label;instr="RETURN";args} -> print_triplet courant;
+																			return (int_of_string (List.hd args));
+																			print_string "-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																			run prog
+			|{label;instr="STOP";_} -> print_triplet courant;
+																 print_newline();
+																 stop ()
+			| _ -> failwith "commande inconnue"
+	in run prog;;
+
+
+	(* | [] -> m;print_newline ()
+	| hd::tl -> (match hd with
+							 | Entier v -> print_int v;
+							 | Fermeture(v,l) -> print_int v;print_mlvalue l);print_mlvalue tl *)

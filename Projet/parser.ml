@@ -15,7 +15,6 @@ permet de matcher directement sur les noms des champs par exemple :
 
 resultat : c'est celui la mtn- : unit = ()
 *)
-
 let list_triplet = []
 
 (* val print_triplet : string list -> unit*)
@@ -27,9 +26,8 @@ let rec print_list_string =
 (* val print_triplet : triplet -> unit*)
 let print_triplet {label;instr;args} =
 	match label with
-		|Some l -> Printf.printf "{label:\"%s\" , instr:\"%s\" , args : %s}" l instr (print_list_string args);print_newline ()
-		|_ -> failwith "Ne devrait pas arriver"
-
+		|Some l -> Printf.printf "{label:\"%s\" , instr:\"%s\" , args : %s}" l instr (print_list_string args);print_string "\t"
+		|None -> Printf.printf "{label:\" \" , instr:\"%s\" , args : %s}" instr (print_list_string args);print_string "\t"
 
 (* val make_record : string list -> triplet retourne le triplet correspondant à la ligne donnée*)
 let make_record l =
@@ -47,7 +45,6 @@ let scan line =
 		 let liste = Str.split delim line in
 		 	  make_record liste
 
-
 (* val parse : in_channel -> triplet list *)
 let parse fichier =
 	let f = open_in fichier in
@@ -55,13 +52,12 @@ let parse fichier =
 			try
 				let line = input_line f in
 				  List.cons (scan line) (parse_rec ())
-
 			with End_of_file -> close_in f;[]
 		in parse_rec ()
 
-(* val print_prog : in_channel -> triplet list *)
+(* val print_prog : triplet list -> () *)
 let rec print_prog list_triplet =
 	match list_triplet with
 		| [] -> ()
 		| h::t -> print_triplet h;
-				  		print_prog t
+				  		print_prog t;;
