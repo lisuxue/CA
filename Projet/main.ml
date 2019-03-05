@@ -10,6 +10,7 @@ let stack : mlvalue list ref = ref []  (*pile Last In First Out*)
 let env : mlvalue list ref = ref [None] (*environnement courant*)
 let pc = ref 0 (*pointeur sur la ligne courante*)
 let accu = ref (Entier 0) (*registre temporaire de type mlvalue*)
+let extra_args = ref 0
 
 (*
 on choisit d'implémenter la pile avec List et pas Stack car dans l'instruction ACC i,
@@ -139,17 +140,29 @@ let closure_rec lab n =
 
 let apply n =
 	let args_depile = depile n in
-		let pile = args_depile@Entier(!pc+1)::!env@(!stack) in
+		let pile = args_depile@Entier(!extra_args)::Entier(!pc+1)::!env@(!stack) in
 		stack := pile; (*a verifier*)
 		match !accu with
-		 	|Fermeture (p,e) -> pc := p; env:= e
+		 	|Fermeture (p,e) -> pc := p; env:= e;extra_args:=n-1
 			|_ -> failwith "Pas de fermeture dans accu"
 
 let return n =
 	let _ = depile n in
-	pc := get_int (List.hd !stack);
-	env := List.hd (List.tl !stack)::[];
-	stack := List.tl (List.tl !stack)
+	if !extra_args = 0 then
+		begin
+		extra_args := get_int (List.hd !stack);
+		pc := get_int (List.hd (List.tl !stack));
+		env := List.hd (List.tl (List.tl !stack))::[];
+		stack := List.tl (List.tl (List.tl !stack))
+		end
+	else
+		begin
+		extra_args := !extra_args - 1;
+		match !accu with
+			|Fermeture (p,e) -> pc := p; env:= e;
+			|_ -> failwith "Pas de fermeture dans accu"
+
+		end
 
 let stop () = exit 0
 
