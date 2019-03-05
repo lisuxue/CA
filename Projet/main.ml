@@ -175,16 +175,16 @@ let grab n =
 	else
 		begin
 		accu := Fermeture(!pc-1,!env@(depile (!extra_args+1)));
-		extra_args := depile 1;
-		pc := depile 1;
+		extra_args := get_int (List.hd (depile 1));
+		pc := get_int (List.hd (depile 1));
 		env := depile 1;
 		end
 
 let restart () =
 	let n = List.length !env in
 		extra_args := !extra_args + (n-1);
-		stack := (List.tl !env)@!stack;
-		env := List.hd !env;
+		stack := (List.tl !env)@(!stack);
+		env := (List.hd !env)::[]
 
 
 let main = (* parcourt de la liste avec pc sans réelle recursion  *)
