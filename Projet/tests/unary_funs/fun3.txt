@@ -7,6 +7,5 @@
 	BRANCH L1
 L2:	CONST 66
 	PRIM print
-	APPLY 1
 L1:	POP
 	STOP

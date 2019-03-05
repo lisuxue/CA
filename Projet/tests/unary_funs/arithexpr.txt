@@ -2,7 +2,7 @@
 	PUSH
 	CONST 2
 	PRIM *
-        PUSH
+	PUSH
 	CONST 4
 	PRIM +
 	STOP

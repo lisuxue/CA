@@ -1,12 +1,13 @@
 open Parser;;
+open Char;;
 
 type mlvalue = Entier of int
 						 | Fermeture of int * mlvalue list
-
+						 | None
 (*registres de la Mini-ZAM*)
 let prog = (parse Sys.argv.(1))(*liste des triplet d'instructions type = triplet list*)
 let stack : mlvalue list ref = ref []  (*pile Last In First Out*)
-let env : mlvalue list ref = ref [] (*environnement courant*)
+let env : mlvalue list ref = ref [None] (*environnement courant*)
 let pc = ref 0 (*pointeur sur la ligne courante*)
 let accu = ref (Entier 0) (*registre temporaire de type mlvalue*)
 
@@ -30,12 +31,15 @@ let int_of_bool b =
 let rec print_list_aux l =
 	match l with
 	| [] -> ()
-	| hd::tl -> print_mlvalue hd;print_string ";";print_list_aux tl
+	| hd::tl -> print_mlvalue hd;
+							if tl==[] then print_list_aux tl
+												else print_string ";";print_list_aux tl
 
 and print_mlvalue m =
 	match m with
 	| Entier v -> print_string "";print_int v;print_string""
 	| Fermeture(v,l)-> print_string "{";print_int v;print_string ",";print_list_aux l;print_string"}"
+	| None -> print_string "[]"
 
 let const n =
 	accu := n;
@@ -68,7 +72,7 @@ let op_unaire op =
 					         | 0 -> accu := Entier 1
 					         | 1 -> accu := Entier 0
 					         | _ -> ())
-			|"print" -> print_int accu_val ; accu := Entier 0
+			|"print" -> print_string "print : "; print_char (chr accu_val) ; accu := Entier 0
 			| _ -> ());
 			pc:=!pc+1
 
@@ -120,43 +124,32 @@ let rec depile n =
 
 let closure lab n =
 	if n > 0 then	stack := !accu::!stack;
+								(* print_list_aux !stack;print_newline (); *)
 	let pos_label = get_pos_label lab prog in
 		let val_depile = depile n in
+			(* print_list_aux val_depile;print_newline (); *)
 			accu := Fermeture(pos_label,val_depile);
 			pc := !pc+1
 
 let apply n =
-	pc := !pc+1
-	(*let args_depile = depile n in
-		let pile = Fermeture(0,args_depile@Entier(!pc+1)::!env::!stack) in
+	let args_depile = depile n in
+		let pile = args_depile@Entier(!pc+1)::!env@(!stack) in
 		stack := pile; (*a verifier*)
 		match !accu with
-		 	|Fermeture (p,e) -> pc := p; env := e
-			|_ -> failwith "Pas de fermeture dans accu";
-		pc := !pc+1*)
+		 	|Fermeture (p,e) -> pc := p; env:= e
+			|_ -> failwith "Pas de fermeture dans accu"
 
 let return n =
 	let _ = depile n in
-	let rec return_aux =
-		match !stack with
-		| Entier i::tl -> pc := i;
-									stack := List.tl !stack
-		| Fermeture(e,en)::tl-> env := Entier(e)::en;
-														stack := List.tl !stack
-		| _ -> ()
-	in return_aux
+	pc := get_int (List.hd !stack);
+	env := List.hd (List.tl !stack)::[];
+	stack := List.tl (List.tl !stack)
 
 let stop () = exit 0
 
-	(*pc := get_int (List.hd !stack);
-	env := Fermeture(0,List.hd (List.tl !stack));
-	stack := List.tl (List.tl !stack)*)
-
- (*a verifier*)
-
 
 let main = (* parcourt de la liste avec pc sans réelle recursion  *)
-	print_string "au début : pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+	print_string "au début : pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=";print_list_aux !env;print_newline ();
 	let rec run prog=
 		let courant = List.nth prog !pc in
 			match courant with
@@ -174,7 +167,7 @@ let main = (* parcourt de la liste avec pc sans réelle recursion  *)
 																			run prog
 			|{label;instr="BRANCHIFNOT";args} -> print_triplet courant;
 																					 branchifnot (List.hd args);
-																					 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																					 print_string "-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
 																					 run prog
 			|{label;instr="PUSH";_} -> print_triplet courant;
 																 push ();
@@ -194,10 +187,10 @@ let main = (* parcourt de la liste avec pc sans réelle recursion  *)
 																			run prog
 			|{label;instr="CLOSURE";args} -> print_triplet courant;
 																			 closure (List.hd args) (int_of_string (List.nth args 1));
-																			 print_string "-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																			 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
 																			 run prog
 			|{label;instr="APPLY";args} -> print_triplet courant;
-																		 apply (List.hd args);
+																		 apply (int_of_string (List.hd args));
 																		 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
 																		 run prog
 			|{label;instr="RETURN";args} -> print_triplet courant;
