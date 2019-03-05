@@ -170,6 +170,22 @@ let offset_closure () =
 	accu:=Fermeture(get_int (List.hd !env),!env);
 	pc := !pc + 1
 
+let grab n =
+	if !extra_args >= n then (extra_args:=!extra_args-n; pc:=!pc+1)
+	else
+		begin
+		accu := Fermeture(!pc-1,!env@(depile (!extra_args+1)));
+		extra_args := depile 1;
+		pc := depile 1;
+		env := depile 1;
+		end
+
+let restart () =
+	let n = List.length !env in
+		extra_args := !extra_args + (n-1);
+		stack := (List.tl !env)@!stack;
+		env := List.hd !env;
+
 
 let main = (* parcourt de la liste avec pc sans réelle recursion  *)
 	print_string "au début : pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=";print_list_aux !env;print_newline ();
@@ -228,6 +244,14 @@ let main = (* parcourt de la liste avec pc sans réelle recursion  *)
 																			return (int_of_string (List.hd args));
 																			print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
 																			run prog
+			|{label;instr="GRAB";args} -> print_triplet courant;
+																		grab (int_of_string (List.hd args));
+																		print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																		run prog
+			|{label;instr="RESTART";args} -> print_triplet courant;
+																			 restart ();
+																		 	 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																			 run prog
 			|{label;instr="STOP";_} -> print_triplet courant;
 																 print_newline();
 																 stop ()
