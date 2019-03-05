@@ -124,12 +124,18 @@ let rec depile n =
 
 let closure lab n =
 	if n > 0 then	stack := !accu::!stack;
-								(* print_list_aux !stack;print_newline (); *)
 	let pos_label = get_pos_label lab prog in
 		let val_depile = depile n in
-			(* print_list_aux val_depile;print_newline (); *)
 			accu := Fermeture(pos_label,val_depile);
 			pc := !pc+1
+
+let closure_rec lab n =
+	if n > 0 then	stack := !accu::!stack;
+	let pos_label = get_pos_label lab prog in
+		let val_depile = depile n in
+			accu := Fermeture(pos_label,Entier(pos_label)::val_depile);
+			pc := !pc+1;
+			stack := !accu::!stack
 
 let apply n =
 	let args_depile = depile n in
@@ -146,6 +152,10 @@ let return n =
 	stack := List.tl (List.tl !stack)
 
 let stop () = exit 0
+
+let offset_closure () =
+	accu:=Fermeture(get_int (List.hd !env),!env);
+	pc := !pc + 1
 
 
 let main = (* parcourt de la liste avec pc sans réelle recursion  *)
@@ -189,6 +199,14 @@ let main = (* parcourt de la liste avec pc sans réelle recursion  *)
 																			 closure (List.hd args) (int_of_string (List.nth args 1));
 																			 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
 																			 run prog
+			|{label;instr="CLOSUREREC";args} -> print_triplet courant;
+			 																 closure_rec (List.hd args) (int_of_string (List.nth args 1));
+																			 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																			 run prog
+			|{label;instr="OFFSETCLOSURE";args} -> print_triplet courant;
+																			 offset_closure ();
+																		 	 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																 			 run prog
 			|{label;instr="APPLY";args} -> print_triplet courant;
 																		 apply (int_of_string (List.hd args));
 																		 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();

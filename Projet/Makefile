@@ -5,8 +5,8 @@ MODULE=str.cma
 all :
 	$(CC) $(MODULE) -c parser.ml #ajout du module Str pour les regexp
 	$(CC) $(MODULE) parser.cmo -o main main.ml
-	cat tests/unary_funs/fun4.ml
-	./main tests/unary_funs/fun4-nooptim.txt
+	cat tests/rec_funs/fibo.ml
+	./main tests/rec_funs/fibo.txt
 clean :
 	rm -rf *.cma
 	rm -rf *.cmi
