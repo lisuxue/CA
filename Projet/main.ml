@@ -184,7 +184,8 @@ let restart () =
 	let n = List.length !env in
 		extra_args := !extra_args + (n-1);
 		stack := (List.tl !env)@(!stack);
-		env := (List.hd !env)::[]
+		env := (List.hd !env)::[];
+		pc := !pc+1
 
 
 let main = (* parcourt de la liste avec pc sans réelle recursion  *)
@@ -194,63 +195,63 @@ let main = (* parcourt de la liste avec pc sans réelle recursion  *)
 			match courant with
 			|{label;instr="CONST";args} -> print_triplet courant;
 																		 const (Entier(int_of_string(List.hd args)));
-																		 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																		 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_string " extra_args="; print_int !extra_args;print_newline ();
 																		 run prog
 			|{label;instr="PRIM";args} -> print_triplet courant;
 																		prim (List.hd args);
-																		print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																		print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_string " extra_args="; print_int !extra_args;print_newline ();
 																		run prog
 			|{label;instr="BRANCH";args} -> print_triplet courant;
 																			branch (List.hd args);
-																			print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																			print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_string " extra_args="; print_int !extra_args;print_newline ();
 																			run prog
 			|{label;instr="BRANCHIFNOT";args} -> print_triplet courant;
 																					 branchifnot (List.hd args);
-																					 print_string "-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																					 print_string "-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_string " extra_args="; print_int !extra_args;print_newline ();
 																					 run prog
 			|{label;instr="PUSH";_} -> print_triplet courant;
 																 push ();
-																 print_string "\t\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																 print_string "\t\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_string " extra_args="; print_int !extra_args;print_newline ();
 																 run prog
 			|{label;instr="POP";_} -> print_triplet courant;
 																pop ();
-																print_string "\t\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																print_string "\t\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_string " extra_args="; print_int !extra_args;print_newline ();
 																run prog
 			|{label;instr="ACC";args} -> print_triplet courant;
 																	 acc (int_of_string(List.hd args));
-																	 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																	 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_string " extra_args="; print_int !extra_args;print_newline ();
 																	 run prog
 			|{label;instr="ENVACC";args} -> print_triplet courant;
 																			envacc (int_of_string(List.hd args));
-																			print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																			print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_string " extra_args="; print_int !extra_args;print_newline ();
 																			run prog
 			|{label;instr="CLOSURE";args} -> print_triplet courant;
 																			 closure (List.hd args) (int_of_string (List.nth args 1));
-																			 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																			 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_string " extra_args="; print_int !extra_args;print_newline ();
 																			 run prog
 			|{label;instr="CLOSUREREC";args} -> print_triplet courant;
 			 																 closure_rec (List.hd args) (int_of_string (List.nth args 1));
-																			 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																			 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_string " extra_args="; print_int !extra_args;print_newline ();
 																			 run prog
 			|{label;instr="OFFSETCLOSURE";args} -> print_triplet courant;
 																			 offset_closure ();
-																		 	 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																		 	 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_string " extra_args="; print_int !extra_args;print_newline ();
 																 			 run prog
 			|{label;instr="APPLY";args} -> print_triplet courant;
 																		 apply (int_of_string (List.hd args));
-																		 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																		 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_string " extra_args="; print_int !extra_args;print_newline ();
 																		 run prog
 			|{label;instr="RETURN";args} -> print_triplet courant;
 																			return (int_of_string (List.hd args));
-																			print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																			print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_string " extra_args="; print_int !extra_args;print_newline ();
 																			run prog
 			|{label;instr="GRAB";args} -> print_triplet courant;
 																		grab (int_of_string (List.hd args));
-																		print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																		print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_string " extra_args="; print_int !extra_args;print_newline ();
 																		run prog
 			|{label;instr="RESTART";args} -> print_triplet courant;
 																			 restart ();
-																		 	 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_newline ();
+																		 	 print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=<";print_list_aux !env;print_string ">";print_string " extra_args="; print_int !extra_args;print_newline ();
 																			 run prog
 			|{label;instr="STOP";_} -> print_triplet courant;
 																 print_newline();
