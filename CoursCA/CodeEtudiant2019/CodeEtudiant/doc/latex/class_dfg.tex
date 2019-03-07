@@ -1,0 +1,64 @@
+\hypertarget{class_dfg}{}\section{Dfg Class Reference}
+\label{class_dfg}\index{Dfg@{Dfg}}
+
+
+class representing a \mbox{\hyperlink{class_dfg}{Dfg}} of a Basic block, a data flow graph that is to be used to calculate the critical path and schedule code  
+
+
+
+
+{\ttfamily \#include $<$Dfg.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_dfg_aea8238bc912efa232319120cb1021fc1}\label{class_dfg_aea8238bc912efa232319120cb1021fc1}} 
+\mbox{\hyperlink{class_dfg_aea8238bc912efa232319120cb1021fc1}{Dfg}} (\mbox{\hyperlink{class_basic__block}{Basic\+\_\+block}} $\ast$)
+\begin{DoxyCompactList}\small\item\em Constructor of \mbox{\hyperlink{class_dfg}{Dfg}} given a basic block. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_dfg_a1422059d38caedf1ed3897a6f89109d8}\label{class_dfg_a1422059d38caedf1ed3897a6f89109d8}} 
+\mbox{\hyperlink{class_dfg_a1422059d38caedf1ed3897a6f89109d8}{$\sim$\+Dfg}} ()
+\begin{DoxyCompactList}\small\item\em Destructor of \mbox{\hyperlink{class_dfg}{Dfg}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_dfg_a32426a0b87ae751c5a43a00629bde5e5}\label{class_dfg_a32426a0b87ae751c5a43a00629bde5e5}} 
+void \mbox{\hyperlink{class_dfg_a32426a0b87ae751c5a43a00629bde5e5}{build\+\_\+dfg}} (\mbox{\hyperlink{class_node__dfg}{Node\+\_\+dfg}} $\ast$, bool)
+\begin{DoxyCompactList}\small\item\em Build the \mbox{\hyperlink{class_dfg}{Dfg}}, when you call this method you have to affect the fisrt parameter to nullptr and the second to true. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_dfg_a19e39ead57755ba83008c3938c2b4c5d}\label{class_dfg_a19e39ead57755ba83008c3938c2b4c5d}} 
+void \mbox{\hyperlink{class_dfg_a19e39ead57755ba83008c3938c2b4c5d}{display}} (\mbox{\hyperlink{class_node__dfg}{Node\+\_\+dfg}} $\ast$, bool)
+\begin{DoxyCompactList}\small\item\em Display the \mbox{\hyperlink{class_dfg}{Dfg}}, when you call this method you have to affect the fisrt parameter to nullptr and the second to true. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_dfg_a2598772fa5761e77dcb975048775602b}\label{class_dfg_a2598772fa5761e77dcb975048775602b}} 
+void \mbox{\hyperlink{class_dfg_a2598772fa5761e77dcb975048775602b}{restitute}} (\mbox{\hyperlink{class_node__dfg}{Node\+\_\+dfg}} $\ast$, string const, bool)
+\begin{DoxyCompactList}\small\item\em restitute the \mbox{\hyperlink{class_dfg}{Dfg}}, when you call this method you have to affect the fisrt parameter to nullptr and the third to true \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_dfg_a1a6dc2d38709c345177eec0d37ec43e2}\label{class_dfg_a1a6dc2d38709c345177eec0d37ec43e2}} 
+bool \mbox{\hyperlink{class_dfg_a1a6dc2d38709c345177eec0d37ec43e2}{read\+\_\+test}} ()
+\begin{DoxyCompactList}\small\item\em tests if all node have been read \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_dfg_af2212e74538c7e41980e8290b1981072}\label{class_dfg_af2212e74538c7e41980e8290b1981072}} 
+void \mbox{\hyperlink{class_dfg_af2212e74538c7e41980e8290b1981072}{comput\+\_\+critical\+\_\+path}} ()
+\begin{DoxyCompactList}\small\item\em comput the node weight needed for critical path computation of the \mbox{\hyperlink{class_dfg}{Dfg}} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_dfg_ae2a0906df6dcb5831ec2201a071debe2}\label{class_dfg_ae2a0906df6dcb5831ec2201a071debe2}} 
+void \mbox{\hyperlink{class_dfg_ae2a0906df6dcb5831ec2201a071debe2}{compute\+\_\+nb\+\_\+descendant}} ()
+\begin{DoxyCompactList}\small\item\em comput the number of descendant of each node in the \mbox{\hyperlink{class_dfg}{Dfg}} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_dfg_a958e7f272272f47d4dfb1c106c0ae496}\label{class_dfg_a958e7f272272f47d4dfb1c106c0ae496}} 
+void \mbox{\hyperlink{class_dfg_a958e7f272272f47d4dfb1c106c0ae496}{scheduling}} (bool)
+\begin{DoxyCompactList}\small\item\em compute the order the instructions in the basic block according to an algorithm list, verbose mode as parameter \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_dfg_a7e60854edb700328933377fff6025232}\label{class_dfg_a7e60854edb700328933377fff6025232}} 
+void \mbox{\hyperlink{class_dfg_a7e60854edb700328933377fff6025232}{apply\+\_\+scheduling}} ()
+\begin{DoxyCompactList}\small\item\em change the schedule of the basic block with the computed one \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_dfg_a568f4d0d48fc38f8fcdc4944b8d48740}\label{class_dfg_a568f4d0d48fc38f8fcdc4944b8d48740}} 
+int \mbox{\hyperlink{class_dfg_a568f4d0d48fc38f8fcdc4944b8d48740}{get\+\_\+critical\+\_\+path}} ()
+\begin{DoxyCompactList}\small\item\em returns the highest weigth of nodes \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_dfg_ad64fa53f2c4bf0b62b372a4fe4a4df98}\label{class_dfg_ad64fa53f2c4bf0b62b372a4fe4a4df98}} 
+void \mbox{\hyperlink{class_dfg_ad64fa53f2c4bf0b62b372a4fe4a4df98}{display\+\_\+sheduled\+\_\+instr}} ()
+\begin{DoxyCompactList}\small\item\em display the computed schedule of the basic block \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_dfg_a2153f99097e7569a2682a8d6158bf019}\label{class_dfg_a2153f99097e7569a2682a8d6158bf019}} 
+\mbox{\hyperlink{class_node__dfg}{Node\+\_\+dfg}} $\ast$ \mbox{\hyperlink{class_dfg_a2153f99097e7569a2682a8d6158bf019}{get\+\_\+inst\+\_\+for\+\_\+delayed\+\_\+slot}} ()
+\begin{DoxyCompactList}\small\item\em returns an instruction to fill the delayed slot (if any) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_dfg_aa7e527abdf47214b6b27111476186fa2}\label{class_dfg_aa7e527abdf47214b6b27111476186fa2}} 
+bool {\bfseries is\+\_\+ready2} (\mbox{\hyperlink{class_node__dfg}{Node\+\_\+dfg}} $\ast$node, list$<$ \mbox{\hyperlink{class_node__dfg}{Node\+\_\+dfg}} $\ast$$>$ $\ast$scheduled, \mbox{\hyperlink{class_node__dfg}{Node\+\_\+dfg}} $\ast$delayed\+\_\+inst)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+class representing a \mbox{\hyperlink{class_dfg}{Dfg}} of a Basic block, a data flow graph that is to be used to calculate the critical path and schedule code 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{_dfg_8h}{Dfg.\+h}}\end{DoxyCompactItemize}

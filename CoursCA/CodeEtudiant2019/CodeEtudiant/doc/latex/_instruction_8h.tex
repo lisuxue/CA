@@ -1,0 +1,49 @@
+\hypertarget{_instruction_8h}{}\section{include/\+Instruction.h File Reference}
+\label{_instruction_8h}\index{include/\+Instruction.\+h@{include/\+Instruction.\+h}}
+
+
+\mbox{\hyperlink{class_instruction}{Instruction}} class.  
+
+
+{\ttfamily \#include $<$Operand.\+h$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$O\+P\+Expression.\+h$>$}\newline
+{\ttfamily \#include $<$O\+P\+Immediate.\+h$>$}\newline
+{\ttfamily \#include $<$O\+P\+Label.\+h$>$}\newline
+{\ttfamily \#include $<$Line.\+h$>$}\newline
+{\ttfamily \#include $<$O\+P\+Register.\+h$>$}\newline
+{\ttfamily \#include $<$Enum\+\_\+type.\+h$>$}\newline
+{\ttfamily \#include $<$list$>$}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structdep}{dep}}
+\item 
+class \mbox{\hyperlink{class_instruction}{Instruction}}
+\begin{DoxyCompactList}\small\item\em class representing an instruction which herited by \mbox{\hyperlink{class_line}{Line}} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{_instruction_8h_a8b4a12440add75fe3ebf3a5d3ed4ee8e}\label{_instruction_8h_a8b4a12440add75fe3ebf3a5d3ed4ee8e}} 
+\mbox{\hyperlink{class_instruction}{Instruction}} $\ast$ \mbox{\hyperlink{_instruction_8h_a8b4a12440add75fe3ebf3a5d3ed4ee8e}{get\+Inst}} (\mbox{\hyperlink{class_line}{Line}} $\ast$l)
+\begin{DoxyCompactList}\small\item\em returns the instruction associated to the line, if the line is an instruction, nullptr otherwise \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_instruction_8h_a51ba1f2ef8910a3a40a3bf9923286e7c}{delai}} (t\+\_\+\+Inst t1, t\+\_\+\+Inst t2)
+\begin{DoxyCompactList}\small\item\em retourne le délai induit par une dépendance R\+AW entre i1 et i2 (i1 -\/$>$ i2) avec i1 de type t1 et i2 de type t2 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\mbox{\hyperlink{class_instruction}{Instruction}} class. 
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{_instruction_8h_a51ba1f2ef8910a3a40a3bf9923286e7c}\label{_instruction_8h_a51ba1f2ef8910a3a40a3bf9923286e7c}} 
+\index{Instruction.\+h@{Instruction.\+h}!delai@{delai}}
+\index{delai@{delai}!Instruction.\+h@{Instruction.\+h}}
+\subsubsection{\texorpdfstring{delai()}{delai()}}
+{\footnotesize\ttfamily int delai (\begin{DoxyParamCaption}\item[{t\+\_\+\+Inst}]{t1,  }\item[{t\+\_\+\+Inst}]{t2 }\end{DoxyParamCaption})}
+
+
+
+retourne le délai induit par une dépendance R\+AW entre i1 et i2 (i1 -\/$>$ i2) avec i1 de type t1 et i2 de type t2 
+

@@ -1,0 +1,94 @@
+\hypertarget{class_program}{}\section{Program Class Reference}
+\label{class_program}\index{Program@{Program}}
+
+
+class representing a program as list  
+
+
+
+
+{\ttfamily \#include $<$Program.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_program_aaefaa0df08f3484476fc4d61e97acbdc}\label{class_program_aaefaa0df08f3484476fc4d61e97acbdc}} 
+\mbox{\hyperlink{class_program_aaefaa0df08f3484476fc4d61e97acbdc}{Program}} ()
+\begin{DoxyCompactList}\small\item\em Empty constructor of a program. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_program_a9918fe797bf830c47a652c81f449c35c}\label{class_program_a9918fe797bf830c47a652c81f449c35c}} 
+\mbox{\hyperlink{class_program_a9918fe797bf830c47a652c81f449c35c}{Program}} (\mbox{\hyperlink{class_program}{Program}} const \&otherprogram)
+\begin{DoxyCompactList}\small\item\em Copy constructor of a program. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_program_aabe3dfc72075de14b189b22b0e33ff23}\label{class_program_aabe3dfc72075de14b189b22b0e33ff23}} 
+\mbox{\hyperlink{class_program_aabe3dfc72075de14b189b22b0e33ff23}{Program}} (string const file)
+\begin{DoxyCompactList}\small\item\em Constructor with the input file of program. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_program_a986aef1c50e1d338a3315a47ba6df549}\label{class_program_a986aef1c50e1d338a3315a47ba6df549}} 
+\mbox{\hyperlink{class_program_a986aef1c50e1d338a3315a47ba6df549}{$\sim$\+Program}} ()
+\begin{DoxyCompactList}\small\item\em Destructor of program. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_program_a90e1c506dffd5756133f70811f6117d9}\label{class_program_a90e1c506dffd5756133f70811f6117d9}} 
+void \mbox{\hyperlink{class_program_a90e1c506dffd5756133f70811f6117d9}{add\+\_\+line}} (\mbox{\hyperlink{class_line}{Line}} $\ast$newline)
+\begin{DoxyCompactList}\small\item\em Add a line at the end of the program. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_program_a7adb0709f1a9f3ed63e861cc7f02d308}\label{class_program_a7adb0709f1a9f3ed63e861cc7f02d308}} 
+int \mbox{\hyperlink{class_program_a7adb0709f1a9f3ed63e861cc7f02d308}{add\+\_\+line\+\_\+at}} (\mbox{\hyperlink{class_line}{Line}} $\ast$newline, int position)
+\begin{DoxyCompactList}\small\item\em Add a line to the program with position as index. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_program_aabea8add836e10a384b63e2f293ece23}\label{class_program_aabea8add836e10a384b63e2f293ece23}} 
+void \mbox{\hyperlink{class_program_aabea8add836e10a384b63e2f293ece23}{exchange\+\_\+line}} (int line1, int line2)
+\begin{DoxyCompactList}\small\item\em Reverse two lines which are at the index line1 and line2. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_program_a3c1399ac5ed69e5c152f1a2cc1e644d4}\label{class_program_a3c1399ac5ed69e5c152f1a2cc1e644d4}} 
+void \mbox{\hyperlink{class_program_a3c1399ac5ed69e5c152f1a2cc1e644d4}{display}} ()
+\begin{DoxyCompactList}\small\item\em display the program \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_program_a1adce5c1fc414a378e4b87f1d4b535e1}\label{class_program_a1adce5c1fc414a378e4b87f1d4b535e1}} 
+void \mbox{\hyperlink{class_program_a1adce5c1fc414a378e4b87f1d4b535e1}{del\+\_\+line}} (int index)
+\begin{DoxyCompactList}\small\item\em Delete the line at the given index in the program. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_program_ae897b48e1e1be99578440eb6a38a3a0d}\label{class_program_ae897b48e1e1be99578440eb6a38a3a0d}} 
+\mbox{\hyperlink{class_line}{Line}} $\ast$ \mbox{\hyperlink{class_program_ae897b48e1e1be99578440eb6a38a3a0d}{find\+\_\+line}} (int index)
+\begin{DoxyCompactList}\small\item\em gives the line that corresponds to the index \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_program_a190f24ecadca14d748408c352aabc219}\label{class_program_a190f24ecadca14d748408c352aabc219}} 
+int \mbox{\hyperlink{class_program_a190f24ecadca14d748408c352aabc219}{size}} ()
+\begin{DoxyCompactList}\small\item\em get the length of the program \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_program_a3db3e17c96bb809c3e6f81b8bc22ee20}{in\+\_\+file}} (string const filename)
+\begin{DoxyCompactList}\small\item\em returns the dependance betwen the two given instructions \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_program_aff32c461ae544453df5d55f475b3da22}\label{class_program_aff32c461ae544453df5d55f475b3da22}} 
+bool \mbox{\hyperlink{class_program_aff32c461ae544453df5d55f475b3da22}{is\+\_\+empty}} ()
+\begin{DoxyCompactList}\small\item\em return true if the program is Empty \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_program_aa2111257b1f690520316e4831e55798d}\label{class_program_aa2111257b1f690520316e4831e55798d}} 
+void \mbox{\hyperlink{class_program_aa2111257b1f690520316e4831e55798d}{comput\+\_\+function}} ()
+\begin{DoxyCompactList}\small\item\em calculate the functions of the program \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_program_aa85073d3bd6782af3759f4a2961ae80f}\label{class_program_aa85073d3bd6782af3759f4a2961ae80f}} 
+int \mbox{\hyperlink{class_program_aa85073d3bd6782af3759f4a2961ae80f}{nbr\+\_\+func}} ()
+\begin{DoxyCompactList}\small\item\em get the number of functions in the program \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_program_aea6d5c7367bbee48ec5cbb295ef6fd5f}\label{class_program_aea6d5c7367bbee48ec5cbb295ef6fd5f}} 
+\mbox{\hyperlink{class_function}{Function}} $\ast$ \mbox{\hyperlink{class_program_aea6d5c7367bbee48ec5cbb295ef6fd5f}{get\+\_\+function}} (int index)
+\begin{DoxyCompactList}\small\item\em returns the function of index index in the list \+\_\+myfunc \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_program_a1cef65227311c68a2e81c89dcbc16914}\label{class_program_a1cef65227311c68a2e81c89dcbc16914}} 
+void \mbox{\hyperlink{class_program_a1cef65227311c68a2e81c89dcbc16914}{flush}} ()
+\begin{DoxyCompactList}\small\item\em empty the program \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_program_a0d1d9386925418b5fd0a09bf5de16208}\label{class_program_a0d1d9386925418b5fd0a09bf5de16208}} 
+void \mbox{\hyperlink{class_program_a0d1d9386925418b5fd0a09bf5de16208}{comput\+\_\+\+C\+FG}} ()
+\begin{DoxyCompactList}\small\item\em calculate the C\+FG associated with each function of the program \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_program_a69ddee195c76bff05733d927e315f319}\label{class_program_a69ddee195c76bff05733d927e315f319}} 
+\mbox{\hyperlink{class_cfg}{Cfg}} $\ast$ \mbox{\hyperlink{class_program_a69ddee195c76bff05733d927e315f319}{get\+\_\+\+C\+FG}} (int index)
+\begin{DoxyCompactList}\small\item\em returns the C\+FG of index index in the list \+\_\+my\+C\+FG \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+class representing a program as list 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_program_a3db3e17c96bb809c3e6f81b8bc22ee20}\label{class_program_a3db3e17c96bb809c3e6f81b8bc22ee20}} 
+\index{Program@{Program}!in\+\_\+file@{in\+\_\+file}}
+\index{in\+\_\+file@{in\+\_\+file}!Program@{Program}}
+\subsubsection{\texorpdfstring{in\+\_\+file()}{in\_file()}}
+{\footnotesize\ttfamily void Program\+::in\+\_\+file (\begin{DoxyParamCaption}\item[{string const}]{filename }\end{DoxyParamCaption})}
+
+
+
+returns the dependance betwen the two given instructions 
+
+\begin{DoxyReturn}{Returns}
+returns the dependance in the enum formatwrite the programme into a file 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{_program_8h}{Program.\+h}}\end{DoxyCompactItemize}

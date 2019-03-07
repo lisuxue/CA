@@ -1,0 +1,71 @@
+\hypertarget{class_directive}{}\section{Directive Class Reference}
+\label{class_directive}\index{Directive@{Directive}}
+
+
+class representing an \mbox{\hyperlink{class_directive}{Directive}} herited by \mbox{\hyperlink{class_line}{Line}}  
+
+
+
+
+{\ttfamily \#include $<$Directive.\+h$>$}
+
+Inheritance diagram for Directive\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_directive}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_directive_a7487120f679e1b4d01843ad6feac7e07}\label{class_directive_a7487120f679e1b4d01843ad6feac7e07}} 
+\mbox{\hyperlink{class_directive_a7487120f679e1b4d01843ad6feac7e07}{Directive}} (string)
+\begin{DoxyCompactList}\small\item\em Constructor of the \mbox{\hyperlink{class_directive}{Directive}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_directive_ac2f912e3997d9fed8bc289d77fc06305}\label{class_directive_ac2f912e3997d9fed8bc289d77fc06305}} 
+\mbox{\hyperlink{class_directive_ac2f912e3997d9fed8bc289d77fc06305}{Directive}} (string, string)
+\begin{DoxyCompactList}\small\item\em Constructor of the \mbox{\hyperlink{class_directive}{Directive}} with directive, content and an boolean. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_directive_adbe3bd8e72354bde2b7d809348d0d527}\label{class_directive_adbe3bd8e72354bde2b7d809348d0d527}} 
+\mbox{\hyperlink{class_directive_adbe3bd8e72354bde2b7d809348d0d527}{Directive}} (string, string, bool)
+\begin{DoxyCompactList}\small\item\em Constructor of the \mbox{\hyperlink{class_directive}{Directive}} with directive, content and an boolean. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_directive_aa9a48f09b0472c835ffa366bcff74f51}\label{class_directive_aa9a48f09b0472c835ffa366bcff74f51}} 
+virtual \mbox{\hyperlink{class_directive_aa9a48f09b0472c835ffa366bcff74f51}{$\sim$\+Directive}} ()
+\begin{DoxyCompactList}\small\item\em Destructor of the \mbox{\hyperlink{class_directive}{Directive}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_directive_a0d574b0ffc25eb1fbc49032534e7ff44}\label{class_directive_a0d574b0ffc25eb1fbc49032534e7ff44}} 
+virtual t\+\_\+\+Line \mbox{\hyperlink{class_directive_a0d574b0ffc25eb1fbc49032534e7ff44}{type\+\_\+line}} ()
+\begin{DoxyCompactList}\small\item\em get the type of the line \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_directive_a2fd56d5580ad7a993782649d7867732f}\label{class_directive_a2fd56d5580ad7a993782649d7867732f}} 
+virtual string \mbox{\hyperlink{class_directive_a2fd56d5580ad7a993782649d7867732f}{to\+\_\+string}} ()
+\begin{DoxyCompactList}\small\item\em get the string of the \mbox{\hyperlink{class_directive}{Directive}} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_directive_aaeb0e95f88f41425718859daeb2116ad}\label{class_directive_aaeb0e95f88f41425718859daeb2116ad}} 
+virtual string \mbox{\hyperlink{class_directive_aaeb0e95f88f41425718859daeb2116ad}{get\+\_\+content}} ()
+\begin{DoxyCompactList}\small\item\em get the string of the \mbox{\hyperlink{class_directive}{Directive}} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_directive_a59b72d2ebc140e3ac0a0d6d789bb5bba}\label{class_directive_a59b72d2ebc140e3ac0a0d6d789bb5bba}} 
+virtual void \mbox{\hyperlink{class_directive_a59b72d2ebc140e3ac0a0d6d789bb5bba}{set\+\_\+content}} (string)
+\begin{DoxyCompactList}\small\item\em set the string of the \mbox{\hyperlink{class_directive}{Directive}} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_directive_ae585a212960cc755c057f85533ddc71e}\label{class_directive_ae585a212960cc755c057f85533ddc71e}} 
+bool \mbox{\hyperlink{class_directive_ae585a212960cc755c057f85533ddc71e}{is\+\_\+function}} ()
+\begin{DoxyCompactList}\small\item\em return true if the directive indicate a function \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_directive_a5c3ac59a9d3bc3c16341124482370843}\label{class_directive_a5c3ac59a9d3bc3c16341124482370843}} 
+virtual t\+\_\+\+Inst \mbox{\hyperlink{class_directive_a5c3ac59a9d3bc3c16341124482370843}{get\+\_\+type}} ()
+\begin{DoxyCompactList}\small\item\em return the type of the instruction \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_directive_a3e89203d14d83c6ff8da7a1c49b9a60e}\label{class_directive_a3e89203d14d83c6ff8da7a1c49b9a60e}} 
+string {\bfseries \+\_\+dir}
+\item 
+\mbox{\Hypertarget{class_directive_aaeaa71135c6d434d58db763a1e2b70e3}\label{class_directive_aaeaa71135c6d434d58db763a1e2b70e3}} 
+string {\bfseries \+\_\+value}
+\item 
+\mbox{\Hypertarget{class_directive_ae9e02b1ecc6a1b5387f5227959984c1f}\label{class_directive_ae9e02b1ecc6a1b5387f5227959984c1f}} 
+bool {\bfseries \+\_\+isfunction}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+class representing an \mbox{\hyperlink{class_directive}{Directive}} herited by \mbox{\hyperlink{class_line}{Line}} 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{_directive_8h}{Directive.\+h}}\end{DoxyCompactItemize}

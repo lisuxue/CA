@@ -1,0 +1,3 @@
+INPUT = ./include/Basic_block.h	./include/Directive.h ./include/Loop.h ./include/Instruction.h ./include/Node_dfg.h ./include/OPLabel.h ./include/Program.h ./include/Cfg.h ./include/Enum_type.h ./include/Label.h ./include/OPExpression.h ./include/OPRegister.h ./include/Dfg.h ./include/Function.h ./include/Line.h ./include/OPImmediate.h ./include/Operand.h
+
+OUTPUT_DIRECTORY = ./doc

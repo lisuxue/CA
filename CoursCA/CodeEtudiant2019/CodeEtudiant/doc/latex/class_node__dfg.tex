@@ -1,0 +1,91 @@
+\hypertarget{class_node__dfg}{}\section{Node\+\_\+dfg Class Reference}
+\label{class_node__dfg}\index{Node\+\_\+dfg@{Node\+\_\+dfg}}
+
+
+class representing a node of data flow graph  
+
+
+
+
+{\ttfamily \#include $<$Node\+\_\+dfg.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_node__dfg_ac9b79961aaadf29eecd03b227b4c0875}\label{class_node__dfg_ac9b79961aaadf29eecd03b227b4c0875}} 
+\mbox{\hyperlink{class_node__dfg_ac9b79961aaadf29eecd03b227b4c0875}{Node\+\_\+dfg}} (\mbox{\hyperlink{class_instruction}{Instruction}} $\ast$)
+\begin{DoxyCompactList}\small\item\em Constructor of \mbox{\hyperlink{class_node__dfg}{Node\+\_\+dfg}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_node__dfg_a0a2a7c4634ad6802e7c69ab0d95957fa}\label{class_node__dfg_a0a2a7c4634ad6802e7c69ab0d95957fa}} 
+\mbox{\hyperlink{class_node__dfg_a0a2a7c4634ad6802e7c69ab0d95957fa}{$\sim$\+Node\+\_\+dfg}} ()
+\begin{DoxyCompactList}\small\item\em Destructor of \mbox{\hyperlink{class_node__dfg}{Node\+\_\+dfg}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_node__dfg_adc4a8e37604e57eec03fecaaca094fb5}\label{class_node__dfg_adc4a8e37604e57eec03fecaaca094fb5}} 
+\mbox{\hyperlink{struct_arc__t}{Arc\+\_\+t}} $\ast$ \mbox{\hyperlink{class_node__dfg_adc4a8e37604e57eec03fecaaca094fb5}{get\+\_\+arc}} (int i)
+\begin{DoxyCompactList}\small\item\em get the ith arc of the arc list \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_node__dfg_a27b393ab78abb865ef7c4e494de894da}\label{class_node__dfg_a27b393ab78abb865ef7c4e494de894da}} 
+void {\bfseries remove\+\_\+arc} (int index)
+\item 
+\mbox{\Hypertarget{class_node__dfg_a0f65316cde0b35e7755d4ebf009b009b}\label{class_node__dfg_a0f65316cde0b35e7755d4ebf009b009b}} 
+void {\bfseries remove\+\_\+pred} (int index)
+\item 
+\mbox{\Hypertarget{class_node__dfg_a6ebd568efb70f729f6e355cdd46a5185}\label{class_node__dfg_a6ebd568efb70f729f6e355cdd46a5185}} 
+list$<$ \mbox{\hyperlink{struct_arc__t}{Arc\+\_\+t}} $\ast$ $>$\+::iterator {\bfseries arcs\+\_\+begin} ()
+\item 
+\mbox{\Hypertarget{class_node__dfg_a5a49217bcb16aaf7e94e4e156d9a9d53}\label{class_node__dfg_a5a49217bcb16aaf7e94e4e156d9a9d53}} 
+list$<$ \mbox{\hyperlink{struct_arc__t}{Arc\+\_\+t}} $\ast$ $>$\+::iterator {\bfseries arcs\+\_\+end} ()
+\item 
+\mbox{\Hypertarget{class_node__dfg_a85d42a5cc1d6feacf403a8569a813074}\label{class_node__dfg_a85d42a5cc1d6feacf403a8569a813074}} 
+int \mbox{\hyperlink{class_node__dfg_a85d42a5cc1d6feacf403a8569a813074}{get\+\_\+nb\+\_\+arcs}} ()
+\begin{DoxyCompactList}\small\item\em get the number of arcs \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_node__dfg_a8f20c21a0ffb2e224cc426148362c249}\label{class_node__dfg_a8f20c21a0ffb2e224cc426148362c249}} 
+\mbox{\hyperlink{class_instruction}{Instruction}} $\ast$ \mbox{\hyperlink{class_node__dfg_a8f20c21a0ffb2e224cc426148362c249}{get\+\_\+instruction}} ()
+\begin{DoxyCompactList}\small\item\em get the \mbox{\hyperlink{class_instruction}{Instruction}} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_node__dfg_add9d669804bc8ad4a4b806221d9ef9e9}\label{class_node__dfg_add9d669804bc8ad4a4b806221d9ef9e9}} 
+void \mbox{\hyperlink{class_node__dfg_add9d669804bc8ad4a4b806221d9ef9e9}{add\+\_\+successeur}} (\mbox{\hyperlink{struct_arc__t}{Arc\+\_\+t}} $\ast$)
+\begin{DoxyCompactList}\small\item\em add an arc to the arc list \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_node__dfg_a8cc89b32dbe15bcf399725955a643551}\label{class_node__dfg_a8cc89b32dbe15bcf399725955a643551}} 
+void \mbox{\hyperlink{class_node__dfg_a8cc89b32dbe15bcf399725955a643551}{add\+\_\+predecesseur}} (\mbox{\hyperlink{class_node__dfg}{Node\+\_\+dfg}} $\ast$)
+\begin{DoxyCompactList}\small\item\em add a predecessor to the predecessor list \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_node__dfg_adef5e6e3362133f6adb38d404c8d8cf6}\label{class_node__dfg_adef5e6e3362133f6adb38d404c8d8cf6}} 
+int \mbox{\hyperlink{class_node__dfg_adef5e6e3362133f6adb38d404c8d8cf6}{nb\+\_\+preds}} ()
+\begin{DoxyCompactList}\small\item\em get the number of predecessors \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_node__dfg_a769af0d7836679d6ee9abcc55d399887}\label{class_node__dfg_a769af0d7836679d6ee9abcc55d399887}} 
+list$<$ \mbox{\hyperlink{class_node__dfg}{Node\+\_\+dfg}} $\ast$ $>$\+::iterator {\bfseries pred\+\_\+begin} ()
+\item 
+\mbox{\Hypertarget{class_node__dfg_a86fc141e0697ae944900625212579957}\label{class_node__dfg_a86fc141e0697ae944900625212579957}} 
+list$<$ \mbox{\hyperlink{class_node__dfg}{Node\+\_\+dfg}} $\ast$ $>$\+::iterator {\bfseries pred\+\_\+end} ()
+\item 
+\mbox{\Hypertarget{class_node__dfg_a83747917d9c87b11633779731bcda162}\label{class_node__dfg_a83747917d9c87b11633779731bcda162}} 
+void \mbox{\hyperlink{class_node__dfg_a83747917d9c87b11633779731bcda162}{set\+\_\+instruction}} (\mbox{\hyperlink{class_instruction}{Instruction}} $\ast$)
+\begin{DoxyCompactList}\small\item\em set the \mbox{\hyperlink{class_instruction}{Instruction}} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_node__dfg_a395b778a0b23ae2bcfd6081d84661239}\label{class_node__dfg_a395b778a0b23ae2bcfd6081d84661239}} 
+int {\bfseries compute\+\_\+weight} ()
+\item 
+\mbox{\Hypertarget{class_node__dfg_af23f48b1521a90178cc5c9a59da3ab3c}\label{class_node__dfg_af23f48b1521a90178cc5c9a59da3ab3c}} 
+void \mbox{\hyperlink{class_node__dfg_af23f48b1521a90178cc5c9a59da3ab3c}{set\+\_\+weight}} (int)
+\begin{DoxyCompactList}\small\item\em set the weight \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_node__dfg_a561e80f51cb9a71b22f22e8d2e6685de}\label{class_node__dfg_a561e80f51cb9a71b22f22e8d2e6685de}} 
+int \mbox{\hyperlink{class_node__dfg_a561e80f51cb9a71b22f22e8d2e6685de}{get\+\_\+weight}} ()
+\begin{DoxyCompactList}\small\item\em get the weight \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_node__dfg_a613aa3ee9ce2eb99df07258cbdd5293f}\label{class_node__dfg_a613aa3ee9ce2eb99df07258cbdd5293f}} 
+int {\bfseries compute\+\_\+nb\+\_\+descendant} (int nb\+\_\+instr, int $\ast$deja\+\_\+comptes)
+\item 
+\mbox{\Hypertarget{class_node__dfg_a9aa775f727e6c542cd714894219046f3}\label{class_node__dfg_a9aa775f727e6c542cd714894219046f3}} 
+void \mbox{\hyperlink{class_node__dfg_a9aa775f727e6c542cd714894219046f3}{set\+\_\+nb\+\_\+descendant}} (int)
+\begin{DoxyCompactList}\small\item\em set the number of descendant \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_node__dfg_a9baa0a6be056b7d1ee290c404f2216f5}\label{class_node__dfg_a9baa0a6be056b7d1ee290c404f2216f5}} 
+int \mbox{\hyperlink{class_node__dfg_a9baa0a6be056b7d1ee290c404f2216f5}{get\+\_\+nb\+\_\+descendant}} ()
+\begin{DoxyCompactList}\small\item\em get the number of descendant \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_node__dfg_ad9fe88cf90fa2282806edbc64f51331e}\label{class_node__dfg_ad9fe88cf90fa2282806edbc64f51331e}} 
+void {\bfseries set\+\_\+tready} (int t)
+\item 
+\mbox{\Hypertarget{class_node__dfg_a05e8db316dd2db8b0946167763585c7b}\label{class_node__dfg_a05e8db316dd2db8b0946167763585c7b}} 
+int {\bfseries get\+\_\+tready} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+class representing a node of data flow graph 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{_node__dfg_8h}{Node\+\_\+dfg.\+h}}\end{DoxyCompactItemize}

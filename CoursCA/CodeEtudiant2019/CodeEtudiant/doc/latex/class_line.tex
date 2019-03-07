@@ -1,0 +1,98 @@
+\hypertarget{class_line}{}\section{Line Class Reference}
+\label{class_line}\index{Line@{Line}}
+
+
+Abstract class representing an \mbox{\hyperlink{class_line}{Line}}.  
+
+
+
+
+{\ttfamily \#include $<$Line.\+h$>$}
+
+Inheritance diagram for Line\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_line}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_line_a4a95bafcefa28672b3999deb011b9e50}\label{class_line_a4a95bafcefa28672b3999deb011b9e50}} 
+virtual \mbox{\hyperlink{class_line_a4a95bafcefa28672b3999deb011b9e50}{$\sim$\+Line}} ()
+\begin{DoxyCompactList}\small\item\em Virtual destructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_line_aa7f74673c9c3a7423a513a5fb64bf825}\label{class_line_aa7f74673c9c3a7423a513a5fb64bf825}} 
+virtual string \mbox{\hyperlink{class_line_aa7f74673c9c3a7423a513a5fb64bf825}{get\+\_\+content}} ()=0
+\begin{DoxyCompactList}\small\item\em get the string of the line virtual getter \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_line_afa27867ffd08e6915d9e791d2ed0b448}\label{class_line_afa27867ffd08e6915d9e791d2ed0b448}} 
+virtual void \mbox{\hyperlink{class_line_afa27867ffd08e6915d9e791d2ed0b448}{set\+\_\+content}} (string)=0
+\begin{DoxyCompactList}\small\item\em set the string of the line virtual setter \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_line_a0cc2cdd9bc04649adebd1ff9b753bc85}\label{class_line_a0cc2cdd9bc04649adebd1ff9b753bc85}} 
+virtual t\+\_\+\+Line \mbox{\hyperlink{class_line_a0cc2cdd9bc04649adebd1ff9b753bc85}{type\+\_\+line}} ()=0
+\begin{DoxyCompactList}\small\item\em get the type of the line virtual accessor of the type \end{DoxyCompactList}\item 
+virtual string \mbox{\hyperlink{class_line_a477523118f17d72f58f2912b391afc73}{to\+\_\+string}} ()=0
+\begin{DoxyCompactList}\small\item\em get the name string accessor of the type line \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_line_a679ddcc8a7d6a634218f177b4d602bd5}\label{class_line_a679ddcc8a7d6a634218f177b4d602bd5}} 
+virtual t\+\_\+\+Inst \mbox{\hyperlink{class_line_a679ddcc8a7d6a634218f177b4d602bd5}{get\+\_\+type}} ()=0
+\begin{DoxyCompactList}\small\item\em return the type of the instruction \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_line_a57e724949fa0828dfdd2a1bb0f7db8d0}\label{class_line_a57e724949fa0828dfdd2a1bb0f7db8d0}} 
+bool \mbox{\hyperlink{class_line_a57e724949fa0828dfdd2a1bb0f7db8d0}{is\+Inst}} ()
+\begin{DoxyCompactList}\small\item\em tests if the line is an instruction \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_line_a8323f3df960924826199bd607198ac7f}\label{class_line_a8323f3df960924826199bd607198ac7f}} 
+bool \mbox{\hyperlink{class_line_a8323f3df960924826199bd607198ac7f}{is\+Label}} ()
+\begin{DoxyCompactList}\small\item\em tests if the line is a label \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_line_ad014e40a75c8a04e6a091ae4110579bc}\label{class_line_ad014e40a75c8a04e6a091ae4110579bc}} 
+bool \mbox{\hyperlink{class_line_ad014e40a75c8a04e6a091ae4110579bc}{is\+Directive}} ()
+\begin{DoxyCompactList}\small\item\em tests if the line is a directive \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_line_a66770cb09833f18ec4d5b494f5edae77}\label{class_line_a66770cb09833f18ec4d5b494f5edae77}} 
+void \mbox{\hyperlink{class_line_a66770cb09833f18ec4d5b494f5edae77}{set\+\_\+next}} (\mbox{\hyperlink{class_line}{Line}} $\ast$newsuccessor)
+\begin{DoxyCompactList}\small\item\em set the next line \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_line_ae834b48e9f1c9450f93ec7bb6a43fb1a}\label{class_line_ae834b48e9f1c9450f93ec7bb6a43fb1a}} 
+\mbox{\hyperlink{class_line}{Line}} $\ast$ \mbox{\hyperlink{class_line_ae834b48e9f1c9450f93ec7bb6a43fb1a}{get\+\_\+prev}} ()
+\begin{DoxyCompactList}\small\item\em get the previous line \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_line_abf7301d0514bf6dafdc9da9ad79a4341}\label{class_line_abf7301d0514bf6dafdc9da9ad79a4341}} 
+void \mbox{\hyperlink{class_line_abf7301d0514bf6dafdc9da9ad79a4341}{set\+\_\+prev}} (\mbox{\hyperlink{class_line}{Line}} $\ast$newprev)
+\begin{DoxyCompactList}\small\item\em set the previous line \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_line_a51b6d0f3c36a6aefb03be582277ca570}\label{class_line_a51b6d0f3c36a6aefb03be582277ca570}} 
+\mbox{\hyperlink{class_line}{Line}} $\ast$ \mbox{\hyperlink{class_line_a51b6d0f3c36a6aefb03be582277ca570}{get\+\_\+next}} ()
+\begin{DoxyCompactList}\small\item\em get the next line \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_line_a2f138ac1c387679c8569c4b5bf06a0f9}\label{class_line_a2f138ac1c387679c8569c4b5bf06a0f9}} 
+void \mbox{\hyperlink{class_line_a2f138ac1c387679c8569c4b5bf06a0f9}{display}} ()
+\begin{DoxyCompactList}\small\item\em display the content of the \mbox{\hyperlink{class_line}{Line}} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_line_aa37e3e0b9ec8180ba796fcd970186437}\label{class_line_aa37e3e0b9ec8180ba796fcd970186437}} 
+\mbox{\hyperlink{class_line}{Line}} $\ast$ {\bfseries \+\_\+next}
+\item 
+\mbox{\Hypertarget{class_line_a13163a448797ff8bc4f113202a6d4d4a}\label{class_line_a13163a448797ff8bc4f113202a6d4d4a}} 
+\mbox{\hyperlink{class_line}{Line}} $\ast$ {\bfseries \+\_\+prev}
+\item 
+\mbox{\Hypertarget{class_line_a41059923f5c8e5a0f4f44d84bd8762aa}\label{class_line_a41059923f5c8e5a0f4f44d84bd8762aa}} 
+string {\bfseries \+\_\+line}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Abstract class representing an \mbox{\hyperlink{class_line}{Line}}. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_line_a477523118f17d72f58f2912b391afc73}\label{class_line_a477523118f17d72f58f2912b391afc73}} 
+\index{Line@{Line}!to\+\_\+string@{to\+\_\+string}}
+\index{to\+\_\+string@{to\+\_\+string}!Line@{Line}}
+\subsubsection{\texorpdfstring{to\+\_\+string()}{to\_string()}}
+{\footnotesize\ttfamily virtual string Line\+::to\+\_\+string (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+get the name string accessor of the type line 
+
+
+
+Implemented in \mbox{\hyperlink{class_instruction_aed87de5e9259f4f15dc885425528f1fe}{Instruction}}, \mbox{\hyperlink{class_directive_a2fd56d5580ad7a993782649d7867732f}{Directive}}, and \mbox{\hyperlink{class_label_a6df2e96366cc459a6a8fa9642a6e69b6}{Label}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{_line_8h}{Line.\+h}}\end{DoxyCompactItemize}
