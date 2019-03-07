@@ -271,35 +271,37 @@ void Function::comput_succ_pred_BB(){
     comput_label();
  
  
-  int size = (int) _myBB.size();
+  //int size = (int) _myBB.size();
    
   for (auto bb: _myBB){ // parcours tous les BB de _myBB
-    Instruction *instr;
+    //Instruction *instr;
     Basic_block *succ=nullptr;
     OPLabel* lab = nullptr;
     	
     // A REMPLIR 
     Instruction* branch = (Instruction*)(bb->get_branch());
-    if (branch->is_call()){
+    if (branch == nullptr){
     	succ = get_BB(bb->get_index()+1);
     	bb->set_link_succ_pred(succ);
-    }
-    if(branch->is_cond_branch()){
-    	succ = get_BB(bb->get_index()+1);
- 	    bb->set_link_succ_pred(succ);
- 	    lab = branch->get_op_label();
-    	bb->set_link_succ_pred(find_label_BB(lab));
-    }
-    if(branch->is_indirect_branch()){
-    	bb->set_successor (nullptr);	
     }else{
-    	lab = branch->get_op_label();
-    	bb->set_link_succ_pred(find_label_BB(lab));
-    }
+		if (branch->is_call()){
+			succ = get_BB(bb->get_index()+1);
+			bb->set_link_succ_pred(succ);
+		}else{
+			if(branch->is_cond_branch()){
+				succ = get_BB(bb->get_index()+1);
+		 	    bb->set_link_succ_pred(succ);
+		 	    lab = branch->get_op_label();
+				bb->set_link_succ_pred(find_label_BB(lab));
+			}else{
+				if(branch->is_indirect_branch()){
+				}else{
+					lab = branch->get_op_label();
+					bb->set_link_succ_pred(find_label_BB(lab));
+				}}}}
   }
     // fin à remplir 
-   
- 
+    
   // ne pas toucher ci-dessous
   BB_pred_succ = true; // calcul effectué
   return;
@@ -317,7 +319,7 @@ void Function::compute_dom(){
    // on peut récupérer les BB de la fonction avec la méthode get_BB(num du BB) pour tous les numéros de BB entre 0 et nbBB-1.
 
   list<Basic_block*> workinglist; // liste de travail  
-  bool change = true;  // pour itérer tant que pas de point fixe
+  //bool change = true;  // pour itérer tant que pas de point fixe
  
   /* A REMPLIR */
  
@@ -363,7 +365,7 @@ void Function::display_loops(){
 void Function::compute_live_var(){
  
   list<Basic_block*> workinglist;
-  bool change = true;
+  //bool change = true;
  
    
 
