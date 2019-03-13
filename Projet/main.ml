@@ -139,15 +139,16 @@ let closure_rec lab n =
 			stack := !accu::!stack
 
 let apply n =
+	print_int (n-1);
 	let args_depile = depile n in
 		let pile = args_depile@Entier(!extra_args)::Entier(!pc+1)::!env@(!stack) in
 		stack := pile;
+		extra_args:=(n-1);
 		match !accu with
 		 	|Fermeture (p,e) -> pc := p;
 													match e with
 													|[] -> env:= [None]
-													|hd::tl -> env := e;
-													extra_args:=n-1
+													|hd::tl -> env := e
 			|_ -> failwith "Pas de fermeture dans accu"
 
 let return n =
@@ -197,7 +198,7 @@ let restart () =
 
 
 let main = (* parcourt de la liste avec pc sans réelle recursion  *)
-	print_string "au début : pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=";print_list_aux !env;print_newline ();
+	print_string "au début : pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=[";print_list_aux !env;print_string "]";print_newline ();
 	let rec run prog=
 		let courant = List.nth prog !pc in
 			match courant with
