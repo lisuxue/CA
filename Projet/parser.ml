@@ -60,4 +60,5 @@ let rec print_prog list_triplet =
 	match list_triplet with
 		| [] -> ()
 		| h::t -> print_triplet h;
+							print_string "\n";
 				  		print_prog t;;
