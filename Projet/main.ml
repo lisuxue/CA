@@ -62,9 +62,9 @@ let passe prog =
 		let rec aux prog=
 			(match prog with
 				|hd::tl -> (match hd with
-										| {label;instr="APPLY";args} ->	let app_args = args in
+										| {label;instr="APPLY";args} ->	let n = (int_of_string (List.hd args)) in
 																											(match tl with
-																											| {label;instr="RETURN";args}::tll-> res:=!res@{label=label; instr="APPTERM" ; args=app_args@args}::[];
+																											| {label;instr="RETURN";args}::tll-> let m = n+(int_of_string (List.hd args)) in res:=!res@{label=label; instr="APPTERM" ; args= string_of_int(n)::string_of_int(m)::[]}::[];
 																																													 aux tll
 																											| {label;instr;args}::tll-> res:=!res@hd::{label;instr;args}::[];
 																																	 								aux tll
@@ -226,12 +226,12 @@ let appterm n m =
 													|[] -> env:= [None]
 													|hd::tl -> env := e)
 			|_ -> failwith "Pas de fermeture dans accu");
-		extra_args:=(n-1)
+		extra_args:=!extra_args + (n-1)
 
 
 let main = (* parcourt de la liste avec pc sans réelle recursion  *)
 		prog := (passe !prog);
-		print_prog (passe !prog);print_newline();
+		print_string "passe : \n";print_prog (passe !prog);print_newline();
 		print_string "au début : pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=[";print_list_aux !env;print_string "]";print_newline ();
 		let rec run prog=
 			let courant = List.nth prog !pc in
