@@ -244,15 +244,16 @@ let poptrap () =
 
 let raisee () =
 	if !trap_sp=(-1)
-	then begin
-		print_string "\n--------EXCEPTION--------\n";
-		Printf.printf "code d'erreur : %d\n" (get_int(!accu));
-		print_string "-------------------------\n";
-		exit 0; (*équivalent de stop ()*)
+	then
+		begin
+			print_string "\n--------EXCEPTION--------\n";
+			Printf.printf "code d'erreur : %d\n" (get_int(!accu));
+			print_string "-------------------------\n";
+			ignore(stop ())(*équivalent de stop ()*)
 		end
 	else
-		depile ((List.length !stack) - !trap_sp);
-		let args_depile = depile 4 in
+		let _ = depile ((List.length !stack) - !trap_sp)
+		and args_depile = depile 4 in
 			pc := get_int (List.hd args_depile);
 			trap_sp := get_int (List.nth args_depile 1);
 			env := Env((List.nth args_depile 2)::[]);
