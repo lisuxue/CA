@@ -4,7 +4,6 @@ open Char;;
 type mlvalue = Entier of int
 						 | Fermeture of int * mlvalue
 						 | Env of mlvalue list
-						 | None
 (*registres de la Mini-ZAM*)
 let prog : triplet list ref = ref (parse Sys.argv.(1))(*liste des triplet d'instructions type = triplet list*)
 let stack : mlvalue list ref = ref []  (*pile Last In First Out*)
@@ -57,7 +56,6 @@ and print_mlvalue m =
 	| Entier v -> print_int v
 	| Fermeture(v,l)-> print_string "{";print_int v;print_string ",";print_string"[";print_mlvalue l;print_string"]";print_string"}"
 	| Env(l) -> print_string"[";print_list_aux l;print_string"]"
-	| None -> print_string "[]"
 
 let passe prog =
 	let res : triplet list ref = ref [] in
@@ -142,7 +140,9 @@ let acc i =
 	pc := !pc+1
 
 let envacc i =
-	match !env with Env(e)-> accu := List.nth e i;
+	(match !env with
+		|Env(e)-> accu := List.nth e i;
+		| _ -> failwith "problème dans envacc");
 	pc := !pc+1
 
 let closure lab n =
@@ -184,14 +184,16 @@ let return n =
 		extra_args := !extra_args - 1;
 		match !accu with
 			|Fermeture (p,e) -> pc := p; env:= e;
-			|_ -> failwith "Pas de fermeture dans accu"
+			|_ -> failwith "return : Pas de fermeture dans accu"
 
 		end
 
 let stop () = exit 0
 
 let offset_closure () =
-	match !env with Env(e) -> accu:=Fermeture(get_int (List.hd e),Env(e));
+	(match !env with
+		|Env(e) -> accu:=Fermeture(get_int (List.hd e),Env(e));
+		| _ -> failwith "problème dans offset_closure");
 	pc := !pc + 1
 
 let grab n =
@@ -199,7 +201,9 @@ let grab n =
 	else
 		begin
 		let dep_args = depile (!extra_args+1) in
-			match !env with Env(e) -> accu := Fermeture(!pc-1,Env(e@dep_args));
+			(match !env with
+				|Env(e) -> accu := Fermeture(!pc-1,Env(e@dep_args));
+				|_ -> failwith "problème dans grab");
 			let dep_rest = depile 3 in
 			extra_args := get_int (List.hd dep_rest);
 			pc := get_int (List.hd (List.tl dep_rest));
@@ -207,11 +211,12 @@ let grab n =
 		end
 
 let restart () =
-	match !env with
-	| Env(e) -> (let n = List.length e in
+	(match !env with
+		|Env(e) -> (let n = List.length e in
 								extra_args := !extra_args + (n-1);
 								stack := (List.tl e)@(!stack);
 								env := Env((List.hd e)::[]));
+		|_ -> failwith "problème dans restart");
 		pc := !pc+1
 
 let appterm n m =
@@ -243,7 +248,7 @@ let raisee () =
 		print_string "\n--------EXCEPTION--------\n";
 		Printf.printf "code d'erreur : %d\n" (get_int(!accu));
 		print_string "-------------------------\n";
-		stop ()
+		exit 0; (*équivalent de stop ()*)
 		end
 	else
 		depile ((List.length !stack) - !trap_sp);
