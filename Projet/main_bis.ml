@@ -4,7 +4,7 @@ open Char;;
 type mlvalue = Entier of int
 						 | Fermeture of int * mlvalue
 						 | Env of mlvalue list
-						 | Bloc of mlvalue list
+						 | Bloc of mlvalue array
 
 (*registres de la Mini-ZAM*)
 let prog : triplet list ref = ref (parse Sys.argv.(1))(*liste des triplet d'instructions type = triplet list*)
@@ -35,6 +35,7 @@ let int_of_bool b =
 
 let rec depile n =
 	match n with
+		|x when x < 0 -> failwith "Argument de depile négatif"
 		|0 -> []
 		|_ -> let e = (List.hd !stack) in
 			(stack:=(List.tl !stack);
@@ -45,11 +46,6 @@ let rec get_pos_label label list_record =
 	| {label=Some x;_}::tl when x=label -> 0
 	| [] -> failwith "Le label demandé n'existe pas"
 	| hd::tl -> 1 + get_pos_label label tl
-
-	let rec setnval v l n =
-		match l with
-		| [] -> failwith "impossible, index out of range"
-		| hd::tl -> if n = 0 then v::tl else hd::(setnval v tl (n-1))
 
 let rec print_list_aux l =
 	(match l with
@@ -63,9 +59,7 @@ and print_mlvalue m =
 	| Entier v -> print_int v
 	| Fermeture(v,l)-> print_string "{";print_int v;print_string ",";print_mlvalue l;print_string"}"
 	| Env(l) -> print_string"[";print_list_aux l;print_string"]"
-	| Bloc(h::t) -> print_string "(";print_mlvalue h;print_string ","; print_list_aux t;print_string ")"
-	|_ -> failwith "Bloc sans valeur impossible"
-
+	| Bloc a -> let l = Array.to_list a in print_string "(";print_mlvalue (List.hd l);print_string ","; print_list_aux (List.tl l);print_string ")"
 
 let passe prog =
 	let res : triplet list ref = ref [] in
@@ -211,13 +205,11 @@ let grab n =
 	else
 		begin
 		let dep_args = depile (!extra_args+1) in
-			(match !env with
-				|Env(e) -> accu := Fermeture(!pc-1,Env(e@dep_args));
-				|_ -> failwith "problème dans grab");
-			let dep_rest = depile 3 in
-			extra_args := get_int (List.hd dep_rest);
-			pc := get_int (List.hd (List.tl dep_rest));
-			env := Env(List.tl (List.tl dep_rest));
+			accu:=Fermeture(!pc-1,Env(!env::dep_args));
+		let dep_reste = depile 3 in
+			extra_args := get_int (List.hd dep_reste);
+			pc := get_int (List.nth dep_reste 1);
+			env := List.nth dep_reste 2;
 		end
 
 let restart () =
@@ -272,47 +264,60 @@ let raisee () =
 
 
 let makeblock n =
-	if n=0 then failwith "impossible makebloc";
-	if n=1 then accu:=Bloc(!accu::[])
-	else accu:=Bloc(!accu::depile (n-1));
-	pc:=!pc+1
+let fst_content = Array.make 1 !accu in
+	let depile_array = Array.of_list (depile (n-1)) in
+		accu:=Bloc(Array.append fst_content depile_array);
+pc:=!pc+1
 
 let getfield n =
 	(match !accu with
-		|Bloc l -> accu:=List.nth l n
+		|Bloc a -> accu:=Array.get a n
 		|_ -> failwith "KO pas de bloc dans accu");
 	pc:=!pc+1
 
 let vectlength () =
 	(match !accu with
-		|Bloc l -> accu:=Entier (List.length l)
+		|Bloc a -> accu:=Entier(Array.length a)
 		|_ -> failwith "KO pas de bloc dans accu");
 	pc:=!pc+1
 
 let getvectitem () =
 	(match depile 1 with
-		|[Entier(n)] -> accu:= (match !accu with
-															|Bloc l -> List.nth l n
-															|_ -> failwith "KO pas de bloc dans accu")
-	| _ -> failwith "KO pas d'entier dans accu");
+		|[Entier n] -> (match !accu with
+											|Bloc a -> accu:=(Array.get a n)
+											|_ -> failwith "KO pas de bloc dans accu")
+	| _ -> failwith "KO pas d'entier dépilé");
 	pc:=!pc+1
 
 
-(*
+
 let setfield n =
-	let v = List.nth (depile 1) 0 in
+	let v = List.hd (depile 1) in
 	(match !accu with
-		|Bloc l -> accu:=Bloc(setnval v l n)
+		|Bloc a -> Array.set a n v
 		|_ -> failwith "KO pas de bloc dans accu");
 	pc:=!pc+1
 
-let setvectitem =
-	let n = List.nth (depile 1) 0 and v = List.nth (depile 1) 0
-*)
+let setvectitem () =
+	(match (depile 1) with
+		|[Entier n] -> (match !accu with
+											| Bloc a -> Array.set a n (List.hd (depile 1));accu:=Entier(0)
+											| _ -> failwith "KO pas de bloc dans accu")
+		|_ -> failwith "KO pas d'entier dépilé");
+	pc:=!pc+1
 
+let assign n =
+	let rec assign_aux i l =
+		match l with
+		|h::t -> if i=0 then !accu::t else h::(assign_aux (i-1) t)
+		|[]	-> failwith "Erreur index out of range"
+	in
+	stack:=(assign_aux n !stack);
+	pc:=!pc+1
 
 
 let main = (* parcourt de la liste avec pc sans réelle recursion  *)
+		print_string "debut du main";
 		prog := (passe !prog);
 		print_string "passe : \n";print_prog (passe !prog);print_newline();
 		print_string "au début : pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=";print_mlvalue !env;print_string " trap_sp="; print_int !trap_sp;print_newline ();
@@ -411,7 +416,18 @@ let main = (* parcourt de la liste avec pc sans réelle recursion  *)
 																			  getvectitem ();
 				  													    print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=";print_mlvalue !env;print_string " extra_args="; print_int !extra_args;print_newline ();
 	 																		  run prog
-
+				|{label;instr="SETFIELD";args} -> print_triplet courant;
+																			  setfield (int_of_string (List.hd args));
+				  													    print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=";print_mlvalue !env;print_string " extra_args="; print_int !extra_args;print_newline ();
+	 																		  run prog
+				|{label;instr="SETVECTITEM";_} -> print_triplet courant;
+																			  setvectitem ();
+				  													    print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=";print_mlvalue !env;print_string " extra_args="; print_int !extra_args;print_newline ();
+	 																		  run prog
+				|{label;instr="ASSIGN";args} -> print_triplet courant;
+																			  assign (int_of_string (List.hd args));
+				  													    print_string "\t-> pc=";print_int !pc;print_string " accu=";print_mlvalue !accu;print_string " stack=[";print_list_aux !stack;print_string "] env=";print_mlvalue !env;print_string " extra_args="; print_int !extra_args;print_newline ();
+	 																		  run prog
 				|{label;instr="STOP";_} -> print_triplet courant;
 																	 print_newline();
 																	 print_string "-------------RESULTAT-------------";print_newline();

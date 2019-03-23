@@ -51,7 +51,7 @@ let parse fichier =
 		let rec parse_rec () =
 			try
 				let line = input_line f in
-				  List.cons (scan line) (parse_rec ())
+				  (scan line)::(parse_rec ())
 			with End_of_file -> close_in f;[]
 		in parse_rec ()
 
@@ -59,6 +59,6 @@ let parse fichier =
 let rec print_prog list_triplet =
 	match list_triplet with
 		| [] -> ()
-		| h::t -> print_triplet h;
+		| h::t ->	print_triplet h;
 							print_string "\n";
 				  		print_prog t;;
