@@ -1,12 +1,12 @@
 CC=ocamlc
-MODULE=str.cma
-#https://zestedesavoir.com/billets/2081/la-compilation-en-ocaml-avec-ocamlc-et-ocamlopt/
+STRMODULE=str.cma
 
 all :
-	$(CC) $(MODULE) -c parser.ml #ajout du module Str pour les regexp
-	$(CC) $(MODULE) parser.cmo -o main_bis main_bis.ml
+	#$(CC) $(STRMODULE) -c parser.ml #ajout du module Str pour les regexp
+	#$(CC) $(STRMODULE) parser.cmo -o main_bis main_bis.ml
 	 #cat tests/appterm/fun_appterm.ml
 	 #./main tests/appterm/fun_appterm.txt
+	$(CC) -o main_bis $(STRMODULE) parser.ml main_bis.ml
 
 clean :
 	rm -rf *.cma
