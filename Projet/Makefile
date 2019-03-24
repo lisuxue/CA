@@ -1,15 +1,24 @@
 CC=ocamlc
-STRMODULE=str.cma
+MODULES=str.cma parser.ml minizam.ml
+MAIN=main_direct
+MAINDETAIL=main_detail
+NOAPPTERM=main_detail_no_appterm
 
-all :
-	#$(CC) $(STRMODULE) -c parser.ml #ajout du module Str pour les regexp
-	#$(CC) $(STRMODULE) parser.cmo -o main_bis main_bis.ml
-	 #cat tests/appterm/fun_appterm.ml
-	 #./main tests/appterm/fun_appterm.txt
-	$(CC) -o main_bis $(STRMODULE) parser.ml main_bis.ml
+all : direct
+
+direct :
+	$(CC) -o $(MAIN) $(MODULES) $(MAIN).ml
+
+detail :
+	$(CC) -o $(MAINDETAIL) $(MODULES) $(MAINDETAIL).ml
+
+no_appterm :
+		$(CC) -o $(NOAPPTERM) $(MODULES) $(NOAPPTERM).ml
 
 clean :
 	rm -rf *.cma
 	rm -rf *.cmi
 	rm -rf *.cmo
-	rm -rf main
+	rm -rf $(MAIN)
+	rm -rf $(MAINDETAIL)
+	rm -rf $(NOAPPTERM)
