@@ -16,23 +16,17 @@ let extra_args = ref 0
 let trap_sp = ref (-1)
 
 (* UTILITAIRES *)
-(*
-on choisit d'implémenter la pile avec List et pas Stack car dans l'instruction ACC i,
-il faut accéder à la i eme valeur de la pile, et avec Stack on peut pas
-le faire de manière simple.
-Même si le pop de Stack est très facile d'utilisation, on peut cependant
-simuler un pop avec une liste, en tout cas l'inconvénient de la liste
-est plus facile à contourner.
-*)
-(* record prend moins de place qu'un tuple de tuple, de plus plus facile d'utilisation*)
+(* val get_int : mlvalue -> int *)
 let get_int value =
 	match value with
 	| Entier i -> i
   | _ -> 0
 
+(* val int_of_bool : bool -> int *)
 let int_of_bool b =
 	if b then 1 else 0
 
+(* val depile : int -> mlvalue list *)
 let rec depile n =
 	match n with
 		|x when x < 0 -> failwith "Argument de depile négatif"
@@ -41,12 +35,14 @@ let rec depile n =
 			(stack:=(List.tl !stack);
 			e::(depile (n-1)))
 
+(* val get_pos_label : string -> Parser.triplet list -> int *)
 let rec get_pos_label label list_record =
 	match list_record with
 	| {label=Some x;_}::tl when x=label -> 0
 	| [] -> failwith "Le label demandé n'existe pas"
 	| hd::tl -> 1 + get_pos_label label tl
 
+(* val print_list_aux : mlvalue list -> unit *)
 let rec print_list_aux l =
 	(match l with
 	| [] -> ()
@@ -54,6 +50,7 @@ let rec print_list_aux l =
 							if tl==[] then print_list_aux tl
 												else print_string ";";print_list_aux tl)
 
+(* val print_mlvalue : mlvalue -> unit *)
 and print_mlvalue m =
 	match m with
 	| Entier v -> print_int v
@@ -61,6 +58,7 @@ and print_mlvalue m =
 	| Env(l) -> print_string"[";print_list_aux l;print_string"]"
 	| Bloc a -> let l = Array.to_list a in print_string "(";print_mlvalue (List.hd l);print_string ","; print_list_aux (List.tl l);print_string ")"
 
+(* val passe : Parser.triplet list -> Parser.triplet list *)
 let passe prog =
 	let res : triplet list ref = ref [] in
 		let rec aux prog=
@@ -81,10 +79,12 @@ let passe prog =
 		in aux prog;;
 
 (* OPERATIONS *)
+(* val const : mlvalue -> unit *)
 let const n =
 	accu := n;
 	pc := !pc+1
 
+(* val op_binaire : string -> unit *)
 let op_binaire op =
 	let stack_val = (get_int (List.hd !stack)) in
 		let accu_val = (get_int !accu) in
@@ -105,6 +105,7 @@ let op_binaire op =
 			 stack := List.tl !stack;
 			 pc:=!pc+1
 
+(* val op_unaire : string -> unit *)
 let op_unaire op =
 	let accu_val = (get_int !accu) in
 		(match op with
@@ -116,39 +117,47 @@ let op_unaire op =
 			| _ -> ());
 			pc:=!pc+1
 
+(* val prim : string -> unit *)
  let prim op =
 		match op with
 			|("+"|"-"|"/"|"*"|"or"|"and"|"<>"|"="|"<"|"<="|">"|">=") -> op_binaire op
 			|("not"|"print") -> op_unaire op
 			| _ -> ()
 
+(* val branch : string -> unit *)
 let branch lab =
 	let pos_label = get_pos_label lab !prog in
 		pc := pos_label
 
+(* val branchifnot : string -> unit *)
 let branchifnot lab =
 	match !accu with
 	|Entier(0) -> let pos_label = get_pos_label lab !prog in pc := pos_label
 	|_ -> pc := !pc+1
 
+(* val push : unit -> unit *)
 let push () =
 	stack := !accu::!stack;
 	pc := !pc+1
 
+(* val pop : unit -> unit *)
 let pop () =
 	stack := List.tl !stack;
 	pc := !pc+1
 
+(* val acc : int -> unit *)
 let acc i =
 	accu := List.nth !stack i;
 	pc := !pc+1
 
+(* val envacc : int -> unit *)
 let envacc i =
 	(match !env with
 		|Env(e)-> accu := List.nth e i;
 		| _ -> failwith "problème dans envacc");
 	pc := !pc+1
 
+(* val closure : string -> int -> unit *)
 let closure lab n =
 	if n > 0 then	stack := !accu::!stack;
 	let pos_label = get_pos_label lab !prog in
@@ -156,6 +165,7 @@ let closure lab n =
 			accu := Fermeture(pos_label,Env(val_depile));
 			pc := !pc+1
 
+(* val closure_rec : string -> int -> unit *)
 let closure_rec lab n =
 	if n > 0 then	stack := !accu::!stack;
 	let pos_label = get_pos_label lab !prog in
@@ -164,6 +174,7 @@ let closure_rec lab n =
 			pc := !pc+1;
 			stack := !accu::!stack
 
+(* val apply : int -> unit *)
 let apply n =
 	let args_depile = depile n in
 		let pile = args_depile@Entier(!extra_args)::Entier(!pc+1)::!env::[]@(!stack) in
@@ -174,6 +185,7 @@ let apply n =
 													 env := e)
 			|_ -> failwith "Pas de fermeture dans accu"
 
+(* val return : int -> unit *)
 let return n =
 	let _ = depile n in
 	if !extra_args = 0 then
@@ -192,14 +204,17 @@ let return n =
 
 		end
 
+(* val stop : unit -> 'a *)
 let stop () = exit 0
 
+(* val offset_closure : unit -> unit *)
 let offset_closure () =
 	(match !env with
 		|Env(e) -> accu:=Fermeture(get_int (List.hd e),Env(e));
 		| _ -> failwith "problème dans offset_closure");
 	pc := !pc + 1
 
+(* val grab : int -> unit *)
 let grab n =
 	if !extra_args >= n then (extra_args:=!extra_args-n; pc:=!pc+1)
 	else
@@ -212,6 +227,7 @@ let grab n =
 			env := List.nth dep_reste 2;
 		end
 
+(* val restart : unit -> unit *)
 let restart () =
 	(match !env with
 		|Env(e) -> (let n = List.length e in
@@ -221,6 +237,7 @@ let restart () =
 		|_ -> failwith "problème dans restart");
 		pc := !pc+1
 
+(* val appterm : int -> int -> unit *)
 let appterm n m =
 	let args_depile = depile n in
 	let _ =	depile (m-n) in
@@ -231,11 +248,13 @@ let appterm n m =
 			|_ -> failwith "Pas de fermeture dans accu");
 		extra_args:=!extra_args + (n-1)
 
+(* val pushtrap : string -> unit *)
 let pushtrap lab =
 	stack:=Entier(get_pos_label lab !prog)::Entier(!trap_sp)::!env::[]@Entier(!extra_args)::!stack;
 	trap_sp:= List.length !stack;
 	pc:=!pc+1
 
+(* val poptrap : unit -> unit *)
 let poptrap () =
 	pc:=!pc+1;
 	let args_depile = depile 4 in
@@ -243,7 +262,7 @@ let poptrap () =
 		| Entier(res) -> trap_sp:=res;
 		| _ -> failwith "pas normal"
 
-
+(* val raisee : unit -> unit *)
 let raisee () =
 	if !trap_sp=(-1)
 	then
@@ -261,24 +280,28 @@ let raisee () =
 			env := Env((List.nth args_depile 2)::[]);
 			extra_args := get_int (List.nth args_depile 3)
 
+(* val makeblock : int -> unit *)
 let makeblock n =
 	let fst_content = Array.make 1 !accu in
 		let depile_array = Array.of_list (depile (n-1)) in
 			accu:=Bloc(Array.append fst_content depile_array);
 	pc:=!pc+1
 
+(* val getfield : int -> unit *)
 let getfield n =
 	(match !accu with
 		|Bloc a -> accu:=Array.get a n
 		|_ -> failwith "KO pas de bloc dans accu");
 	pc:=!pc+1
 
+(* val vectlength : unit -> unit *)
 let vectlength () =
 	(match !accu with
 		|Bloc a -> accu:=Entier(Array.length a)
 		|_ -> failwith "KO pas de bloc dans accu");
 	pc:=!pc+1
 
+(* val getvectitem : unit -> unit *)
 let getvectitem () =
 	(match depile 1 with
 		|[Entier n] -> (match !accu with
@@ -287,6 +310,7 @@ let getvectitem () =
 	| _ -> failwith "KO pas d'entier dépilé");
 	pc:=!pc+1
 
+(* val setfield : int -> unit *)
 let setfield n =
 	let v = List.hd (depile 1) in
 	(match !accu with
@@ -294,6 +318,7 @@ let setfield n =
 		|_ -> failwith "KO pas de bloc dans accu");
 	pc:=!pc+1
 
+(* val setvectitem : unit -> unit *)
 let setvectitem () =
 	(match (depile 1) with
 		|[Entier n] -> (match !accu with
@@ -302,6 +327,7 @@ let setvectitem () =
 		|_ -> failwith "KO pas d'entier dépilé");
 	pc:=!pc+1
 
+(* val assign : int -> unit *)
 let assign n =
 	let rec assign_aux i l =
 		match l with

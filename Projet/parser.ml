@@ -4,20 +4,7 @@ type triplet = {
 	args:string list
 }
 
-(*
-permet de matcher directement sur les noms des champs par exemple :
- let t = { label="L1";instr="CONST";args=[]};;
-
- match t with
-| {label="L2";_} -> print_string "Bonjour"
-| {label="L3";_} -> print_string "C'est ca"
-| {instr="CONST";_} -> print_string "c'est celui la mtn";;
-
-resultat : c'est celui la mtn- : unit = ()
-*)
-let list_triplet = []
-
-(* val print_triplet : string list -> unit*)
+(* val print_triplet : string list -> string*)
 let rec print_list_string =
 	function
 	[] -> "[]"
@@ -29,7 +16,7 @@ let print_triplet {label;instr;args} =
 		|Some l -> Printf.printf "{label:\"%s\" , instr:\"%s\" , args : %s}" l instr (print_list_string args);print_string "\t"
 		|None -> Printf.printf "{label:\" \" , instr:\"%s\" , args : %s}" instr (print_list_string args);print_string "\t"
 
-(* val make_record : string list -> triplet retourne le triplet correspondant à la ligne donnée*)
+(* val make_record : string list -> triplet*)
 let make_record l =
 		let fst = List.hd l in
 			if String.contains fst ':' then
@@ -39,13 +26,13 @@ let make_record l =
 			else
   	    		{label=None; instr=List.hd l; args=List.tl l}
 
-(* val scan : in_channel -> triplet : enlève les séparateurs de la ligne  *)
+(* val scan : string -> triplet*)
 let scan line =
 	let delim = Str.regexp "[, \t]+" in
 		 let liste = Str.split delim line in
 		 	  make_record liste
 
-(* val parse : in_channel -> triplet list *)
+(* val parse : string -> triplet list*)
 let parse fichier =
 	let f = open_in fichier in
 		let rec parse_rec () =
@@ -55,7 +42,7 @@ let parse fichier =
 			with End_of_file -> close_in f;[]
 		in parse_rec ()
 
-(* val print_prog : triplet list -> () *)
+(* val print_prog : triplet list -> unit*)
 let rec print_prog list_triplet =
 	match list_triplet with
 		| [] -> ()

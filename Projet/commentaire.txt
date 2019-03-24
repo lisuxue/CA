@@ -1,0 +1,26 @@
+parser :
+
+(*
+permet de matcher directement sur les noms des champs par exemple :
+ let t = { label="L1";instr="CONST";args=[]};;
+
+ match t with
+| {label="L2";_} -> print_string "Bonjour"
+| {label="L3";_} -> print_string "C'est ca"
+| {instr="CONST";_} -> print_string "c'est celui la mtn";;
+
+resultat : c'est celui la mtn- : unit = ()
+*)
+
+
+minizam :
+
+(*
+on choisit d'implémenter la pile avec List et pas Stack car dans l'instruction ACC i,
+il faut accéder à la i eme valeur de la pile, et avec Stack on peut pas
+le faire de manière simple.
+Même si le pop de Stack est très facile d'utilisation, on peut cependant
+simuler un pop avec une liste, en tout cas l'inconvénient de la liste
+est plus facile à contourner.
+*)
+(* record prend moins de place qu'un tuple de tuple, de plus plus facile d'utilisation*)
