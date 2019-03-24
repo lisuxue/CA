@@ -1,9 +1,15 @@
+(***********************
+			INSTRUCTIONS
+************************)
 type triplet = {
 	label:string option;
 	instr:string;
 	args:string list
 }
 
+(***********************
+				AFFICHAGES
+************************)
 (* val print_triplet : string list -> string*)
 let rec print_list_string =
 	function
@@ -16,6 +22,17 @@ let print_triplet {label;instr;args} =
 		|Some l -> Printf.printf "{label:\"%s\" , instr:\"%s\" , args : %s}" l instr (print_list_string args);print_string "\t"
 		|None -> Printf.printf "{label:\" \" , instr:\"%s\" , args : %s}" instr (print_list_string args);print_string "\t"
 
+(* val print_prog : triplet list -> unit*)
+let rec print_prog list_triplet =
+	match list_triplet with
+		|[] -> ()
+		| h::t ->	print_triplet h;
+							print_string "\n";
+				  		print_prog t
+
+(***********************
+				PARSING
+************************)
 (* val make_record : string list -> triplet*)
 let make_record l =
 		let fst = List.hd l in
@@ -41,11 +58,3 @@ let parse fichier =
 				  (scan line)::(parse_rec ())
 			with End_of_file -> close_in f;[]
 		in parse_rec ()
-
-(* val print_prog : triplet list -> unit*)
-let rec print_prog list_triplet =
-	match list_triplet with
-		| [] -> ()
-		| h::t ->	print_triplet h;
-							print_string "\n";
-				  		print_prog t;;

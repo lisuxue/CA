@@ -1,12 +1,17 @@
 open Parser
 open Char
 
+(***********************
+				MLVALUES
+************************)
 type mlvalue = Entier of int
 						 | Fermeture of int * mlvalue
 						 | Env of mlvalue list
 						 | Bloc of mlvalue array
 
-(*registres de la Mini-ZAM*)
+(************************
+		REGISTRES Mini-ZAM
+*************************)
 let prog : triplet list ref = ref (parse Sys.argv.(1))(*liste des triplet d'instructions type = triplet list*)
 let stack : mlvalue list ref = ref []  (*pile Last In First Out*)
 let env : mlvalue ref = ref (Env([])) (*environnement courant*)
@@ -15,7 +20,9 @@ let accu = ref (Entier 0) (*registre temporaire de type mlvalue*)
 let extra_args = ref 0
 let trap_sp = ref (-1)
 
-(* UTILITAIRES *)
+(*************************
+			 AUXILIAIRES
+**************************)
 (* val get_int : mlvalue -> int *)
 let get_int value =
 	match value with
@@ -76,9 +83,12 @@ let passe prog =
 																						aux tl)
 			)
 
-		in aux prog;;
+		in aux prog
 
-(* OPERATIONS *)
+
+(**********************
+ 			OPERATIONS
+***********************)
 (* val const : mlvalue -> unit *)
 let const n =
 	accu := n;
