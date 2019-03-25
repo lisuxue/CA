@@ -1,0 +1,13 @@
+\select@language {french}
+\contentsline {section}{\numberline {1}Introduction}{2}
+\contentsline {section}{\numberline {2}Structure g\'en\'erale du projet}{2}
+\contentsline {subsection}{\numberline {2.1}parser.ml}{2}
+\contentsline {subsection}{\numberline {2.2}minizam.ml}{2}
+\contentsline {subsection}{\numberline {2.3}main\_direct.ml \& main\_trace.ml}{2}
+\contentsline {subsection}{\numberline {2.4}makefile \& readme.md}{2}
+\contentsline {section}{\numberline {3}Choix d'impl\'ementation (en particulier la repr\'esentation des valeurs fonctionnelles)}{3}
+\contentsline {subsection}{\numberline {3.1}Valeurs}{3}
+\contentsline {subsection}{\numberline {3.2}Registres}{3}
+\contentsline {subsection}{\numberline {3.3}Instructions}{4}
+\contentsline {section}{\numberline {4}Optimisation APPTERM : comparaison de la pile}{5}
+\contentsline {section}{\numberline {5}Nouveaux jeux d'essai }{5}

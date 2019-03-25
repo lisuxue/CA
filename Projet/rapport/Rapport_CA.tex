@@ -1,11 +1,18 @@
-\documentclass[11pt]{report}
+\documentclass[11pt]{article}
 
 \usepackage[latin1]{inputenc}
 \usepackage[T1]{fontenc} 
 \usepackage[francais]{babel}  
-\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage[top=3cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
 \usepackage{graphicx}
+\usepackage{listings}
+\usepackage{caption}
 
+\lstset{
+	frame=single,
+	basicstyle=\ttfamily\scriptsize,
+	numbers=left
+	}
 
 \begin{document}
  
@@ -35,14 +42,9 @@
 %----------------------------------------------------------------------------------------
 %	AUTHOR SECTION
 %----------------------------------------------------------------------------------------
-
-
 \emph{Étudiants:}\\
 Suxue \textsc{Li} \\% Your name
 Julien \textsc{Xavier}\\ % Your name
-
-
-
 %----------------------------------------------------------------------------------------
 %	DATE SECTION
 %----------------------------------------------------------------------------------------
@@ -52,14 +54,98 @@ Julien \textsc{Xavier}\\ % Your name
 {\large \today}\\[5cm] % Date, change the \today to a set date if you want to be precise
 
 
-\vfill % Fill the rest of the page with whitespace
-
 \end{titlepage}
 
-\section*{Introduction}
-\section*{Structure générale du projet}
-\section*{Choix d'implémentation (en particulier la représentation des valeurs fonctionnelles)}
-\section*{Nouveaux jeux d?essai }
+\tableofcontents
+\newpage
+
+\setlength\parindent{0pt}
+\section{Introduction}
+
+La ZAM (ZINC Abstract Machine) est la machine virtuelle du langage Ocaml. C'est une machine à pile, qui interprète du bytecode Ocaml contenant 149 instructions différentes. Ce projet a pour but principal de réaliser une mini-ZAM, c'est à dire un tel interprète pour  un langage ML restreint au noyau fonctionnel, ce qui donne environ une vingtaine d'instructions à prendre en compte. Puis la mini-ZAM est étendue par quelques traits de fonctionnalités en plus, comme l'optimisation, la gestion des exceptions et l'usage de structures
+de données récursives potentiellement mutables.\\
+Nous avons fait le choix d'implémenter notre mini-ZAM en Ocaml. \\
+Ce rapport présente d'abord la structure générale du projet, puis nos choix d'implémentation, enfin quelques nouveaux jeux de test.
+
+
+\section{Structure générale du projet}
+\subsection{parser.ml}
+Tout d'abord, pour interpréter les fichiers bytecode fournis, nous avons réalisé un petit programme de "parsing" dans le fichier \textit{parser.ml}, ce fichier contient en outre des fonctions permettant d'afficher le programme retenu en mémoire. L'étape de "parsing" permet de lire le fichier bytecode donné en entrée, puis de stocker correctement le programme en mémoire. 
+\subsection{minizam.ml}
+Le code de la mini-ZAM à proprement dit est dans le fichier \textit{minizam.ml}. C'est dans ce fichier là que nous avons les valeurs, les registres, et les instructions de la machine. Il contient donc une partie où l'on définit le type \textit{mlvalue}, une partie avec les définitions des différents registres, et une dernière grosse partie où toutes les instructions sont implémentées, avec quelques petites fonctions auxiliaires engendrées.
+\subsection{main\_direct.ml \& main\_trace.ml}
+Ensuite, pour exécuter un programme bytecode sur la machine, nous avons écrit deux versions dans deux fichiers distincts : {\em main\_direct.ml}, et {\em main\_trace.ml}. Le premier permet d'obtenir simplement une sortie standard et un valeur de retour, tandis que le deuxième affiche l'état des registres de la mini-ZAM après chaque instruction évaluée, la trace de l'exécution "corrompt" l'affichage réel du programme, par contre la valeur de retour sera toujours affichée à la fin.
+\subsection{makefile \& readme.md}
+Nous avons également écrit un {\em makefile} contenant plusieurs cibles, permettant de compiler les différents fichiers, pour créer des exécutables. Vous trouverez plus de précision concernant l'utilisation du makefile dans le fichier {\em readme.md} qui vous décrit plus en détail les différentes cibles.
+
+
+\section{Choix d'implémentation (en particulier la représentation des valeurs fonctionnelles)}
+
+\subsection{Valeurs}
+La mini-ZAM manipule des valeurs d'un type {\em mlvalue} que nous avons choisi de définir ainsi :
+\lstinputlisting[firstline=7, lastline=10]{../minizam.ml}
+
+Le constructeur Entier permet de construire des valeurs représentant les valeurs immédiates entières, mais également les booléens, et (). \\
+
+Le constructeur Fermeture prend en argument un entier et une valeur de type {\em mlvalue} construite avec Env, pour respectivement le pointeur de code ainsi que l'environnement d'exécution de la fermeture, qui est dont une mlvalue Env.\\
+
+Le constructeur Env prend une liste de {\em mlvalue} constituant l'environnement à représenter. Il n'existait pas au début du projet, il a été introduit lors du développement. Nous n'avions pas de constructeur pour l'environnement, il était représenté par une simple liste de {\em mlvalue}. \\
+
+Un premier problème a été rencontré lors de l'implémentation de l'instruction APPLY, lorsque qu'un environnement vide devait être empilé dans la pile ({\em mlvalue list}). La concaténation d'une liste vide avec une autre liste faisait disparaitre la liste vide ce qui faussait l'état de la pile. Pour garder cet environnement dans la pile, nous avons donc pensé à ajouter un constructeur constant None dans la définition du type mlvalue. Une liste avec None a l'intérieur représentait donc un environnement vide. Quelques premiers tests qui ne manipulaient pas l'environnement fonctionnaient avec cette version mais un deuxième problème s'est présenté assez rapidement. Nous pensions de l'environnement comme étant un tout, c'est-à-dire une valeur, et que lorsqu'on l'empilait dans la pile parmi d'autres éléments, cet environnement serait gardé comme un tout. Hors, nous avons oublié que la concaténation aplatit les listes, la liste représentant l'environnement n'était plus une liste, mais juste une suite de mlvalue parmi d'autres dans la pile. Il fallait donc trouver un moyen d'envelopper l'environnement, pour permettre de la stocker dans la pile. Etant donné que la pile ne prend que des mlvalue, il a été évident d'ajouter dans le type un constructeur Env pour envelopper la liste de mlvalue pour l'environnement.
+
+Enfin le constructeur Bloc a été ajouté pour l'extension sur les blocs. il prend un {\em mlvalue array} en argument. Nous l'avions d'abord implémenté avec une liste, mais les instructions SETFIELD, SETVECTITEM et ASSIGN nous ont très vite stoppé et nous a contraint à changer notre implémentation pour l'array compte tenu du caractère mutable des blocs et des effets de bord que cela implique. \\
+
+
+\subsection{Registres}
+La mini-ZAM contient au total 7 registres, ils sont définis comme variables globales dans {\em minizam.ml}.\\
+
+\lstinputlisting[firstline=15, lastline=21]{../minizam.ml}
+
+
+En Ocaml, il n'y a pas de déclaration de variable, lorsqu'on introduit une variable, on doit lui affecter directement une valeur pour que le compilateur infère le type. Pour que la compilation se passe correctement, nous devons donc lui préciser le type des références. Pour le registre stack par exemple, au début, on lui affectait simplement  une ref sur une liste vide, le compilateur inférait le type {\em '\_weak1 list ref}, ce qui n'était pas bon. C'est pourquoi nous avons indiqué clairement le type des variables telles que prog, stack et env.\\
+
+Le registre prog permet de stocker le programme à exécuter. Nous avons choisi de représenter chaque instruction par un enregistrement. Cela prend moins de place en mémoire par rapport a un n-uplet. De plus on peut manipuler les champs directement par leur nom, ce qui est rapide et plus facile. Nous avons donc déclaré le type de cet enregistrement dans le fichier {\em parser.ml} sous le nom de {\em triplet}. Prog est une liste de triplets. Un triplet est composé d'un champs {\em label}, {\em instr} et {\em args}. Le label est de type {\em string option} car il peut ne pas y avoir de label. L'instruction est de type {\em string}, juste pour contenir le nom de celui ci. Et enfin, les arguments sont stockés dans une liste de string, une liste vide signifie qu'il n'y a pas d'argument dans l'instruction. Un programme est "parsé", puis stocké dans prog, on peut ensuite passer la passe dessus, qui a la possibilité de modifier des instructions, c'est pourquoi prog est une référence sur une liste de triplet.\\
+
+Le registre stack est une référence sur une liste de mlvalue, la pile doit être modifiable. Il existe un module Stack en Ocaml, mais nous avons préféré utiliser le module List. Les deux modules présentent chacun ses avantages et inconvénient, mais les fonctions de List répondaient mieux à nos besoins, et le seul inconvénient qu'il présentait était le manque de la fonction pop. Nous l'avons donc implémenté à la main dans la fonction {\em depile n} qui dépile directement de la stack n éléments, et retourne ces n mlvalue dans une liste.\\
+
+Grâce à l'introduction du constructeur Env, le registre env est donc simplement une référence vers une mlvalue, ce qui nous facilite beaucoup de chose, mais cela induit une utilisation intense du motif de filtrage, pour récupérer la valeur d'un environnement.
+
+Le registre accu est une référence sur une valeur de type mlvalue, il est initialisé au début à Entier(0).\\
+Enfin, les registres restant : pc, extra\_args, et trap\_sp sont de simples références sur un entier.
+
+\subsection{Instructions}
+Au niveau de l'implémentation des instructions, nous n'avons eu spécialement de soucis. Comme vous pourrez le constater dans les fichiers de code, nous nous sommes beaucoup appuyés sur le motif de filtrage étant donné les différents constructeurs pour le type mlvalue.
+L'implémentation des instructions nous a permit de détecter quelques erreurs concernant nos choix pour le type de mlvalue et des registres.
+
+\section{Optimisation APPTERM : comparaison de la pile}
+Pour les fichiers contenant la suite d'instructions APPLY n; RETURN m-n, nous avons comparé la taille maximum de la pile sans et avec la passe qui remplace cette suite par l'instruction APPTERM n,m. On a notamment fait une version du test {\em fun\_appterm.txt} en remettant la suite APPLY et RETURN au lieu des APPTERM, le fichier se trouve dans le dossier jeu\_de\_test.
+Voici le tableau qui présente les différentes tailles maximales de la pile :\\
+\begin{center}
+\begin{tabular}{|c|c|c|}
+
+\hline
+\textbf{Fichier test} & \textbf{Taille de pile SANS passe} & \textbf{Taille de pile AVEC passe} \\
+\hline
+appterm/facto\_tailrec.txt & 112 & 8 \\
+\hline
+jeu\_de\_test/fun\_appterm.txt & 948 & 8 \\
+\hline
+block\_values/insertion\_sort.txt & 34 & 30  \\
+\hline
+block\_values/liste\_iter & 50 & 19  \\
+\hline
+n-ary\_funs/grab2.txt & 12 & 8 \\
+\hline
+n-ary\_funs/grab4.txt & 11 & 8 \\
+\hline
+unary\_funs/fun4-nooptim.txt & 13 & 7  \\
+\hline
+
+\end{tabular}
+\captionof{table}{Taille maximale de la pile sans et avec la passe appterm selon différents tests.}
+\end{center}
+
+\section{Nouveaux jeux d'essai }
 
 
 

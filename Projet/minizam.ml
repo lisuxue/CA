@@ -5,33 +5,68 @@ open Char
 				MLVALUES
 ************************)
 type mlvalue = Entier of int
-						 | Fermeture of int * mlvalue
-						 | Env of mlvalue list
-						 | Bloc of mlvalue array
+	| Fermeture of int * mlvalue
+	| Env of mlvalue list
+	| Bloc of mlvalue array
 
 (************************
 		REGISTRES Mini-ZAM
 *************************)
-let prog : triplet list ref = ref (parse Sys.argv.(1))(*liste des triplet d'instructions type = triplet list*)
-let stack : mlvalue list ref = ref []  (*pile Last In First Out*)
-let env : mlvalue ref = ref (Env([])) (*environnement courant*)
-let pc = ref 0 (*pointeur sur la ligne courante*)
-let accu = ref (Entier 0) (*registre temporaire de type mlvalue*)
+let prog : triplet list ref = ref (parse Sys.argv.(1))
+let stack : mlvalue list ref = ref []
+let env : mlvalue ref = ref (Env([]))
+let pc = ref 0
+let accu = ref (Entier 0)
 let extra_args = ref 0
 let trap_sp = ref (-1)
 
 (*************************
 			 AUXILIAIRES
 **************************)
+
 (* val get_int : mlvalue -> int *)
 let get_int value =
 	match value with
 	| Entier i -> i
   | _ -> 0
 
-(* val int_of_bool : bool -> int *)
+	(* val int_of_bool : bool -> int *)
 let int_of_bool b =
 	if b then 1 else 0
+
+
+(* val op_binaire : string -> unit *)
+let op_binaire op =
+	let stack_val = (get_int (List.hd !stack)) in
+		let accu_val = (get_int !accu) in
+			 (match op with
+				|"+" -> accu := Entier (accu_val  + stack_val)
+				|"-" -> accu := Entier (accu_val - stack_val)
+				|"/" -> accu := Entier (accu_val / stack_val)
+				|"*" -> accu := Entier (accu_val * stack_val)
+				|"or" -> accu := Entier (if (accu_val==1 || stack_val==1) then 1 else 0)
+				|"and" -> accu := Entier (if (accu_val==1 && stack_val==1) then 1 else 0)
+				|"<>" -> accu := Entier (int_of_bool (accu_val <> stack_val))
+				|"=" -> accu := Entier (int_of_bool (accu_val = stack_val))
+				|"<" -> accu := Entier (int_of_bool (accu_val < stack_val))
+				|"<=" -> accu := Entier (int_of_bool (accu_val <= stack_val))
+				|">" -> accu := Entier (int_of_bool (accu_val >= stack_val))
+				|">=" -> accu := Entier (int_of_bool (accu_val >= stack_val))
+				| _ -> ());
+			 stack := List.tl !stack;
+			 pc:=!pc+1
+
+(* val op_unaire : string -> unit *)
+let op_unaire op =
+	let accu_val = (get_int !accu) in
+		(match op with
+			|"not" -> (match accu_val with
+					         | 0 -> accu := Entier 1
+					         | 1 -> accu := Entier 0
+					         | _ -> ())
+			|"print" -> print_char (chr accu_val) ; accu := Entier 0
+			| _ -> ());
+			pc:=!pc+1
 
 (* val depile : int -> mlvalue list *)
 let rec depile n =
@@ -94,38 +129,7 @@ let const n =
 	accu := n;
 	pc := !pc+1
 
-(* val op_binaire : string -> unit *)
-let op_binaire op =
-	let stack_val = (get_int (List.hd !stack)) in
-		let accu_val = (get_int !accu) in
-			 (match op with
-				|"+" -> accu := Entier (accu_val  + stack_val)
-				|"-" -> accu := Entier (accu_val - stack_val)
-				|"/" -> accu := Entier (accu_val / stack_val)
-				|"*" -> accu := Entier (accu_val * stack_val)
-				|"or" -> accu := Entier (if (accu_val==1 || stack_val==1) then 1 else 0)
-				|"and" -> accu := Entier (if (accu_val==1 && stack_val==1) then 1 else 0)
-				|"<>" -> accu := Entier (int_of_bool (accu_val <> stack_val))
-				|"=" -> accu := Entier (int_of_bool (accu_val = stack_val))
-				|"<" -> accu := Entier (int_of_bool (accu_val < stack_val))
-				|"<=" -> accu := Entier (int_of_bool (accu_val <= stack_val))
-				|">" -> accu := Entier (int_of_bool (accu_val >= stack_val))
-				|">=" -> accu := Entier (int_of_bool (accu_val >= stack_val))
-				| _ -> ());
-			 stack := List.tl !stack;
-			 pc:=!pc+1
 
-(* val op_unaire : string -> unit *)
-let op_unaire op =
-	let accu_val = (get_int !accu) in
-		(match op with
-			|"not" -> (match accu_val with
-					         | 0 -> accu := Entier 1
-					         | 1 -> accu := Entier 0
-					         | _ -> ())
-			|"print" -> print_char (chr accu_val) ; accu := Entier 0
-			| _ -> ());
-			pc:=!pc+1
 
 (* val prim : string -> unit *)
  let prim op =
