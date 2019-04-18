@@ -283,7 +283,7 @@ void Basic_block::link_instructions(){
    while(current != _end){
    
       while(!next->isInst()){
-	 next=next->get_next();
+	 
 	 if(next==_end){
 	    if(next->isInst())
 	       break;
@@ -293,6 +293,7 @@ void Basic_block::link_instructions(){
 	       return;
 	    }
 	 }
+	 next=next->get_next();
       }
       
       i2 = getInst(next);
@@ -359,7 +360,26 @@ void Basic_block::comput_pred_succ_dep(){
    if (dep_done) return;
   
    /* A REMPLIR */
-
+	for (int i=0 ; i<get_nb_inst(); i++){
+		Instruction* pred = get_instruction_at_index(i);
+		for(int j=i+1; j<get_nb_inst(); j++){
+		 	Instruction* succ = get_instruction_at_index(j);//utiliser WAR1 et WAR2 et bool pour waw/
+			if(!pred->is_dep_WAW(succ)){
+				if(!pred->is_dep_WAR(succ)){
+					if(pred->is_dep_RAW(succ)){
+						add_dep_link(pred,succ,t_Dep::RAW);
+					}
+				}else{
+					add_dep_link(pred,succ,t_Dep::WAR);
+				}
+			}else{
+				add_dep_link(pred,succ,t_Dep::WAW);
+			}
+			if(pred->is_dep_MEM(succ)){
+				add_dep_link(pred,succ,t_Dep::MEMDEP);
+			}
+		}
+	}
  
 
    // FIN A REMPLIR

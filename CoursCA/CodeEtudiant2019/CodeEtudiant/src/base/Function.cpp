@@ -282,15 +282,18 @@ void Function::comput_succ_pred_BB(){
     Instruction* branch = (Instruction*)(bb->get_branch());
     if (branch == nullptr){
     	succ = get_BB(bb->get_index()+1);
-    	bb->set_link_succ_pred(succ);
+    	if (succ)
+    		bb->set_link_succ_pred(succ);	
     }else{
 		if (branch->is_call()){
 			succ = get_BB(bb->get_index()+1);
-			bb->set_link_succ_pred(succ);
+			if (succ)
+				bb->set_link_succ_pred(succ);
 		}else{
 			if(branch->is_cond_branch()){
 				succ = get_BB(bb->get_index()+1);
-		 	    bb->set_link_succ_pred(succ);
+				if (succ)
+		 	  	  bb->set_link_succ_pred(succ);
 		 	    lab = branch->get_op_label();
 				bb->set_link_succ_pred(find_label_BB(lab));
 			}else{
@@ -319,9 +322,47 @@ void Function::compute_dom(){
    // on peut récupérer les BB de la fonction avec la méthode get_BB(num du BB) pour tous les numéros de BB entre 0 et nbBB-1.
 
   list<Basic_block*> workinglist; // liste de travail  
-  //bool change = true;  // pour itérer tant que pas de point fixe
+  bool change = true;  // pour itérer tant que pas de point fixe
  
   /* A REMPLIR */
+  for(int i = 0;i< nbr_BB();i++){ // la racine n'a pas de dominant
+  	get_BB(0)-> Domin[i] = false;
+  }
+  workinglist.push_back(get_BB(0));
+
+  do {
+  	change = false;
+  	Basic_block* n = workinglist.front();
+  	workinglist.pop_front();
+  	if (n != get_BB(0)){ // la racine n'a pas de predecesseur
+	  	vector<bool> t (nbr_BB(),true); //T:=N
+	  	for(int i = 0;i<(n->get_nb_pred());i++){
+	  		for(int j = 0;j<nbr_BB();j++){
+	  			if (n->get_predecessor(i)->Domin[j] == true && t[j]==true) {}
+	  			else {
+	  				t[j]=false;
+	  			}  				
+	  		}
+	  	}
+	  	t[n->get_index()]=true;
+	  	for(int i = 0;i<(nbr_BB());i++){
+	  		if (t[i]!=n->Domin[i]) {
+	  			n->Domin = t;
+	  			change = true;
+	  			break;
+	  		}
+	  	}
+  	}else{
+  		n->Domin[0] = true;
+  		change = true;
+  	}
+  	if (change){
+  		for(int i=0; i<(n->get_nb_succ());i++){
+  			workinglist.push_back(n->get_successor(i));
+  		}
+  	}
+  
+  } while (!workinglist.empty());
  
 
   // affichage du resultat
@@ -348,9 +389,17 @@ void Function::compute_loops(){
   if (!dom_computed)
     compute_dom();
 
+	for (auto bb : _myBB){
+		for (int j=0;j<bb->get_nb_succ();j++){
+			if (bb->Domin[bb->get_successor(j)->get_index()] == true) {
+  			 Loop *l = new Loop(bb->get_successor(j),bb);
+				 l->compute_in_loop_BB();
+				_myLoop.push_back(l);;
+			}
+		}
+	}
 
   /* A REMPLIR */
-
   return;
 }
 
