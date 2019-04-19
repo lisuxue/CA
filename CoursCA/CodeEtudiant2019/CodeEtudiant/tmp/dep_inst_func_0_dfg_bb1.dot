@@ -1,0 +1,5 @@
+digraph G1 {
+node [shape = ellipse];
+i1 [label = " delayed slot : add $0,$0,$0"] ;
+i0 ->  i1 [style = bold, dir= none, fontcolor = blue, color = blue, label= "delayed_slot"];
+i0 [label = "j $l6"] ;

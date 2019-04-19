@@ -360,27 +360,55 @@ void Basic_block::comput_pred_succ_dep(){
    if (dep_done) return;
   
    /* A REMPLIR */
-	for (int i=0 ; i<get_nb_inst(); i++){
-		Instruction* pred = get_instruction_at_index(i);
-		for(int j=i+1; j<get_nb_inst(); j++){
-		 	Instruction* succ = get_instruction_at_index(j);//utiliser WAR1 et WAR2 et bool pour waw/
-			if(!pred->is_dep_WAW(succ)){
-				if(!pred->is_dep_WAR(succ)){
-					if(pred->is_dep_RAW(succ)){
-						add_dep_link(pred,succ,t_Dep::RAW);
-					}
-				}else{
-					add_dep_link(pred,succ,t_Dep::WAR);
-				}
-			}else{
+   for(int i = 0;i<get_nb_inst(); i++){
+   	Instruction* pred = get_instruction_at_index(i);
+   	bool has_waw = false;
+  	bool has_war1 = false;
+   	bool has_war2 = false;
+   	for(int j=i+1; j<get_nb_inst(); j++){
+		Instruction* succ = get_instruction_at_index(j);
+		if(!has_waw){//tant qu'on ne croise pas de WAW on continue
+			if(pred->is_dep_WAW(succ)){
 				add_dep_link(pred,succ,t_Dep::WAW);
+				has_waw = true;			
+			}
+			if(!has_war1){
+				if(pred->is_dep_WAR1(succ)){
+					add_dep_link(pred,succ,t_Dep::WAR);
+					has_war1 = true;			
+				}		
+				
+			}
+			if(!has_war2){
+				if(pred->is_dep_WAR2(succ)){
+				add_dep_link(pred,succ,t_Dep::WAR);
+				has_war2 = true;			
+				}
 			}
 			if(pred->is_dep_MEM(succ)){
-				add_dep_link(pred,succ,t_Dep::MEMDEP);
+				add_dep_link(pred,succ,t_Dep::MEMDEP);	
 			}
+			if(pred->is_dep_RAW(succ)){
+				add_dep_link(pred,succ,t_Dep::RAW);	
+	 		}
+		}else{//on arrete et on passe à l'instr suivante
+			break;
+		}
+	} 
+   }
+   //ajout des dependances de controle instructions sans successeur sauf si c'est un delayed slot 
+   for(int i = 0;i<get_nb_inst(); i++){
+      	Instruction* pred = get_instruction_at_index(i);
+		for(int j = i+1;j<get_nb_inst(); j++){
+			Instruction* succ = get_instruction_at_index(j);
+			if(!is_delayed_slot(pred) && !pred->is_branch()){
+				if(pred->get_nb_succ() == 0 && succ->is_branch()){
+					add_dep_link(pred,succ,t_Dep::CONTROL);
+				}
+			}	
+		
 		}
 	}
- 
 
    // FIN A REMPLIR
 
@@ -433,9 +461,30 @@ int Basic_block::nb_cycles(){
    Instruction *ic=get_first_instruction();
    int exect = 0;  
    while(ic){   
-
      // A REMPLIR 
-  
+   	if(ic->get_nb_pred() == 0){
+   			exect = exect + 1;
+   			inst_cycle[ic->get_index()] = exect;
+   	}else{
+   		exect = exect + 1;
+   		int max = 0;
+	   	for(int i =0;i<(ic->get_nb_pred());i++){
+	   		Instruction* pred_dep = ic->get_pred_dep(i)->inst;
+	   		int cycle_pred = inst_cycle[pred_dep->get_index()];
+	   		if (cycle_pred > max) max = cycle_pred + delai(;
+	   		//voir chaque pred delai et aussi l'instr pred
+	   		
+	   		
+	   		
+	   		
+	   		if(ic->get_pred_dep(i)->type == t_Dep::RAW){
+	   			t_Inst type_ic = ic->get_type();
+	   			t_Inst type_ic_pred = ic->get_pred_dep(i)->get_type();
+	   			exect = exect + delai(type_ic,type_ic_pred);
+	   		}
+	   		
+	   	}
+   	}
 
 
      

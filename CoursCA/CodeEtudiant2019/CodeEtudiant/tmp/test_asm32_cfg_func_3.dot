@@ -1,0 +1,11 @@
+digraph G1 {
+node [shape = box];
+BB0 [label = "BB0\nmain:\laddiu $29,$29,65504\lsw $31,28($29)\lsw $30,24($29)\lor $30,$29,$0\lsw $4,32($30)\lsw $5,36($30)\llui $2,%hi(a)\laddiu $4,$2,%lo(a)\llui $2,%hi(b)\laddiu $5,$2,%lo(b)\llui $2,%hi(c)\laddiu $6,$2,%lo(c)\llui $1,0\lori $7,$1,10\ljal sum\ladd $0,$0,$0\l"] ;
+BB0 -> BB1 [style = filled, label = ""];
+BB1 [label = "BB1\nlui $1,0\lori $2,$1,10\lsw $2,16($29)\llui $2,%hi(a)\laddiu $4,$2,%lo(a)\llui $2,%hi(b)\laddiu $5,$2,%lo(b)\llui $2,%hi(c)\laddiu $6,$2,%lo(c)\llui $2,%hi(d)\laddiu $7,$2,%lo(d)\ljal max_min_tab\ladd $0,$0,$0\l"] ;
+BB1 -> BB2 [style = filled, label = ""];
+BB2 [label = "BB2\nor $3,$2,$0\llui $2,%hi($lc0)\laddiu $4,$2,%lo($lc0)\lor $5,$3,$0\ljal printf\ladd $0,$0,$0\l"] ;
+BB2 -> BB3 [style = filled, label = ""];
+BB3 [label = "BB3\nor $2,$0,$0\lor $29,$30,$0\llw $31,28($29)\llw $30,24($29)\laddiu $29,$29,32\ljr $31\ladd $0,$0,$0\l"] ;
+BB3 -> EXIT  [style = filled, label = ""];
+}

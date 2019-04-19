@@ -1,0 +1,32 @@
+digraph G1 {
+node [shape = ellipse];
+i12 [label = " delayed slot : add $0,$0,$0"] ;
+i11 ->  i12 [style = bold, dir= none, fontcolor = blue, color = blue, label= "delayed_slot"];
+i11 [label = "jal max_min_tab"] ;
+i0 [label = "lui $1,0"] ;
+i0 ->  i1 [color = red, fontcolor = red, label= "RAW_1"];
+i1 [label = "ori $2,$1,10"] ;
+i1 ->  i2 [color = red, fontcolor = red, label= "RAW_1"];
+i1 ->  i3 [label= "WAW"];
+i2 [label = "sw $2,16($29)"] ;
+i2 ->  i3 [label= "WAR"];
+i3 [label = "lui $2,%hi(a)"] ;
+i3 ->  i4 [color = red, fontcolor = red, label= "RAW_1"];
+i3 ->  i5 [label= "WAW"];
+i4 [label = "addiu $4,$2,%lo(a)"] ;
+i4 ->  i5 [label= "WAR"];
+i5 [label = "lui $2,%hi(b)"] ;
+i5 ->  i6 [color = red, fontcolor = red, label= "RAW_1"];
+i5 ->  i7 [label= "WAW"];
+i6 [label = "addiu $5,$2,%lo(b)"] ;
+i6 ->  i7 [label= "WAR"];
+i7 [label = "lui $2,%hi(c)"] ;
+i7 ->  i8 [color = red, fontcolor = red, label= "RAW_1"];
+i7 ->  i9 [label= "WAW"];
+i8 [label = "addiu $6,$2,%lo(c)"] ;
+i8 ->  i9 [label= "WAR"];
+i9 [label = "lui $2,%hi(d)"] ;
+i9 ->  i10 [color = red, fontcolor = red, label= "RAW_1"];
+i10 [label = "addiu $7,$2,%lo(d)"] ;
+i10 ->  i11 [label= "CONTROL"];
+}

@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.2"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -305,7 +305,7 @@ extern int asm_mipsdebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE YYSTYPE;
+
 union YYSTYPE
 {
 #line 63 "asm_mips.yac" /* yacc.c:355  */
@@ -317,6 +317,8 @@ union YYSTYPE
 
 #line 319 "y.tab.c" /* yacc.c:355  */
 };
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -329,7 +331,7 @@ int asm_mipsparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 333 "y.tab.c" /* yacc.c:358  */
+#line 335 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -1684,19 +1686,19 @@ yyreduce:
         case 2:
 #line 178 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = ASM_OPR__PLUS ; }
-#line 1688 "y.tab.c" /* yacc.c:1646  */
+#line 1690 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
 #line 180 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = ASM_OPR__MINUS; }
-#line 1694 "y.tab.c" /* yacc.c:1646  */
+#line 1696 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
 #line 187 "asm_mips.yac" /* yacc.c:1646  */
     { prog.add_line(new Label((yyvsp[-1].text))) ; }
-#line 1700 "y.tab.c" /* yacc.c:1646  */
+#line 1702 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
@@ -1705,7 +1707,7 @@ yyreduce:
 		    lit << (yyvsp[0].uval);
 			prog.add_line(new Directive(".align",lit.str())) ;
 		}
-#line 1709 "y.tab.c" /* yacc.c:1646  */
+#line 1711 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
@@ -1715,7 +1717,7 @@ yyreduce:
 			strmap[strmap_id] = bylist.str() ;
 			(yyval.uval) = (yyvsp[0].uval) ;
 		}
-#line 1719 "y.tab.c" /* yacc.c:1646  */
+#line 1721 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
@@ -1724,7 +1726,7 @@ yyreduce:
 			strmap[strmap_id] = "" ;
 			(yyval.uval) = strmap_id ;
 		}
-#line 1728 "y.tab.c" /* yacc.c:1646  */
+#line 1730 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
@@ -1734,43 +1736,43 @@ yyreduce:
 			strmap[strmap_id] = bylist.str() ;
 			(yyval.uval) = (yyvsp[-2].uval) ;
 		}
-#line 1738 "y.tab.c" /* yacc.c:1646  */
+#line 1740 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
 #line 255 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = (yyvsp[0].uval); }
-#line 1744 "y.tab.c" /* yacc.c:1646  */
+#line 1746 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
 #line 260 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = (yyvsp[0].uval) & 0x00003fff; }
-#line 1750 "y.tab.c" /* yacc.c:1646  */
+#line 1752 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
 #line 271 "asm_mips.yac" /* yacc.c:1646  */
     {	prog.add_line(new Directive(".end",(yyvsp[0].text),false)) ; }
-#line 1756 "y.tab.c" /* yacc.c:1646  */
+#line 1758 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
 #line 277 "asm_mips.yac" /* yacc.c:1646  */
     { prog.add_line(new Directive(".ent",(yyvsp[0].text),true)) ; }
-#line 1762 "y.tab.c" /* yacc.c:1646  */
+#line 1764 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
 #line 282 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.text) = NULL; }
-#line 1768 "y.tab.c" /* yacc.c:1646  */
+#line 1770 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
 #line 284 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.text) = (yyvsp[0].text)  ; }
-#line 1774 "y.tab.c" /* yacc.c:1646  */
+#line 1776 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
@@ -1779,13 +1781,13 @@ yyreduce:
 		    lit << (yyvsp[-2].text) << ",	" << (yyvsp[0].uval) ;
 			prog.add_line(new Directive(".equ",lit.str())) ;
 		}
-#line 1783 "y.tab.c" /* yacc.c:1646  */
+#line 1785 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
 #line 300 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = (yyvsp[0].uval); }
-#line 1789 "y.tab.c" /* yacc.c:1646  */
+#line 1791 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
@@ -1796,31 +1798,31 @@ yyreduce:
 		else
 			{(yyval.uval) = (yyvsp[-2].uval) - (yyvsp[0].uval);}
 		}
-#line 1800 "y.tab.c" /* yacc.c:1646  */
+#line 1802 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
 #line 316 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) =   (yyvsp[-1].uval); }
-#line 1806 "y.tab.c" /* yacc.c:1646  */
+#line 1808 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
 #line 321 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = ~ (yyvsp[-1].uval); }
-#line 1812 "y.tab.c" /* yacc.c:1646  */
+#line 1814 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
 #line 326 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = - (yyvsp[-1].uval); }
-#line 1818 "y.tab.c" /* yacc.c:1646  */
+#line 1820 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
 #line 328 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) =   (yyvsp[0].uval); }
-#line 1824 "y.tab.c" /* yacc.c:1646  */
+#line 1826 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
@@ -1830,7 +1832,7 @@ yyreduce:
 		if   ((yyvsp[-1].uval) == ASM_OPR__AND ) (yyval.uval) = (yyvsp[-2].uval) & (yyvsp[0].uval);
 		if   ((yyvsp[-1].uval) == ASM_OPR__XOR ) (yyval.uval) = (yyvsp[-2].uval) ^ (yyvsp[0].uval);
 		}
-#line 1834 "y.tab.c" /* yacc.c:1646  */
+#line 1836 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
@@ -1840,7 +1842,7 @@ yyreduce:
 		if   ((yyvsp[-1].uval) == ASM_OPR__AND ) (yyval.uval) = (yyvsp[-2].uval) & (yyvsp[0].uval);
 		if   ((yyvsp[-1].uval) == ASM_OPR__XOR ) (yyval.uval) = (yyvsp[-2].uval) ^ (yyvsp[0].uval);
 		}
-#line 1844 "y.tab.c" /* yacc.c:1646  */
+#line 1846 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
@@ -1849,13 +1851,13 @@ yyreduce:
 		if   ((yyvsp[-1].uval) == ASM_OPR__MUL ) (yyval.uval) = (yyvsp[-2].uval) * (yyvsp[0].uval);
 		else                       (yyval.uval) = (yyvsp[-2].uval) / (yyvsp[0].uval);
 		}
-#line 1853 "y.tab.c" /* yacc.c:1646  */
+#line 1855 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
 #line 361 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = (yyvsp[-2].uval) * (yyvsp[0].uval); }
-#line 1859 "y.tab.c" /* yacc.c:1646  */
+#line 1861 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
@@ -1864,7 +1866,7 @@ yyreduce:
 		if   ((yyvsp[-1].uval) == ASM_OPR__SHL ) (yyval.uval) = (yyvsp[-2].uval) << (yyvsp[0].uval);
 		else                       (yyval.uval) = (yyvsp[-2].uval) >> (yyvsp[0].uval);
 		}
-#line 1868 "y.tab.c" /* yacc.c:1646  */
+#line 1870 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
@@ -1873,7 +1875,7 @@ yyreduce:
 		    lab << (yyvsp[0].text);
 			prog.add_line(new Directive(".extern",lab.str())) ;
 		}
-#line 1877 "y.tab.c" /* yacc.c:1646  */
+#line 1879 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
@@ -1887,7 +1889,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPImmediate((yyvsp[-5].uval)),new OPImmediate((yyvsp[-3].uval)),new OPRegister((yyvsp[-1].uval),Src))) ;	
 		}
-#line 1891 "y.tab.c" /* yacc.c:1646  */
+#line 1893 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
@@ -1902,7 +1904,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPLabel(m))) ;	
 		}
-#line 1906 "y.tab.c" /* yacc.c:1646  */
+#line 1908 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
@@ -1916,7 +1918,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[0].uval),Src))) ;
 		}
-#line 1920 "y.tab.c" /* yacc.c:1646  */
+#line 1922 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
@@ -1933,7 +1935,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op)) ;
 		}
-#line 1937 "y.tab.c" /* yacc.c:1646  */
+#line 1939 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
@@ -1946,7 +1948,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[0].uval),Src))) ;
 		}
-#line 1950 "y.tab.c" /* yacc.c:1646  */
+#line 1952 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
@@ -1959,7 +1961,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-2].uval),Dst),new OPRegister((yyvsp[0].uval),Src))) ;
 		}
-#line 1963 "y.tab.c" /* yacc.c:1646  */
+#line 1965 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
@@ -1973,7 +1975,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[0].uval),Dst))) ;
 		}
-#line 1977 "y.tab.c" /* yacc.c:1646  */
+#line 1979 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
@@ -1993,7 +1995,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-5].uval),Dst),new OPImmediate((yyvsp[-3].uval)),new OPRegister((yyvsp[-1].uval),Src))) ;
 		}
-#line 1997 "y.tab.c" /* yacc.c:1646  */
+#line 1999 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
@@ -2013,7 +2015,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-5].uval),Dst),new OPExpression((yyvsp[-3].text)),new OPRegister((yyvsp[-1].uval),Src))) ;
 		}
-#line 2017 "y.tab.c" /* yacc.c:1646  */
+#line 2019 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
@@ -2033,7 +2035,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-4].uval),Dst),new OPRegister((yyvsp[-1].uval),Src))) ;
 		}
-#line 2037 "y.tab.c" /* yacc.c:1646  */
+#line 2039 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
@@ -2053,7 +2055,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-2].uval),Dst),new OPImmediate((yyvsp[0].uval)))) ;
 		}
-#line 2057 "y.tab.c" /* yacc.c:1646  */
+#line 2059 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
@@ -2066,7 +2068,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-2].uval),Dst),new OPImmediate((yyvsp[0].uval)))) ;
 		}
-#line 2070 "y.tab.c" /* yacc.c:1646  */
+#line 2072 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
@@ -2079,7 +2081,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-2].uval),Dst),new OPExpression((yyvsp[0].text)))) ;
 		}
-#line 2083 "y.tab.c" /* yacc.c:1646  */
+#line 2085 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
@@ -2093,7 +2095,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-2].uval),Dst),new OPRegister((yyvsp[0].uval),Src))) ;
 		}
-#line 2097 "y.tab.c" /* yacc.c:1646  */
+#line 2099 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
@@ -2118,7 +2120,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-4].uval),Dst),new OPRegister((yyvsp[-2].uval),Src),new OPRegister((yyvsp[0].uval),Src))) ;
 		}
-#line 2122 "y.tab.c" /* yacc.c:1646  */
+#line 2124 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
@@ -2134,7 +2136,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-4].uval),Dst),new OPRegister((yyvsp[-2].uval),Src),new OPImmediate((yyvsp[0].uval)))) ;
 		}
-#line 2138 "y.tab.c" /* yacc.c:1646  */
+#line 2140 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
@@ -2150,7 +2152,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-4].uval),Dst),new OPRegister((yyvsp[-2].uval),Src),new OPExpression((yyvsp[0].text)))) ;
 		}
-#line 2154 "y.tab.c" /* yacc.c:1646  */
+#line 2156 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
@@ -2163,7 +2165,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-4].uval),Dst),new OPRegister((yyvsp[-2].uval),Src),new OPImmediate((yyvsp[0].uval)))) ;
 		}
-#line 2167 "y.tab.c" /* yacc.c:1646  */
+#line 2169 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
@@ -2178,7 +2180,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-4].uval),Dst),new OPRegister((yyvsp[-2].uval),Src),new OPImmediate((yyvsp[0].uval)))) ;
 		}
-#line 2182 "y.tab.c" /* yacc.c:1646  */
+#line 2184 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
@@ -2193,7 +2195,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-4].uval),Dst),new OPRegister((yyvsp[-2].uval),Src),new OPRegister((yyvsp[0].uval),Src))) ;
 		}
-#line 2197 "y.tab.c" /* yacc.c:1646  */
+#line 2199 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
@@ -2208,7 +2210,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-4].uval),Dst),new OPRegister((yyvsp[-2].uval),Src),new OPImmediate((yyvsp[0].uval)))) ;
 		}
-#line 2212 "y.tab.c" /* yacc.c:1646  */
+#line 2214 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
@@ -2223,7 +2225,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[0].uval),Src))) ;
 		}
-#line 2227 "y.tab.c" /* yacc.c:1646  */
+#line 2229 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
@@ -2242,7 +2244,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-2].uval),Src),new OPLabel(m))) ;
 		}
-#line 2246 "y.tab.c" /* yacc.c:1646  */
+#line 2248 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
@@ -2268,7 +2270,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-2].uval),Src),new OPRegister((yyvsp[0].uval),Src))) ;
 		}
-#line 2272 "y.tab.c" /* yacc.c:1646  */
+#line 2274 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
@@ -2297,7 +2299,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-4].uval),Dst),new OPRegister((yyvsp[-2].uval),Src),new OPRegister((yyvsp[0].uval),Src))) ;
 		}
-#line 2301 "y.tab.c" /* yacc.c:1646  */
+#line 2303 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
@@ -2312,7 +2314,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-4].uval),Src),new OPRegister((yyvsp[-2].uval),Src),new OPLabel(m))) ;
 		}
-#line 2316 "y.tab.c" /* yacc.c:1646  */
+#line 2318 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
@@ -2328,7 +2330,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-4].uval),Src),new OPRegister((yyvsp[-2].uval),Src),new OPLabel(lit.str()))) ;
 		}
-#line 2332 "y.tab.c" /* yacc.c:1646  */
+#line 2334 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
@@ -2346,7 +2348,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-2].uval),Src),new OPImmediate((yyvsp[0].uval)))) ;
 		}
-#line 2350 "y.tab.c" /* yacc.c:1646  */
+#line 2352 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
@@ -2361,7 +2363,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-2].uval),spin),new OPRegister((yyvsp[0].uval),spinc0))) ;
 		}
-#line 2365 "y.tab.c" /* yacc.c:1646  */
+#line 2367 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
@@ -2376,7 +2378,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-2].uval),spin),new OPRegister((yyvsp[0].uval),spinc0))) ;
 		}
-#line 2380 "y.tab.c" /* yacc.c:1646  */
+#line 2382 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 69:
@@ -2392,7 +2394,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-5].uval),Src),new OPImmediate((yyvsp[-3].uval)),new OPRegister((yyvsp[-1].uval),Src))) ;
 		}
-#line 2396 "y.tab.c" /* yacc.c:1646  */
+#line 2398 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 70:
@@ -2408,7 +2410,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-4].uval),Src),new OPRegister((yyvsp[-1].uval),Src))) ;
 		}
-#line 2412 "y.tab.c" /* yacc.c:1646  */
+#line 2414 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 71:
@@ -2424,7 +2426,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPRegister((yyvsp[-2].uval),Src),new OPImmediate((yyvsp[0].uval)))) ;
 		}
-#line 2428 "y.tab.c" /* yacc.c:1646  */
+#line 2430 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 72:
@@ -2437,7 +2439,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(op,new OPImmediate((yyvsp[0].uval)))) ;
 		}
-#line 2441 "y.tab.c" /* yacc.c:1646  */
+#line 2443 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 73:
@@ -2446,55 +2448,55 @@ yyreduce:
 		    lab << (yyvsp[0].text);
 			prog.add_line(new Directive(".global",lab.str())) ;
 		}
-#line 2450 "y.tab.c" /* yacc.c:1646  */
+#line 2452 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 74:
 #line 1013 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = (yyvsp[0].uval) & 0x0000ffff; }
-#line 2456 "y.tab.c" /* yacc.c:1646  */
+#line 2458 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 75:
 #line 1018 "asm_mips.yac" /* yacc.c:1646  */
     {  (yyval.uval) = (yyvsp[0].uval); }
-#line 2462 "y.tab.c" /* yacc.c:1646  */
+#line 2464 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 76:
 #line 1020 "asm_mips.yac" /* yacc.c:1646  */
     {  (yyval.uval) = (yyvsp[0].uval); }
-#line 2468 "y.tab.c" /* yacc.c:1646  */
+#line 2470 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 77:
 #line 1022 "asm_mips.yac" /* yacc.c:1646  */
     {  (yyval.uval) = (yyvsp[0].uval); }
-#line 2474 "y.tab.c" /* yacc.c:1646  */
+#line 2476 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 78:
 #line 1024 "asm_mips.yac" /* yacc.c:1646  */
     {  (yyval.uval) = (yyvsp[0].uval); }
-#line 2480 "y.tab.c" /* yacc.c:1646  */
+#line 2482 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 79:
 #line 1029 "asm_mips.yac" /* yacc.c:1646  */
     {  (yyval.uval) = (yyvsp[0].uval); }
-#line 2486 "y.tab.c" /* yacc.c:1646  */
+#line 2488 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 80:
 #line 1031 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = (yyvsp[0].uval) & 0x0000001f; }
-#line 2492 "y.tab.c" /* yacc.c:1646  */
+#line 2494 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 81:
 #line 1036 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.text) = (yyvsp[0].text); }
-#line 2498 "y.tab.c" /* yacc.c:1646  */
+#line 2500 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 82:
@@ -2503,7 +2505,7 @@ yyreduce:
 		    str << (yyvsp[0].uval);
 			(yyval.text) = const_cast<char*>(str.str().c_str()) ;
 		}
-#line 2507 "y.tab.c" /* yacc.c:1646  */
+#line 2509 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 83:
@@ -2511,25 +2513,25 @@ yyreduce:
     { 
 		std::cout << "Label String2 " << (yyvsp[0].text) << std::endl ;
 		(yyval.text) = (yyvsp[0].text); }
-#line 2515 "y.tab.c" /* yacc.c:1646  */
+#line 2517 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 85:
 #line 1054 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = ASM_OPR__OR   ; }
-#line 2521 "y.tab.c" /* yacc.c:1646  */
+#line 2523 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 86:
 #line 1056 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = ASM_OPR__AND  ; }
-#line 2527 "y.tab.c" /* yacc.c:1646  */
+#line 2529 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 87:
 #line 1058 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = ASM_OPR__XOR  ; }
-#line 2533 "y.tab.c" /* yacc.c:1646  */
+#line 2535 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 95:
@@ -2541,7 +2543,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(t_Operator::bgez,new OPRegister(0,Src),new OPLabel(m))) ;
 		}
-#line 2545 "y.tab.c" /* yacc.c:1646  */
+#line 2547 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 96:
@@ -2552,7 +2554,7 @@ yyreduce:
 			}
 			prog.add_line(new Instruction(t_Operator::add,new OPRegister(0,Dst),new OPRegister(0,Src),new OPRegister(0,Src))) ;
 		}
-#line 2556 "y.tab.c" /* yacc.c:1646  */
+#line 2558 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 97:
@@ -2570,7 +2572,7 @@ yyreduce:
 			prog.add_line(new Instruction(t_Operator::ori,new OPRegister((yyvsp[-2].uval),Dst),new OPRegister(1,Src),new OPImmediate(lo))) ;
 			prog.add_line(new Directive(".set","at")) ; 
 		}
-#line 2574 "y.tab.c" /* yacc.c:1646  */
+#line 2576 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 98:
@@ -2591,7 +2593,7 @@ yyreduce:
 			prog.add_line(new Instruction(t_Operator::ori,new OPRegister((yyvsp[-2].uval),Dst),new OPRegister(1,Src),new OPExpression(oss_lo.str()))) ;
 			prog.add_line(new Directive(".set","at")) ; 
 		}
-#line 2595 "y.tab.c" /* yacc.c:1646  */
+#line 2597 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 99:
@@ -2603,7 +2605,7 @@ yyreduce:
 						
 			prog.add_line(new Instruction(t_Operator::or_,new OPRegister((yyvsp[-2].uval),Dst),new OPRegister((yyvsp[0].uval),Src),new OPRegister(0,Src))) ;
 		}
-#line 2607 "y.tab.c" /* yacc.c:1646  */
+#line 2609 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 100:
@@ -2617,7 +2619,7 @@ yyreduce:
 				std::cerr<< "asm_mips.yac : " << (yyvsp[-3].uval) << "is not an valid Macro_rd_rt" << std::endl ; break ;
 			}
 		}
-#line 2621 "y.tab.c" /* yacc.c:1646  */
+#line 2623 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 101:
@@ -2632,7 +2634,7 @@ yyreduce:
 				std::cerr<< "asm_mips.yac : " << (yyvsp[-3].uval) << "is not an valid Macro_rs_label" << std::endl ; break ;
 			}
 		}
-#line 2636 "y.tab.c" /* yacc.c:1646  */
+#line 2638 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 110:
@@ -2641,7 +2643,7 @@ yyreduce:
 		    str << (yyvsp[0].text) ;
 			prog.add_line(new Directive(".ascii",str.str())) ;
 		}
-#line 2645 "y.tab.c" /* yacc.c:1646  */
+#line 2647 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 111:
@@ -2650,13 +2652,13 @@ yyreduce:
 		    str << (yyvsp[0].text) ;
 			prog.add_line(new Directive(".asciiz",str.str())) ;
 		}
-#line 2654 "y.tab.c" /* yacc.c:1646  */
+#line 2656 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 112:
 #line 1215 "asm_mips.yac" /* yacc.c:1646  */
     {prog.add_line(new Directive(".byte",strmap[(yyvsp[0].uval)])) ;}
-#line 2660 "y.tab.c" /* yacc.c:1646  */
+#line 2662 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 113:
@@ -2665,7 +2667,7 @@ yyreduce:
 		    str << (yyvsp[-2].text) << "," << (yyvsp[0].uval) ;
 			prog.add_line(new Directive(".lcomm",str.str())) ;
 		}
-#line 2669 "y.tab.c" /* yacc.c:1646  */
+#line 2671 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 114:
@@ -2674,7 +2676,7 @@ yyreduce:
 		    str << (yyvsp[-4].text) << "," << (yyvsp[-2].uval) << "," << (yyvsp[0].uval);
 			prog.add_line(new Directive(".comm",str.str())) ;
 		}
-#line 2678 "y.tab.c" /* yacc.c:1646  */
+#line 2680 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 115:
@@ -2683,7 +2685,7 @@ yyreduce:
 		    str << (yyvsp[0].uval) ;
 			prog.add_line(new Directive(".space",str.str())) ;
 		}
-#line 2687 "y.tab.c" /* yacc.c:1646  */
+#line 2689 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 116:
@@ -2692,31 +2694,31 @@ yyreduce:
 		    str << (yyvsp[0].uval) ;
 			prog.add_line(new Directive(".skip",str.str())) ;
 		}
-#line 2696 "y.tab.c" /* yacc.c:1646  */
+#line 2698 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 117:
 #line 1263 "asm_mips.yac" /* yacc.c:1646  */
     {prog.add_line(new Directive(".word",strmap[(yyvsp[0].uval)])) ;}
-#line 2702 "y.tab.c" /* yacc.c:1646  */
+#line 2704 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 140:
 #line 1293 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = ASM_OPR__MUL  ; }
-#line 2708 "y.tab.c" /* yacc.c:1646  */
+#line 2710 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 141:
 #line 1295 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = ASM_OPR__DIV  ; }
-#line 2714 "y.tab.c" /* yacc.c:1646  */
+#line 2716 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 142:
 #line 1300 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = (yyvsp[0].uval); }
-#line 2720 "y.tab.c" /* yacc.c:1646  */
+#line 2722 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 143:
@@ -2726,7 +2728,7 @@ yyreduce:
 			strmap[strmap_id] = (yyvsp[0].text) ;
 			(yyval.uval) = strmap_id ;
 		}
-#line 2730 "y.tab.c" /* yacc.c:1646  */
+#line 2732 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 144:
@@ -2734,7 +2736,7 @@ yyreduce:
     { 	
 			prog.add_line(new Directive(".section",(yyvsp[0].text))) ;
 		}
-#line 2738 "y.tab.c" /* yacc.c:1646  */
+#line 2740 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 145:
@@ -2742,26 +2744,26 @@ yyreduce:
     {
 			prog.add_line(new Directive((yyvsp[0].text))) ;
 		}
-#line 2746 "y.tab.c" /* yacc.c:1646  */
+#line 2748 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 146:
 #line 1324 "asm_mips.yac" /* yacc.c:1646  */
     {	prog.add_line(new Directive(".set","reorder")) ; }
-#line 2752 "y.tab.c" /* yacc.c:1646  */
+#line 2754 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 147:
 #line 1327 "asm_mips.yac" /* yacc.c:1646  */
     {	prog.add_line(new Directive(".set","noreorder")) ; }
-#line 2758 "y.tab.c" /* yacc.c:1646  */
+#line 2760 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 148:
 #line 1330 "asm_mips.yac" /* yacc.c:1646  */
     {	string m = strmap[(yyvsp[0].uval)] ;
 			prog.add_line(new Directive(".set",m)) ; }
-#line 2765 "y.tab.c" /* yacc.c:1646  */
+#line 2767 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 149:
@@ -2770,7 +2772,7 @@ yyreduce:
 		    dir << (yyvsp[-1].text) ;
 			prog.add_line(new Directive(dir.str(),strmap[strmap_id])) ;
 		}
-#line 2774 "y.tab.c" /* yacc.c:1646  */
+#line 2776 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 150:
@@ -2779,7 +2781,7 @@ yyreduce:
 			strmap[strmap_id] = "" ;
 			(yyval.uval) = strmap_id ;
 		}
-#line 2783 "y.tab.c" /* yacc.c:1646  */
+#line 2785 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 151:
@@ -2789,7 +2791,7 @@ yyreduce:
 			strmap[strmap_id] = str.str() ;
 			(yyval.uval) = (yyvsp[-1].uval) ;
 		}
-#line 2793 "y.tab.c" /* yacc.c:1646  */
+#line 2795 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 152:
@@ -2799,7 +2801,7 @@ yyreduce:
 			strmap[strmap_id] = str.str() ;
 			(yyval.uval) = (yyvsp[-1].uval) ;
 		}
-#line 2803 "y.tab.c" /* yacc.c:1646  */
+#line 2805 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 153:
@@ -2809,7 +2811,7 @@ yyreduce:
 			strmap[strmap_id] = str.str() ;
 			(yyval.uval) = (yyvsp[-1].uval) ;
 		}
-#line 2813 "y.tab.c" /* yacc.c:1646  */
+#line 2815 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 154:
@@ -2819,7 +2821,7 @@ yyreduce:
 			strmap[strmap_id] = str.str() ;
 			(yyval.uval) = (yyvsp[-1].uval) ;
 		}
-#line 2823 "y.tab.c" /* yacc.c:1646  */
+#line 2825 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 155:
@@ -2829,7 +2831,7 @@ yyreduce:
 			strmap[strmap_id] = str.str() ;
 			(yyval.uval) = (yyvsp[-1].uval) ;
 		}
-#line 2833 "y.tab.c" /* yacc.c:1646  */
+#line 2835 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 156:
@@ -2839,7 +2841,7 @@ yyreduce:
 			strmap[strmap_id] = str.str() ;
 			(yyval.uval) = (yyvsp[-1].uval) ;
 		}
-#line 2843 "y.tab.c" /* yacc.c:1646  */
+#line 2845 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 157:
@@ -2849,43 +2851,43 @@ yyreduce:
 			strmap[strmap_id] = str.str() ;
 			(yyval.uval) = (yyvsp[-1].uval) ;
 		}
-#line 2853 "y.tab.c" /* yacc.c:1646  */
+#line 2855 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 158:
 #line 1402 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = ASM_OPR__SHL  ; }
-#line 2859 "y.tab.c" /* yacc.c:1646  */
+#line 2861 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 159:
 #line 1404 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = ASM_OPR__SHR  ; }
-#line 2865 "y.tab.c" /* yacc.c:1646  */
+#line 2867 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 160:
 #line 1409 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) =   (yyvsp[0].uval); }
-#line 2871 "y.tab.c" /* yacc.c:1646  */
+#line 2873 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 161:
 #line 1412 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = - (yyvsp[0].uval); }
-#line 2877 "y.tab.c" /* yacc.c:1646  */
+#line 2879 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 162:
 #line 1415 "asm_mips.yac" /* yacc.c:1646  */
     { (yyval.uval) = ~ (yyvsp[0].uval); }
-#line 2883 "y.tab.c" /* yacc.c:1646  */
+#line 2885 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 175:
 #line 1439 "asm_mips.yac" /* yacc.c:1646  */
     {	(yyval.uval) = (yyvsp[0].uval) & 0x0000ffff; }
-#line 2889 "y.tab.c" /* yacc.c:1646  */
+#line 2891 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 176:
@@ -2895,7 +2897,7 @@ yyreduce:
 			strmap[strmap_id] = bylist.str() ;
 			(yyval.uval) = (yyvsp[0].uval) ;
 		}
-#line 2899 "y.tab.c" /* yacc.c:1646  */
+#line 2901 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 177:
@@ -2904,7 +2906,7 @@ yyreduce:
 			strmap[strmap_id] = "" ;
 			(yyval.uval) = strmap_id ;
 		}
-#line 2908 "y.tab.c" /* yacc.c:1646  */
+#line 2910 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 178:
@@ -2914,11 +2916,11 @@ yyreduce:
 			strmap[strmap_id] = bylist.str() ;
 			(yyval.uval) = (yyvsp[-2].uval) ;
 		}
-#line 2918 "y.tab.c" /* yacc.c:1646  */
+#line 2920 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2922 "y.tab.c" /* yacc.c:1646  */
+#line 2924 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

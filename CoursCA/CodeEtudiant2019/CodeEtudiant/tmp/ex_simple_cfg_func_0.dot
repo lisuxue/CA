@@ -1,0 +1,8 @@
+digraph G1 {
+node [shape = box];
+BB0 [label = "BB0\nmain:\llw $4,0($6)\lori $10,$6,0\lsub $2,$8,$7\ladd $5,$4,$2\lsw $5,0($10)\llw $2,65524($10)\laddi $5,$12,4\lbne $5,$2,etiq\ladd $0,$0,$0\l"] ;
+BB0 -> BB1 [style = filled, label = "F"];
+BB0 -> BB1[style = filled, label = "T"];
+BB1 [label = "BB1\netiq:\lsub $8,$10,$15\lsll $10,$10,4\lsw $8,8($7)\ladd $10,$8,$10\lsw $10,12($7)\l"] ;
+BB1 -> EXIT  [style = filled, label = ""];
+}
