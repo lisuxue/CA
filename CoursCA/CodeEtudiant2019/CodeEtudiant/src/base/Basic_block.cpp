@@ -270,8 +270,8 @@ void Basic_block::link_instructions(){
 
    int index=0;
    Line *current, *next;
-   current=get_first_line_instruction();
-   next=current->get_next();
+   current = get_first_line_instruction();
+   next = current->get_next();
 
    Instruction *i1 = getInst(current);
 
@@ -279,31 +279,30 @@ void Basic_block::link_instructions(){
    index++;
    Instruction *i2;
    
-//Calcul des successeurs
+   //Calcul des successeurs
    while(current != _end){
-   
-      while(!next->isInst()){
-	 
-	 if(next==_end){
-	    if(next->isInst())
-	       break;
-	    else{
-	       _lastInst = i1;
-	       _nb_instr = index;
-	       return;
-	    }
+     
+     while(!next->isInst()){ 
+       if (next == _end){
+	 if (next->isInst())
+	   break;
+	 else{
+	   _lastInst = i1;
+	   _nb_instr = index;
+	   return;
 	 }
-	 next=next->get_next();
-      }
-      
-      i2 = getInst(next);
-      i2->set_index(index);
-      index++;
-      i1->set_link_succ_pred(i2);
-      
-      i1=i2;
-      current=next;
-      next=next->get_next();
+       }
+       next = next->get_next();
+     }
+     
+     i2 = getInst(next);
+     i2->set_index(index);
+     index++;
+     i1->set_link_succ_pred(i2);
+     
+     i1=i2;
+     current=next;
+     next=next->get_next();
    }
    _lastInst = i1;
    _nb_instr = index;
@@ -466,29 +465,26 @@ int Basic_block::nb_cycles(){
    			exect = exect + 1;
    			inst_cycle[ic->get_index()] = exect;
    	}else{
-   		exect = exect + 1;
-   		int max = 0;
+   		//exect = exect + 1;
+   		int max_pred = 0;
+   		// trouver le max entre toutes les predecesseurs en dependances
 	   	for(int i =0;i<(ic->get_nb_pred());i++){
 	   		Instruction* pred_dep = ic->get_pred_dep(i)->inst;
-	   		int cycle_pred = inst_cycle[pred_dep->get_index()];
-	   		if (cycle_pred > max) max = cycle_pred + delai(;
-	   		//voir chaque pred delai et aussi l'instr pred
-	   		
-	   		
-	   		
-	   		
-	   		if(ic->get_pred_dep(i)->type == t_Dep::RAW){
-	   			t_Inst type_ic = ic->get_type();
-	   			t_Inst type_ic_pred = ic->get_pred_dep(i)->get_type();
-	   			exect = exect + delai(type_ic,type_ic_pred);
+		   	t_Dep type_dep = ic->get_pred_dep(i)->type;
+			int cycle_pred = inst_cycle[pred_dep->get_index()];
+	   		if(type_dep == t_Dep::RAW){
+		   		if (cycle_pred + delai(pred_dep->get_type(),ic->get_type()) > max_pred) max_pred = cycle_pred + delai(pred_dep->get_type(),ic->get_type());
+		   	}else{
+		   		if (cycle_pred > max_pred) max_pred = cycle_pred;
 	   		}
-	   		
 	   	}
+	   	// comparer avec le cycle de sortie avec l'instruction predecesseur
+   		int cycle_tmp = inst_cycle[ic->get_index()-1]+1;
+   		if (cycle_tmp > max_pred) exect = cycle_tmp;
+   		else exect = max_pred;
+		inst_cycle[ic->get_index()] = exect;	
    	}
 
-
-     
-    
      //FIN A REMPLIR 
 #ifdef DEBUG     
       cout << endl << "inst " << ic -> get_index() << " " << ic-> get_content () << " cycle "<<  inst_cycle[ic->get_index()] ;
@@ -520,7 +516,14 @@ void Basic_block::compute_use_def(void){
   if (use_def_done) return;
  
   /* A REMPLIR */
- 
+  	OPRegister* dst,src1,src2;
+ 	for(int i = 0;i<get_nb_inst(); i++){
+ 		Instruction* instr = get_instruction_at_index(i);
+ 		dst = instr->get_reg_dst();
+ 		src1 = instr->get_reg_src1();
+ 		src2 = instr->get_reg_src2();
+ 		if (dst) Def[instr->]
+ 	}
 
 
   /* FIN A REMPLIR */

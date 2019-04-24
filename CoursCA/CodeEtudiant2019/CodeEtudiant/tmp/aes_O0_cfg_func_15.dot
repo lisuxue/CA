@@ -1,0 +1,38 @@
+digraph G1 {
+node [shape = box];
+BB0 [label = "BB0\nmain:\laddiu $29,$29,65336\lsw $31,196($29)\lsw $30,192($29)\lor $30,$29,$0\lsw $4,200($30)\lsw $5,204($30)\lsw $0,24($30)\lj $l70\ladd $0,$0,$0\l"] ;
+BB0 -> BB14 [style = filled, label = ""];
+BB14 [label = "BB14\n$l70:\llw $2,24($30)\lslti $2,$2,1000\lbne $2,$0,$l75\ladd $0,$0,$0\l"] ;
+BB14 -> BB15 [style = filled, label = "F"];
+BB14 -> BB1[style = filled, label = "T"];
+BB15 [label = "BB15\nor $2,$0,$0\lor $29,$30,$0\llw $31,196($29)\llw $30,192($29)\laddiu $29,$29,200\ljr $31\ladd $0,$0,$0\l"] ;
+BB15 -> EXIT  [style = filled, label = ""];
+BB1 [label = "BB1\n$l75:\lsb $0,20($30)\lj $l71\ladd $0,$0,$0\l"] ;
+BB1 -> BB3 [style = filled, label = ""];
+BB3 [label = "BB3\n$l71:\llbu $2,20($30)\lsltiu $2,$2,16\lbne $2,$0,$l72\ladd $0,$0,$0\l"] ;
+BB3 -> BB4 [style = filled, label = "F"];
+BB3 -> BB2[style = filled, label = "T"];
+BB4 [label = "BB4\nsb $0,20($30)\lj $l73\ladd $0,$0,$0\l"] ;
+BB4 -> BB6 [style = filled, label = ""];
+BB6 [label = "BB6\n$l73:\llbu $2,20($30)\lsltiu $2,$2,32\lbne $2,$0,$l74\ladd $0,$0,$0\l"] ;
+BB6 -> BB7 [style = filled, label = "F"];
+BB6 -> BB5[style = filled, label = "T"];
+BB7 [label = "BB7\nlui $1,0\lori $2,$1,1\lsw $2,16($30)\laddiu $2,$30,92\laddiu $3,$30,60\lor $4,$2,$0\lor $5,$3,$0\ljal aes256_init\ladd $0,$0,$0\l"] ;
+BB7 -> BB8 [style = filled, label = ""];
+BB8 [label = "BB8\naddiu $2,$30,92\laddiu $3,$30,28\lor $4,$2,$0\lor $5,$3,$0\ljal aes256_encrypt_ecb\ladd $0,$0,$0\l"] ;
+BB8 -> BB9 [style = filled, label = ""];
+BB9 [label = "BB9\naddiu $2,$30,92\laddiu $3,$30,60\lor $4,$2,$0\lor $5,$3,$0\ljal aes256_init\ladd $0,$0,$0\l"] ;
+BB9 -> BB10 [style = filled, label = ""];
+BB10 [label = "BB10\naddiu $2,$30,92\laddiu $3,$30,28\lor $4,$2,$0\lor $5,$3,$0\ljal aes256_decrypt_ecb\ladd $0,$0,$0\l"] ;
+BB10 -> BB11 [style = filled, label = ""];
+BB11 [label = "BB11\naddiu $2,$30,92\lor $4,$2,$0\ljal aes256_done\ladd $0,$0,$0\l"] ;
+BB11 -> BB12 [style = filled, label = ""];
+BB12 [label = "BB12\naddiu $2,$30,28\laddiu $3,$30,44\lor $4,$2,$0\lor $5,$3,$0\ljal strcmp\ladd $0,$0,$0\l"] ;
+BB12 -> BB13 [style = filled, label = ""];
+BB13 [label = "BB13\nsltu $2,$0,$2\llw $2,24($30)\laddiu $2,$2,1\lsw $2,24($30)\l"] ;
+BB13 -> BB14 [style = filled, label = ""];
+BB5 [label = "BB5\n$l74:\llbu $3,20($30)\laddiu $2,$30,16\laddu $3,$2,$3\llbu $2,20($30)\lsb $2,44($3)\llbu $2,20($30)\laddiu $2,$2,1\lsb $2,20($30)\l"] ;
+BB5 -> BB6 [style = filled, label = ""];
+BB2 [label = "BB2\n$l72:\llbu $4,20($30)\llbu $3,20($30)\lor $2,$3,$0\lsll $2,$2,4\laddu $2,$2,$3\landi $3,$2,255\laddiu $2,$30,16\laddu $2,$2,$4\lsb $3,12($2)\llbu $4,20($30)\llbu $3,20($30)\lor $2,$3,$0\lsll $2,$2,4\laddu $2,$2,$3\landi $3,$2,255\laddiu $2,$30,16\laddu $2,$2,$4\lsb $3,28($2)\llbu $2,20($30)\laddiu $2,$2,1\lsb $2,20($30)\l"] ;
+BB2 -> BB3 [style = filled, label = ""];
+}

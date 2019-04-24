@@ -1,0 +1,12 @@
+digraph G1 {
+node [shape = box];
+BB0 [label = "BB0\naes_subbytes_inv:\laddiu $29,$29,65512\lsw $30,20($29)\lor $30,$29,$0\lsw $4,24($30)\llui $1,0\lori $2,$1,16\lsw $2,8($30)\lj $l10\ladd $0,$0,$0\l"] ;
+BB0 -> BB2 [style = filled, label = ""];
+BB2 [label = "BB2\n$l10:\llw $3,8($30)\lsltu $2,$0,$3\landi $3,$2,255\llw $4,8($30)\laddiu $2,$4,65535\landi $2,$2,255\lsw $2,8($30)\lbne $3,$0,$l11\ladd $0,$0,$0\l"] ;
+BB2 -> BB3 [style = filled, label = "F"];
+BB2 -> BB1[style = filled, label = "T"];
+BB3 [label = "BB3\nlui $1,0\lori $2,$1,1\lsw $2,0($30)\lor $29,$30,$0\llw $30,20($29)\laddiu $29,$29,24\ljr $31\ladd $0,$0,$0\l"] ;
+BB3 -> EXIT  [style = filled, label = ""];
+BB1 [label = "BB1\n$l11:\llw $3,8($30)\llw $2,24($30)\laddu $4,$2,$3\llw $3,8($30)\llw $2,24($30)\laddu $2,$2,$3\llbu $2,0($2)\lor $3,$2,$0\llui $2,%hi(sboxinv)\laddiu $2,$2,%lo(sboxinv)\laddu $2,$3,$2\llbu $2,0($2)\lsb $2,0($4)\l"] ;
+BB1 -> BB2 [style = filled, label = ""];
+}

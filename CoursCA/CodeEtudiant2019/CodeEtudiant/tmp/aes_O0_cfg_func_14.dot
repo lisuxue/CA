@@ -1,0 +1,35 @@
+digraph G1 {
+node [shape = box];
+BB0 [label = "BB0\naes256_decrypt_ecb:\laddiu $29,$29,65504\lsw $31,28($29)\lsw $30,24($29)\lor $30,$29,$0\lsw $4,32($30)\lsw $5,36($30)\llw $2,32($30)\laddiu $2,$2,64\llw $3,32($30)\llw $4,36($30)\lor $5,$2,$0\lor $6,$3,$0\ljal aes_addroundkey_cpy\ladd $0,$0,$0\l"] ;
+BB0 -> BB1 [style = filled, label = ""];
+BB1 [label = "BB1\nlw $4,36($30)\ljal aes_shiftrows_inv\ladd $0,$0,$0\l"] ;
+BB1 -> BB2 [style = filled, label = ""];
+BB2 [label = "BB2\nlw $4,36($30)\ljal aes_subbytes_inv\ladd $0,$0,$0\l"] ;
+BB2 -> BB3 [style = filled, label = ""];
+BB3 [label = "BB3\nlui $1,0\lori $2,$1,14\lsb $2,16($30)\llui $1,65535\lori $2,$1,65408\lsb $2,17($30)\lj $l64\ladd $0,$0,$0\l"] ;
+BB3 -> BB12 [style = filled, label = ""];
+BB12 [label = "BB12\n$l64:\llbu $2,16($30)\laddiu $2,$2,65535\lsb $2,16($30)\llbu $2,16($30)\lbne $2,$0,$l67\ladd $0,$0,$0\l"] ;
+BB12 -> BB13 [style = filled, label = "F"];
+BB12 -> BB4[style = filled, label = "T"];
+BB13 [label = "BB13\nlw $2,32($30)\llw $4,36($30)\lor $5,$2,$0\ljal aes_addroundkey\ladd $0,$0,$0\l"] ;
+BB13 -> BB14 [style = filled, label = ""];
+BB14 [label = "BB14\nor $29,$30,$0\llw $31,28($29)\llw $30,24($29)\laddiu $29,$29,32\ljr $31\ladd $0,$0,$0\l"] ;
+BB14 -> EXIT  [style = filled, label = ""];
+BB4 [label = "BB4\n$l67:\llbu $2,16($30)\landi $2,$2,1\landi $2,$2,255\lbeq $2,$0,$l65\ladd $0,$0,$0\l"] ;
+BB4 -> BB5 [style = filled, label = "F"];
+BB4 -> BB8[style = filled, label = "T"];
+BB5 [label = "BB5\nlw $2,32($30)\laddiu $3,$30,17\lor $4,$2,$0\lor $5,$3,$0\ljal aes_expanddeckey\ladd $0,$0,$0\l"] ;
+BB5 -> BB6 [style = filled, label = ""];
+BB6 [label = "BB6\nlw $2,32($30)\laddiu $2,$2,16\llw $4,36($30)\lor $5,$2,$0\ljal aes_addroundkey\ladd $0,$0,$0\l"] ;
+BB6 -> BB7 [style = filled, label = ""];
+BB7 [label = "BB7\nj $l66\ladd $0,$0,$0\l"] ;
+BB7 -> BB9 [style = filled, label = ""];
+BB9 [label = "BB9\n$l66:\llw $4,36($30)\ljal aes_mixcolumns_inv\ladd $0,$0,$0\l"] ;
+BB9 -> BB10 [style = filled, label = ""];
+BB10 [label = "BB10\nlw $4,36($30)\ljal aes_shiftrows_inv\ladd $0,$0,$0\l"] ;
+BB10 -> BB11 [style = filled, label = ""];
+BB11 [label = "BB11\nlw $4,36($30)\ljal aes_subbytes_inv\ladd $0,$0,$0\l"] ;
+BB11 -> BB12 [style = filled, label = ""];
+BB8 [label = "BB8\n$l65:\llw $2,32($30)\llw $4,36($30)\lor $5,$2,$0\ljal aes_addroundkey\ladd $0,$0,$0\l"] ;
+BB8 -> BB9 [style = filled, label = ""];
+}

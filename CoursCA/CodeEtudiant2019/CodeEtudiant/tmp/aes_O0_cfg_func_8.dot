@@ -1,0 +1,30 @@
+digraph G1 {
+node [shape = box];
+BB0 [label = "BB0\naes_mixcolumns_inv:\laddiu $29,$29,65464\lsw $31,68($29)\lsw $30,64($29)\lsw $23,60($29)\lsw $22,56($29)\lsw $21,52($29)\lsw $20,48($29)\lsw $19,44($29)\lsw $18,40($29)\lsw $17,36($29)\lsw $16,32($29)\lor $30,$29,$0\lsw $4,72($30)\lsw $0,24($30)\lj $l30\ladd $0,$0,$0\l"] ;
+BB0 -> BB11 [style = filled, label = ""];
+BB11 [label = "BB11\n$l30:\llw $3,24($30)\lsltiu $2,$3,16\lbne $2,$0,$l31\ladd $0,$0,$0\l"] ;
+BB11 -> BB12 [style = filled, label = "F"];
+BB11 -> BB1[style = filled, label = "T"];
+BB12 [label = "BB12\nlui $1,0\lori $2,$1,1\lsw $2,16($30)\lor $29,$30,$0\llw $31,68($29)\llw $30,64($29)\llw $23,60($29)\llw $22,56($29)\llw $21,52($29)\llw $20,48($29)\llw $19,44($29)\llw $18,40($29)\llw $17,36($29)\llw $16,32($29)\laddiu $29,$29,72\ljr $31\ladd $0,$0,$0\l"] ;
+BB12 -> EXIT  [style = filled, label = ""];
+BB1 [label = "BB1\n$l31:\llw $3,24($30)\llw $2,72($30)\laddu $2,$2,$3\llbu $17,0($2)\llw $2,24($30)\laddiu $3,$2,1\llw $2,72($30)\laddu $2,$2,$3\llbu $18,0($2)\llw $2,24($30)\laddiu $3,$2,2\llw $2,72($30)\laddu $2,$2,$3\llbu $19,0($2)\llw $2,24($30)\laddiu $3,$2,3\llw $2,72($30)\laddu $2,$2,$3\llbu $20,0($2)\lxor $2,$17,$18\landi $2,$2,255\lxor $2,$2,$19\landi $2,$2,255\lxor $2,$2,$20\landi $16,$2,255\lor $2,$16,$0\lor $4,$2,$0\ljal rj_xtime\ladd $0,$0,$0\l"] ;
+BB1 -> BB2 [style = filled, label = ""];
+BB2 [label = "BB2\nor $21,$2,$0\lxor $2,$21,$17\landi $2,$2,255\lxor $2,$2,$19\landi $2,$2,255\lor $4,$2,$0\ljal rj_xtime\ladd $0,$0,$0\l"] ;
+BB2 -> BB3 [style = filled, label = ""];
+BB3 [label = "BB3\nor $4,$2,$0\ljal rj_xtime\ladd $0,$0,$0\l"] ;
+BB3 -> BB4 [style = filled, label = ""];
+BB4 [label = "BB4\nxor $2,$2,$16\landi $22,$2,255\lxor $2,$21,$18\landi $2,$2,255\lxor $2,$2,$20\landi $2,$2,255\lor $4,$2,$0\ljal rj_xtime\ladd $0,$0,$0\l"] ;
+BB4 -> BB5 [style = filled, label = ""];
+BB5 [label = "BB5\nor $4,$2,$0\ljal rj_xtime\ladd $0,$0,$0\l"] ;
+BB5 -> BB6 [style = filled, label = ""];
+BB6 [label = "BB6\nxor $2,$2,$16\landi $21,$2,255\llw $3,24($30)\llw $2,72($30)\laddu $23,$2,$3\llw $3,24($30)\llw $2,72($30)\laddu $2,$2,$3\llbu $16,0($2)\lxor $2,$17,$18\landi $2,$2,255\lor $4,$2,$0\ljal rj_xtime\ladd $0,$0,$0\l"] ;
+BB6 -> BB7 [style = filled, label = ""];
+BB7 [label = "BB7\nxor $2,$2,$22\landi $2,$2,255\lxor $2,$16,$2\landi $2,$2,255\lsb $2,0($23)\llw $2,24($30)\laddiu $3,$2,1\llw $2,72($30)\laddu $23,$2,$3\llw $2,24($30)\laddiu $3,$2,1\llw $2,72($30)\laddu $2,$2,$3\llbu $16,0($2)\lxor $2,$18,$19\landi $2,$2,255\lor $4,$2,$0\ljal rj_xtime\ladd $0,$0,$0\l"] ;
+BB7 -> BB8 [style = filled, label = ""];
+BB8 [label = "BB8\nxor $2,$2,$21\landi $2,$2,255\lxor $2,$16,$2\landi $2,$2,255\lsb $2,0($23)\llw $2,24($30)\laddiu $3,$2,2\llw $2,72($30)\laddu $18,$2,$3\llw $2,24($30)\laddiu $3,$2,2\llw $2,72($30)\laddu $2,$2,$3\llbu $16,0($2)\lxor $2,$19,$20\landi $2,$2,255\lor $4,$2,$0\ljal rj_xtime\ladd $0,$0,$0\l"] ;
+BB8 -> BB9 [style = filled, label = ""];
+BB9 [label = "BB9\nxor $2,$2,$22\landi $2,$2,255\lxor $2,$16,$2\landi $2,$2,255\lsb $2,0($18)\llw $2,24($30)\laddiu $3,$2,3\llw $2,72($30)\laddu $18,$2,$3\llw $2,24($30)\laddiu $3,$2,3\llw $2,72($30)\laddu $2,$2,$3\llbu $16,0($2)\lxor $2,$20,$17\landi $2,$2,255\lor $4,$2,$0\ljal rj_xtime\ladd $0,$0,$0\l"] ;
+BB9 -> BB10 [style = filled, label = ""];
+BB10 [label = "BB10\nxor $2,$2,$21\landi $2,$2,255\lxor $2,$16,$2\landi $2,$2,255\lsb $2,0($18)\llw $3,24($30)\laddiu $2,$3,4\landi $2,$2,255\lsw $2,24($30)\l"] ;
+BB10 -> BB11 [style = filled, label = ""];
+}

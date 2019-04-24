@@ -5,6 +5,7 @@ i7 ->  i8 [style = bold, dir= none, fontcolor = blue, color = blue, label= "dela
 i7 [label = "bne $5,$2,etiq"] ;
 i0 [label = "lw $4,0($6)"] ;
 i0 ->  i3 [color = red, fontcolor = red, label= "RAW_2"];
+i0 ->  i4 [color = green, fontcolor = green, label= "MEM1"];
 i3 [label = "add $5,$4,$2"] ;
 i3 ->  i4 [color = red, fontcolor = red, label= "RAW_1"];
 i3 ->  i5 [label= "WAR"];
