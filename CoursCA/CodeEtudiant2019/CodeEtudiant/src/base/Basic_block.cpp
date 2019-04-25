@@ -596,7 +596,7 @@ void Basic_block::show_def_liveout(){
   return;
 }
 
-/**** renomme les registres renommables : ceux qui sont d�finis et utilis�s dans le bloc 
+/**** renomme les registres renommables : ceux qui sont d�finis et utilis�s dans le bloc
  * et dont la d�finition n'est pas vivante en sortie
 Utilise comme registres disponibles ceux dont le num�ro est dans la liste param�tre
 *****/
@@ -614,11 +614,27 @@ void Basic_block::reg_rename(list<int> *frees){
   }
   vector<int> R (NB_REG,-1);
   for (int i=0;i<NB_REG;i++){
-    if (DefLiveOut[i]!=-1){
+    if (DefLiveOut[i]==-1){
       R[i]=DefInst[i];
     }
-    
   }
+  for (int instr_index : R){
+    if (instr_index!=-1){
+      int free = frees.front();
+      frees.pop_front();
+      Instruction* ic = get_instruction_at_index(instr_index);
+      ic->get_reg_dst()->set_reg_num(free);
+      for (int j=0;j<ic->get_nb_succ();j++){
+        if (ic->is_dep_RAW1(ic->get_succ_dep(j))){
+          ic->get_succ_dep(j)->get_reg_src1()->set_reg_num(free);
+        }
+        if(ic->is_dep_RAW2(ic->get_succ_dep(j))){
+          ic->get_succ_dep(j)->get_reg_src2()->set_reg_num(free);
+        }
+      }  
+    }
+  }
+
 
 
   /* FIN A REMPLIR */
@@ -628,7 +644,7 @@ void Basic_block::reg_rename(list<int> *frees){
 
 
 
-/**** renomme les registres renommables : ceux qui sont d�finis et utilis�s dans le bloc 
+/**** renomme les registres renommables : ceux qui sont d�finis et utilis�s dans le bloc
  * et dont la d�finition n'est pas vivante en sortie
 Utilise comme registres disponibles ceux dont le num�ro est dans la liste param�tre
 *****/
@@ -637,7 +653,7 @@ void Basic_block::reg_rename(){
   compute_def_liveout();
 
   list<int> free_regs;
- 
+
    /* A REMPLIR */
   for (int i=0;i<NB_REG;i++){
     if(!Def[i] && !LiveIn[i]) free_regs.push_back(i);
