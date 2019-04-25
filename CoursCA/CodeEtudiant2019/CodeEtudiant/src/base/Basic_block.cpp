@@ -41,7 +41,6 @@ Basic_block::Basic_block():
    use_def_done = false;
 }
 
-
 Basic_block::~Basic_block(){}
 
 
@@ -518,7 +517,9 @@ void Basic_block::compute_use_def(void){
   if (use_def_done) return;
 
   /* A REMPLIR */
-  OPRegister* dst,src1,src2;
+  OPRegister* dst;
+  OPRegister* src1;
+  OPRegister* src2;
   Instruction* instr;
  	for(int i = 0;i<get_nb_inst(); i++){
  	  instr = get_instruction_at_index(i);
@@ -533,13 +534,13 @@ void Basic_block::compute_use_def(void){
       dst = instr->get_reg_dst();
       src1 = instr->get_reg_src1();
       src2 = instr->get_reg_src2();
-      if (dst) Def[dst->get_reg_num()]=true;
       if (src1) {
         if(!Def[src1->get_reg_num()]) Use[src1->get_reg_num()]=true;
       }
       if (src2) {
         if(!Def[src2->get_reg_num()]) Use[src2->get_reg_num()]=true;
       }
+      if (dst) Def[dst->get_reg_num()]=true;
     }
  	}
 // A TESTER
@@ -572,14 +573,15 @@ Si $i est d�fini plusieurs fois c'est l'instruction avec l'index le plus grand
 *****/
 void Basic_block::compute_def_liveout(){
 
-
   /* A REMPLIR */
-
-
-
-
+  Instruction* ic = get_first_instruction();
+  while(ic){
+    OPRegister* reg = ic->get_reg_dst();
+    if(reg)
+      if(LiveOut[reg->get_reg_num()]) DefLiveOut[reg->get_reg_num()] = ic->get_index();
+    ic = ic->get_next();
+  }
   /* FIN A REMPLIR */
-
   return;
 }
 
@@ -594,7 +596,8 @@ void Basic_block::show_def_liveout(){
   return;
 }
 
-/**** renomme les registres renommables : ceux qui sont d�finis et utilis�s dans le bloc et dont la d�finition n'est pas vivante en sortie
+/**** renomme les registres renommables : ceux qui sont d�finis et utilis�s dans le bloc 
+ * et dont la d�finition n'est pas vivante en sortie
 Utilise comme registres disponibles ceux dont le num�ro est dans la liste param�tre
 *****/
 
@@ -602,7 +605,20 @@ void Basic_block::reg_rename(list<int> *frees){
   compute_def_liveout();   // definition vivantes en sortie necessaires � connaitre
 
   /* A REMPLIR */
-
+  vector<int> DefInst (NB_REG,-1);
+  for (int i=0;i<get_nb_inst();i++){
+    OPRegister* dst = get_instruction_at_index(i)->get_reg_dst();
+    if (dst){
+      DefInst[dst->get_reg_num()]=i;
+    }
+  }
+  vector<int> R (NB_REG,-1);
+  for (int i=0;i<NB_REG;i++){
+    if (DefLiveOut[i]!=-1){
+      R[i]=DefInst[i];
+    }
+    
+  }
 
 
   /* FIN A REMPLIR */
@@ -612,7 +628,8 @@ void Basic_block::reg_rename(list<int> *frees){
 
 
 
-/**** renomme les registres renommables : ceux qui sont d�finis et utilis�s dans le bloc et dont la d�finition n'est pas vivante en sortie
+/**** renomme les registres renommables : ceux qui sont d�finis et utilis�s dans le bloc 
+ * et dont la d�finition n'est pas vivante en sortie
 Utilise comme registres disponibles ceux dont le num�ro est dans la liste param�tre
 *****/
 void Basic_block::reg_rename(){
@@ -620,9 +637,12 @@ void Basic_block::reg_rename(){
   compute_def_liveout();
 
   list<int> free_regs;
-
+ 
    /* A REMPLIR */
-
+  for (int i=0;i<NB_REG;i++){
+    if(!Def[i] && !LiveIn[i]) free_regs.push_back(i);
+  }
+  reg_rename(free_regs);
 
 
   /* FIN A REMPLIR */

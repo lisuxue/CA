@@ -414,7 +414,7 @@ void Function::display_loops(){
 void Function::compute_live_var(){
 
   list<Basic_block*> workinglist;
-  //bool change = true;
+  bool change = false;
 
 
 
@@ -429,18 +429,37 @@ void Function::compute_live_var(){
     if (bb->get_nb_succ() ==0){
       workinglist.push_back(bb);
     }
+    bb->compute_use_def();
   }
-  for (auto bb : workinglist){
-    bb->LiveOut[2]=true;
-    bb->LiveOut[29]=true;
+  
+  while (!workinglist.empty()){
+    change = false;
+	  Basic_block* bb = workinglist.front();
+  	workinglist.pop_front();
+    if (bb->get_nb_succ() == 0){
+      //LiveOut
+      bb->LiveOut[2]=true;
+      bb->LiveOut[29]=true;
+    }else{
+      //LiveOut
+      for (int i=0;i<bb->get_nb_succ();i++){
+        Basic_block* succ = bb->get_successor(i);
+        for(int j = 0; j < NB_REG; j++){
+          bb->LiveOut[j] = succ->LiveIn[j] || bb->LiveOut[j];
+        }
+      }
+    }
+    //LiveIn
     for (int i=0;i<NB_REG;i++){
-      bool out = bb->LiveOut[i];
-      if (out && bb->Def[i]) {
-        out = false;
-      }
-      if (bb->Use[i] || out){
-        LiveIn[i]=true;
-      }
+      bool tmp = bb->LiveIn[i];
+      bb->LiveIn[i] = bb->Use[i] || (bb->LiveOut[i] && !bb->Def[i]);      
+      if(bb->LiveIn[i] != tmp) change = true;
+
+    }
+    if(change){
+      for (int i=0;i<bb->get_nb_pred();i++){
+        workinglist.push_back(bb->get_predecessor(i));
+      } 
     }
   }
 
