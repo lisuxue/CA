@@ -1,4 +1,0 @@
-digraph G1 {
-node [shape = ellipse];
-i0 [label = "sw $0,8($30)"] ;
-}

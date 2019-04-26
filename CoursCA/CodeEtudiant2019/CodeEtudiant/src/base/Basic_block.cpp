@@ -577,8 +577,8 @@ void Basic_block::compute_def_liveout(){
   Instruction* ic = get_first_instruction();
   while(ic){
     OPRegister* reg = ic->get_reg_dst();
-    if(reg)
-      if(LiveOut[reg->get_reg_num()]) DefLiveOut[reg->get_reg_num()] = ic->get_index();
+      if(reg && LiveOut[reg->get_reg_num()]) 
+        DefLiveOut[reg->get_reg_num()] = ic->get_index();
     ic = ic->get_next();
   }
   /* FIN A REMPLIR */
@@ -605,40 +605,45 @@ void Basic_block::reg_rename(list<int> *frees){
   compute_def_liveout();   // definition vivantes en sortie necessaires � connaitre
 
   /* A REMPLIR */
-  vector<int> DefInst (NB_REG,-1);
+  list<int> init;
+  vector<list<int>> DefInst (NB_REG,init);
   for (int i=0;i<get_nb_inst();i++){
     OPRegister* dst = get_instruction_at_index(i)->get_reg_dst();
     if (dst){
-      DefInst[dst->get_reg_num()]=i;
-    }
+      DefInst[dst->get_reg_num()].push_back(i);
+       }
   }
-  vector<int> R (NB_REG,-1);
   for (int i=0;i<NB_REG;i++){
-    if (DefLiveOut[i]==-1){
-      R[i]=DefInst[i];
+      if (DefLiveOut[i] != -1){
+       DefInst[i].pop_back();
     }
   }
-  for (int instr_index : R){
-    if (instr_index!=-1){
-      int free = frees.front();
-      frees.pop_front();
-      Instruction* ic = get_instruction_at_index(instr_index);
-      ic->get_reg_dst()->set_reg_num(free);
-      for (int j=0;j<ic->get_nb_succ();j++){
-        if (ic->is_dep_RAW1(ic->get_succ_dep(j))){
-          ic->get_succ_dep(j)->get_reg_src1()->set_reg_num(free);
-        }
-        if(ic->is_dep_RAW2(ic->get_succ_dep(j))){
-          ic->get_succ_dep(j)->get_reg_src2()->set_reg_num(free);
-        }
-      }  
+  /*for(Instruction* instr = get_first_instruction(); instr; instr = instr->get_next()){
+    int index = instr->get_index();
+    if(DefInst[])
+  }*/
+  for (list<int> list_instr : DefInst){
+    if (!list_instr.empty()){
+      for(int index : list_instr){
+        int free = frees->front();
+        frees->pop_front();
+        Instruction* ic = get_instruction_at_index(index);
+        int reg_n = ic->get_reg_dst()->get_reg_num();
+        ic->get_reg_dst()->set_reg_num(free);
+        for (int j=0;j<ic->get_nb_succ();j++){
+           if ((ic->get_succ_dep(j)->type == t_Dep::RAW)){
+            OPRegister* src1 = ic->get_succ_dep(j)->inst->get_reg_src1();
+            OPRegister* src2 = ic->get_succ_dep(j)->inst->get_reg_src2();
+            if(src1 && src1->get_reg_num() == reg_n)
+              ic->get_succ_dep(j)->inst->get_reg_src1()->set_reg_num(free);
+            if(src2 && src2->get_reg_num() == reg_n)
+              ic->get_succ_dep(j)->inst->get_reg_src2()->set_reg_num(free);
+          }
+        }  
+      }
     }
   }
-
-
-
   /* FIN A REMPLIR */
-
 
 }
 
@@ -656,9 +661,12 @@ void Basic_block::reg_rename(){
 
    /* A REMPLIR */
   for (int i=0;i<NB_REG;i++){
-    if(!Def[i] && !LiveIn[i]) free_regs.push_back(i);
+    if(!Def[i] && !LiveIn[i]) {
+      free_regs.push_back(i);
+    }
   }
-  reg_rename(free_regs);
+
+  reg_rename(&free_regs);
 
 
   /* FIN A REMPLIR */

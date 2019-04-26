@@ -1,9 +1,0 @@
-digraph G1 {
-node [shape = ellipse];
-i0 [label = "lw $2,8($30)"] ;
-i0 ->  i1 [label= "WAW"];
-i0 ->  i1 [color = red, fontcolor = red, label= "RAW_2"];
-i1 [label = "addiu $2,$2,1"] ;
-i1 ->  i2 [color = red, fontcolor = red, label= "RAW_1"];
-i2 [label = "sw $2,8($30)"] ;
-}
