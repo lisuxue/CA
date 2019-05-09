@@ -1,0 +1,12 @@
+digraph G1 {
+node [shape = box];
+BB0 [label = "BB0\nsum:\laddiu $29,$29,65520\lsw $30,12($29)\lor $30,$29,$0\lsw $4,16($30)\lsw $5,20($30)\lsw $6,24($30)\lsw $7,28($30)\lsw $0,0($30)\lj $l2\ladd $0,$0,$0\l"] ;
+BB0 -> BB2 [style = filled, label = ""];
+BB2 [label = "BB2\n$l2:\llw $2,0($30)\llw $3,28($30)\lslt $2,$2,$3\lbne $2,$0,$l3\ladd $0,$0,$0\l"] ;
+BB2 -> BB3 [style = filled, label = "F"];
+BB2 -> BB1[style = filled, label = "T"];
+BB3 [label = "BB3\nor $29,$30,$0\llw $30,12($29)\laddiu $29,$29,16\ljr $31\ladd $0,$0,$0\l"] ;
+BB3 -> EXIT  [style = filled, label = ""];
+BB1 [label = "BB1\n$l3:\llw $2,0($30)\lsll $3,$2,2\llw $2,24($30)\laddu $5,$2,$3\llw $2,0($30)\lsll $3,$2,2\llw $2,16($30)\laddu $2,$2,$3\llw $4,0($2)\llw $2,0($30)\lsll $3,$2,2\llw $2,20($30)\laddu $2,$2,$3\llw $2,0($2)\laddu $2,$4,$2\lsw $2,0($5)\llw $2,0($30)\laddiu $2,$2,1\lsw $2,0($30)\l"] ;
+BB1 -> BB2 [style = filled, label = ""];
+}

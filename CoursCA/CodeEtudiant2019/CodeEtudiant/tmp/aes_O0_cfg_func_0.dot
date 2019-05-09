@@ -1,0 +1,12 @@
+digraph G1 {
+node [shape = box];
+BB0 [label = "BB0\nrj_xtime:\laddiu $29,$29,65520\lsw $30,12($29)\lor $30,$29,$0\lor $2,$4,$0\lsb $2,16($30)\llb $2,16($30)\lbgez $2,$l2\ladd $0,$0,$0\l"] ;
+BB0 -> BB1 [style = filled, label = "F"];
+BB0 -> BB2[style = filled, label = "T"];
+BB1 [label = "BB1\nlbu $2,16($30)\lsll $2,$2,1\lsll $2,$2,24\lsra $2,$2,24\lxori $2,$2,27\lsll $2,$2,24\lsra $2,$2,24\landi $2,$2,255\lsw $2,0($30)\lj $l3\ladd $0,$0,$0\l"] ;
+BB1 -> BB3 [style = filled, label = ""];
+BB3 [label = "BB3\n$l3:\llw $2,0($30)\lor $29,$30,$0\llw $30,12($29)\laddiu $29,$29,16\ljr $31\ladd $0,$0,$0\l"] ;
+BB3 -> EXIT  [style = filled, label = ""];
+BB2 [label = "BB2\n$l2:\llbu $2,16($30)\lsll $2,$2,1\landi $2,$2,255\lsw $2,0($30)\l"] ;
+BB2 -> BB3 [style = filled, label = ""];
+}

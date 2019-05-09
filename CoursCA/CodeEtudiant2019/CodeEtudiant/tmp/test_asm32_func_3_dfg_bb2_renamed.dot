@@ -1,0 +1,12 @@
+digraph G1 {
+node [shape = ellipse];
+i4 [label = " delayed slot : addiu $9,$1,%lo($lc0)"] ;
+i3 ->  i4 [style = bold, dir= none, fontcolor = blue, color = blue, label= "delayed_slot"];
+i3 [label = "jal printf"] ;
+i0 [label = "or $8,$2,$0"] ;
+i0 ->  i2 [color = red, fontcolor = red, label= "RAW_1"];
+i2 [label = "or $10,$8,$0"] ;
+i2 ->  i3 [label= "CONTROL"];
+i1 [label = "lui $1,%hi($lc0)"] ;
+i1 ->  i4 [color = red, fontcolor = red, label= "RAW_1"];
+}

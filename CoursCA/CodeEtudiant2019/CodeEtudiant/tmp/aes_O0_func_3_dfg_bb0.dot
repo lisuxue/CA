@@ -1,0 +1,28 @@
+digraph G1 {
+node [shape = ellipse];
+i9 [label = " delayed slot : add $0,$0,$0"] ;
+i8 ->  i9 [style = bold, dir= none, fontcolor = blue, color = blue, label= "delayed_slot"];
+i8 [label = "j $l14"] ;
+i0 [label = "addiu $29,$29,65512"] ;
+i0 ->  i1 [color = red, fontcolor = red, label= "RAW_1"];
+i0 ->  i2 [color = red, fontcolor = red, label= "RAW_1"];
+i1 [label = "sw $30,20($29)"] ;
+i1 ->  i2 [label= "WAR"];
+i1 ->  i3 [color = green, fontcolor = green, label= "MEM1"];
+i1 ->  i4 [color = green, fontcolor = green, label= "MEM1"];
+i1 ->  i7 [color = green, fontcolor = green, label= "MEM1"];
+i2 [label = "or $30,$29,$0"] ;
+i2 ->  i3 [color = red, fontcolor = red, label= "RAW_1"];
+i2 ->  i4 [color = red, fontcolor = red, label= "RAW_1"];
+i2 ->  i7 [color = red, fontcolor = red, label= "RAW_1"];
+i3 [label = "sw $4,24($30)"] ;
+i3 ->  i8 [label= "CONTROL"];
+i4 [label = "sw $5,28($30)"] ;
+i4 ->  i8 [label= "CONTROL"];
+i7 [label = "sw $2,8($30)"] ;
+i7 ->  i8 [label= "CONTROL"];
+i5 [label = "lui $1,0"] ;
+i5 ->  i6 [color = red, fontcolor = red, label= "RAW_1"];
+i6 [label = "ori $2,$1,16"] ;
+i6 ->  i7 [color = red, fontcolor = red, label= "RAW_1"];
+}

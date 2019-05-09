@@ -618,15 +618,18 @@ void Basic_block::reg_rename(list<int> *frees){
        DefInst[i].pop_back();
     }
   }
-  /*for(Instruction* instr = get_first_instruction(); instr; instr = instr->get_next()){
-    int index = instr->get_index();
-    if(DefInst[])
-  }*/
+ 
+  int free;
   for (list<int> list_instr : DefInst){
     if (!list_instr.empty()){
       for(int index : list_instr){
-        int free = frees->front();
-        frees->pop_front();
+        if (!frees->empty()){
+		    free = frees->front();
+        	frees->pop_front();
+        }else{
+        	cout << "renommage fini";
+        	return;
+        }
         Instruction* ic = get_instruction_at_index(index);
         int reg_n = ic->get_reg_dst()->get_reg_num();
         ic->get_reg_dst()->set_reg_num(free);
@@ -665,6 +668,12 @@ void Basic_block::reg_rename(){
       free_regs.push_back(i);
     }
   }
+  
+  /*
+  for (int i=32;i<63;i++){
+      free_regs.push_back(i);
+  }
+  */
 
   reg_rename(&free_regs);
 

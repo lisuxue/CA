@@ -1,0 +1,22 @@
+digraph G1 {
+node [shape = ellipse];
+i9 [label = " delayed slot : sw $9,0($30)"] ;
+i8 ->  i9 [style = bold, dir= none, fontcolor = blue, color = blue, label= "delayed_slot"];
+i8 [label = "j $l3"] ;
+i0 [label = "lbu $1,16($30)"] ;
+i0 ->  i1 [color = red, fontcolor = red, label= "RAW_2"];
+i1 [label = "sll $3,$1,1"] ;
+i1 ->  i2 [color = red, fontcolor = red, label= "RAW_1"];
+i2 [label = "sll $4,$3,24"] ;
+i2 ->  i3 [color = red, fontcolor = red, label= "RAW_1"];
+i3 [label = "sra $5,$4,24"] ;
+i3 ->  i4 [color = red, fontcolor = red, label= "RAW_1"];
+i4 [label = "xori $6,$5,27"] ;
+i4 ->  i5 [color = red, fontcolor = red, label= "RAW_1"];
+i5 [label = "sll $7,$6,24"] ;
+i5 ->  i6 [color = red, fontcolor = red, label= "RAW_1"];
+i6 [label = "sra $8,$7,24"] ;
+i6 ->  i7 [color = red, fontcolor = red, label= "RAW_1"];
+i7 [label = "andi $9,$8,255"] ;
+i7 ->  i9 [color = red, fontcolor = red, label= "RAW_1"];
+}

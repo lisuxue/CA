@@ -1,0 +1,12 @@
+digraph G1 {
+node [shape = ellipse];
+i4 [label = " delayed slot : add $0,$0,$0"] ;
+i3 ->  i4 [style = bold, dir= none, fontcolor = blue, color = blue, label= "delayed_slot"];
+i3 [label = "jal aes_addroundkey"] ;
+i0 [label = "lw $2,32($30)"] ;
+i0 ->  i2 [color = red, fontcolor = red, label= "RAW_2"];
+i2 [label = "or $5,$2,$0"] ;
+i2 ->  i3 [label= "CONTROL"];
+i1 [label = "lw $4,36($30)"] ;
+i1 ->  i3 [label= "CONTROL"];
+}

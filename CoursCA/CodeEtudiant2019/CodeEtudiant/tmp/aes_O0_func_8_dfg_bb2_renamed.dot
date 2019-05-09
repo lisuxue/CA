@@ -1,0 +1,17 @@
+digraph G1 {
+node [shape = ellipse];
+i6 [label = " delayed slot : or $9,$2,$0"] ;
+i5 ->  i6 [style = bold, dir= none, fontcolor = blue, color = blue, label= "delayed_slot"];
+i5 [label = "jal rj_xtime"] ;
+i0 [label = "or $21,$2,$0"] ;
+i0 ->  i1 [color = red, fontcolor = red, label= "RAW_1"];
+i0 ->  i4 [label= "WAR"];
+i1 [label = "xor $1,$21,$17"] ;
+i1 ->  i2 [color = red, fontcolor = red, label= "RAW_1"];
+i2 [label = "andi $3,$1,255"] ;
+i2 ->  i3 [color = red, fontcolor = red, label= "RAW_1"];
+i3 [label = "xor $8,$3,$19"] ;
+i3 ->  i4 [color = red, fontcolor = red, label= "RAW_1"];
+i4 [label = "andi $2,$8,255"] ;
+i4 ->  i6 [color = red, fontcolor = red, label= "RAW_1"];
+}

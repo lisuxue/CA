@@ -1,0 +1,17 @@
+digraph G1 {
+node [shape = ellipse];
+i6 [label = " delayed slot : add $0,$0,$0"] ;
+i5 ->  i6 [style = bold, dir= none, fontcolor = blue, color = blue, label= "delayed_slot"];
+i5 [label = "jr $31"] ;
+i0 [label = "sub $1,$10,$15"] ;
+i0 ->  i2 [color = red, fontcolor = red, label= "RAW_1"];
+i0 ->  i3 [color = red, fontcolor = red, label= "RAW_1"];
+i2 [label = "sw $1,8($7)"] ;
+i2 ->  i5 [label= "CONTROL"];
+i3 [label = "add $4,$1,$3"] ;
+i3 ->  i4 [color = red, fontcolor = red, label= "RAW_1"];
+i4 [label = "sw $4,12($7)"] ;
+i4 ->  i5 [label= "CONTROL"];
+i1 [label = "sll $3,$10,4"] ;
+i1 ->  i3 [color = red, fontcolor = red, label= "RAW_1"];
+}

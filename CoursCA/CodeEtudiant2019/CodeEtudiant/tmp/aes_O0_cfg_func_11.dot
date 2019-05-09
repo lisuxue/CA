@@ -1,0 +1,19 @@
+digraph G1 {
+node [shape = box];
+BB0 [label = "BB0\naes256_init:\laddiu $29,$29,65496\lsw $31,36($29)\lsw $30,32($29)\lor $30,$29,$0\lsw $4,40($30)\lsw $5,44($30)\llui $1,0\lori $2,$1,1\lsb $2,20($30)\lsw $0,24($30)\lj $l48\ladd $0,$0,$0\l"] ;
+BB0 -> BB2 [style = filled, label = ""];
+BB2 [label = "BB2\n$l48:\llw $3,24($30)\lsltiu $2,$3,32\lbne $2,$0,$l49\ladd $0,$0,$0\l"] ;
+BB2 -> BB3 [style = filled, label = "F"];
+BB2 -> BB1[style = filled, label = "T"];
+BB3 [label = "BB3\nlui $1,0\lori $2,$1,8\lsw $2,24($30)\lj $l50\ladd $0,$0,$0\l"] ;
+BB3 -> BB5 [style = filled, label = ""];
+BB5 [label = "BB5\n$l50:\llw $3,24($30)\laddiu $2,$3,65535\landi $2,$2,255\lsw $2,24($30)\llw $2,24($30)\lbne $2,$0,$l51\ladd $0,$0,$0\l"] ;
+BB5 -> BB6 [style = filled, label = "F"];
+BB5 -> BB4[style = filled, label = "T"];
+BB6 [label = "BB6\nlui $1,0\lori $2,$1,1\lsw $2,16($30)\lor $29,$30,$0\llw $31,36($29)\llw $30,32($29)\laddiu $29,$29,40\ljr $31\ladd $0,$0,$0\l"] ;
+BB6 -> EXIT  [style = filled, label = ""];
+BB4 [label = "BB4\n$l51:\llw $2,40($30)\laddiu $2,$2,64\laddiu $3,$30,20\lor $4,$2,$0\lor $5,$3,$0\ljal aes_expandenckey\ladd $0,$0,$0\l"] ;
+BB4 -> BB5 [style = filled, label = ""];
+BB1 [label = "BB1\n$l49:\llw $5,24($30)\llw $4,24($30)\llw $3,24($30)\llw $2,44($30)\laddu $2,$2,$3\llbu $3,0($2)\llw $2,40($30)\laddu $2,$2,$4\lsb $3,64($2)\llw $2,40($30)\laddu $2,$2,$4\llbu $3,64($2)\llw $2,40($30)\laddu $2,$2,$5\lsb $3,32($2)\llw $3,24($30)\laddiu $2,$3,1\landi $2,$2,255\lsw $2,24($30)\l"] ;
+BB1 -> BB2 [style = filled, label = ""];
+}

@@ -90,13 +90,13 @@ int main(int argc, char * argv[]){
 
 	     // liste de registres pour le renommage
 	     // avec des registres passéees en paramètre 
-	     /*
-	      
+	     
+	      /*
 	       list<int> frees;
 	       for(int k=32; k<64; k++){
 	       frees.push_back(k);
-	       }
-	     */
+	       }*/
+	     
 	     
 	     /* renommage en utilisant des registres n'existant pas */
 	      
