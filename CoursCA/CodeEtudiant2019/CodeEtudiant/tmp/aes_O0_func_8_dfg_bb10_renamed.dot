@@ -9,14 +9,14 @@ i2 ->  i3 [color = red, fontcolor = red, label= "RAW_1"];
 i3 [label = "andi $9,$8,255"] ;
 i3 ->  i4 [color = red, fontcolor = red, label= "RAW_1"];
 i4 [label = "sb $9,0($18)"] ;
-i4 ->  i5 [color = green, fontcolor = green, label= "MEM1"];
 i4 ->  i8 [color = green, fontcolor = green, label= "MEM1"];
+i4 ->  i5 [color = green, fontcolor = green, label= "MEM1"];
+i8 [label = "sw $11,24($30)"] ;
 i5 [label = "lw $12,24($30)"] ;
-i5 ->  i6 [color = red, fontcolor = red, label= "RAW_2"];
 i5 ->  i8 [color = green, fontcolor = green, label= "MEM1"];
+i5 ->  i6 [color = red, fontcolor = red, label= "RAW_2"];
 i6 [label = "addiu $10,$12,4"] ;
 i6 ->  i7 [color = red, fontcolor = red, label= "RAW_1"];
 i7 [label = "andi $11,$10,255"] ;
 i7 ->  i8 [color = red, fontcolor = red, label= "RAW_1"];
-i8 [label = "sw $11,24($30)"] ;
 }

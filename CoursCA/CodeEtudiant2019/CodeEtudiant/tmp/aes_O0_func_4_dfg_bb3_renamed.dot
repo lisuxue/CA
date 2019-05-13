@@ -12,6 +12,6 @@ i3 ->  i4 [color = green, fontcolor = green, label= "MEM1"];
 i4 [label = "lw $5,20($4)"] ;
 i4 ->  i5 [label= "CONTROL"];
 i2 [label = "or $4,$30,$0"] ;
-i2 ->  i4 [color = red, fontcolor = red, label= "RAW_1"];
 i2 ->  i6 [color = red, fontcolor = red, label= "RAW_1"];
+i2 ->  i4 [color = red, fontcolor = red, label= "RAW_1"];
 }

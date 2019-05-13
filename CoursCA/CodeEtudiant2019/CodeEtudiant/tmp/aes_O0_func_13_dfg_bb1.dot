@@ -5,18 +5,16 @@ i6 ->  i7 [style = bold, dir= none, fontcolor = blue, color = blue, label= "dela
 i6 [label = "j $l58"] ;
 i0 [label = "lui $1,0"] ;
 i0 ->  i1 [color = red, fontcolor = red, label= "RAW_1"];
-i0 ->  i3 [label= "WAW"];
 i1 [label = "ori $2,$1,1"] ;
-i1 ->  i2 [color = red, fontcolor = red, label= "RAW_1"];
 i1 ->  i3 [label= "WAR"];
-i1 ->  i4 [label= "WAW"];
-i2 [label = "sb $2,20($30)"] ;
-i2 ->  i4 [label= "WAR"];
-i2 ->  i5 [color = green, fontcolor = green, label= "MEM1"];
+i1 ->  i2 [color = red, fontcolor = red, label= "RAW_1"];
+i3 [label = "lui $1,0"] ;
+i3 ->  i4 [color = red, fontcolor = red, label= "RAW_1"];
 i4 [label = "ori $2,$1,1"] ;
 i4 ->  i5 [color = red, fontcolor = red, label= "RAW_1"];
 i5 [label = "sb $2,21($30)"] ;
 i5 ->  i6 [label= "CONTROL"];
-i3 [label = "lui $1,0"] ;
-i3 ->  i4 [color = red, fontcolor = red, label= "RAW_1"];
+i2 [label = "sb $2,20($30)"] ;
+i2 ->  i5 [color = green, fontcolor = green, label= "MEM1"];
+i2 ->  i4 [label= "WAR"];
 }

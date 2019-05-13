@@ -1,12 +1,12 @@
 digraph G1 {
 node [shape = ellipse];
 i0 [label = "sltu $2,$0,$2"] ;
-i0 ->  i1 [label= "WAW"];
 i0 ->  i1 [label= "WAR"];
 i1 [label = "lw $2,24($30)"] ;
-i1 ->  i2 [label= "WAW"];
+i1 ->  i3 [color = green, fontcolor = green, label= "MEM1"];
 i1 ->  i2 [color = red, fontcolor = red, label= "RAW_2"];
+i1 ->  i2 [label= "WAW"];
+i3 [label = "sw $2,24($30)"] ;
 i2 [label = "addiu $2,$2,1"] ;
 i2 ->  i3 [color = red, fontcolor = red, label= "RAW_1"];
-i3 [label = "sw $2,24($30)"] ;
 }

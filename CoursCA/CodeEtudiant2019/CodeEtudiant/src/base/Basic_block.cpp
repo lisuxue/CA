@@ -352,67 +352,59 @@ void add_dep_link(Instruction *pred, Instruction* succ, t_Dep type){
 /* utiliser la fonction add_dep_link ci-dessus qui ajoute � la liste des d�pendances pred et succ une dependance entre 2 instructions */
 
 
-void Basic_block::comput_pred_succ_dep(){
+void Basic_block::comput_pred_succ_dep() {
 
-  link_instructions(); // essentiel pour avoir un lien entre les instructions
-   if (dep_done) return;
+	link_instructions(); // essentiel pour avoir un lien entre les instructions
+	if (dep_done)
+		return;
 
-   /* A REMPLIR */
-   for(int i = 0;i<get_nb_inst(); i++){
-   	Instruction* pred = get_instruction_at_index(i);
-   	bool has_waw = false;
-  	bool has_war1 = false;
-   	bool has_war2 = false;
-   	for(int j=i+1; j<get_nb_inst(); j++){
-		Instruction* succ = get_instruction_at_index(j);
-		if(!has_waw){//tant qu'on ne croise pas de WAW on continue
-			if(pred->is_dep_WAW(succ)){
-				add_dep_link(pred,succ,t_Dep::WAW);
-				has_waw = true;
-			}
-			if(!has_war1){
-				if(pred->is_dep_WAR1(succ)){
-					add_dep_link(pred,succ,t_Dep::WAR);
-					has_war1 = true;
+	/* A REMPLIR */
+	if (!dep_done) {
+		Instruction * current_inst = get_last_instruction();
+		Instruction * tmp_inst;
+
+		while (current_inst) {
+			int num_reg = 0;
+			bool raw1 = 0, raw2 = 0, waw = 0;
+			for (tmp_inst = current_inst->get_prev(); tmp_inst; tmp_inst =
+					tmp_inst->get_prev()) {
+
+				if (tmp_inst->is_dep_RAW1(current_inst) && !raw1) {
+					add_dep_link(tmp_inst, current_inst, t_Dep::RAW);
+					raw1 = 1;
 				}
-
-			}
-			if(!has_war2){
-				if(pred->is_dep_WAR2(succ)){
-				add_dep_link(pred,succ,t_Dep::WAR);
-				has_war2 = true;
+				if (tmp_inst->is_dep_RAW2(current_inst) && !raw2) {
+					add_dep_link(tmp_inst, current_inst, t_Dep::RAW);
+					raw2 = 1;
+				}
+				if (tmp_inst->is_dep_WAR(current_inst) && !waw) {
+					add_dep_link(tmp_inst, current_inst, t_Dep::WAR);
+					waw = 1;
+				}
+				if (tmp_inst->is_dep_MEM(current_inst)) {
+					add_dep_link(tmp_inst, current_inst, t_Dep::MEMDEP);
+				}
+				if (tmp_inst->is_dep_WAW(current_inst) && !waw) {
+					add_dep_link(tmp_inst, current_inst, t_Dep::WAW);
+					waw = 1;
 				}
 			}
-			if(pred->is_dep_MEM(succ)){
-				add_dep_link(pred,succ,t_Dep::MEMDEP);
-			}
-			if(pred->is_dep_RAW(succ)){
-				add_dep_link(pred,succ,t_Dep::RAW);
-	 		}
-		}else{//on arrete et on passe � l'instr suivante
-			break;
+			current_inst = current_inst->get_prev();
+
 		}
-	}
-   }
-   //ajout des dependances de controle instructions sans successeur sauf si c'est un delayed slot
-   for(int i = 0;i<get_nb_inst(); i++){
-      	Instruction* pred = get_instruction_at_index(i);
-		for(int j = i+1;j<get_nb_inst(); j++){
-			Instruction* succ = get_instruction_at_index(j);
-			if(!is_delayed_slot(pred) && !pred->is_branch()){
-				if(pred->get_nb_succ() == 0 && succ->is_branch()){
-					add_dep_link(pred,succ,t_Dep::CONTROL);
-				}
-			}
 
+		tmp_inst = get_last_instruction()->get_prev();
+		if (tmp_inst != nullptr && tmp_inst->is_branch()) {
+			for (int i = 0; i < get_nb_inst() - 2; i++) {
+				current_inst = get_instruction_at_index(i);
+				if (current_inst->get_nb_succ() == 0)
+					add_dep_link(current_inst, tmp_inst, t_Dep::CONTROL);
+			}
 		}
 	}
 
-   // FIN A REMPLIR
-
-   // NE PAS ENLEVER : cette fonction ne doit �tre appel�e qu'une seule fois
-   dep_done = true;
-   return;
+	dep_done = true;
+	return;
 }
 
 void Basic_block::reset_pred_succ_dep(){

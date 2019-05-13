@@ -1,24 +1,24 @@
 digraph G1 {
 node [shape = ellipse];
 i0 [label = "lbu $9,20($30)"] ;
-i0 ->  i2 [color = red, fontcolor = red, label= "RAW_2"];
-i0 ->  i4 [color = green, fontcolor = green, label= "MEM1"];
 i0 ->  i7 [color = green, fontcolor = green, label= "MEM1"];
-i2 [label = "addu $10,$1,$9"] ;
-i2 ->  i4 [color = red, fontcolor = red, label= "RAW_1"];
+i0 ->  i4 [color = green, fontcolor = green, label= "MEM1"];
+i0 ->  i2 [color = red, fontcolor = red, label= "RAW_2"];
+i7 [label = "sb $8,20($30)"] ;
 i4 [label = "sb $4,44($10)"] ;
-i4 ->  i5 [color = green, fontcolor = green, label= "MEM1"];
 i4 ->  i7 [color = green, fontcolor = green, label= "MEM1"];
+i4 ->  i5 [color = green, fontcolor = green, label= "MEM1"];
 i5 [label = "lbu $5,20($30)"] ;
-i5 ->  i6 [color = red, fontcolor = red, label= "RAW_2"];
 i5 ->  i7 [color = green, fontcolor = green, label= "MEM1"];
+i5 ->  i6 [color = red, fontcolor = red, label= "RAW_2"];
 i6 [label = "addiu $8,$5,1"] ;
 i6 ->  i7 [color = red, fontcolor = red, label= "RAW_1"];
-i7 [label = "sb $8,20($30)"] ;
+i2 [label = "addu $10,$1,$9"] ;
+i2 ->  i4 [color = red, fontcolor = red, label= "RAW_1"];
 i1 [label = "addiu $1,$30,16"] ;
 i1 ->  i2 [color = red, fontcolor = red, label= "RAW_1"];
 i3 [label = "lbu $4,20($30)"] ;
-i3 ->  i4 [color = green, fontcolor = green, label= "MEM1"];
-i3 ->  i4 [color = red, fontcolor = red, label= "RAW_2"];
 i3 ->  i7 [color = green, fontcolor = green, label= "MEM1"];
+i3 ->  i4 [color = red, fontcolor = red, label= "RAW_2"];
+i3 ->  i4 [color = green, fontcolor = green, label= "MEM1"];
 }
